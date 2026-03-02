@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "helvetica neue";
+  src: url("./helvetica-neue/HelveticaNeueMedium.otf");
+}
+@font-face {
+  font-family: "helvetica neue light";
+  src: url("./helvetica-neue/HelveticaNeueLight.otf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "helvetica neue";
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // flex-direction: column;
+  padding: 20px;
+}
+
+.card {
+  width: 300px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+
+  #image1 {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 50%;
+  }
+
+  h3 {
+    font-size: 26px;
+    white-space: nowrap;
+  }
+
+  h4{
+    font-size: 18px;
+    margin-top: 10px;
+    color: crimson;
+    margin-bottom: 10px;
+  }
+
+  p{
+    font-size: 14px;
+    font-family: "helvetica neue light";
+    font-weight: bolder;
+  }
+}
