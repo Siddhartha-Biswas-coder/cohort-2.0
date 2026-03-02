@@ -35,3 +35,20 @@ const users = [
     tags: ["AWS", "Docker", "Kubernetes", "CI/CD"]
   }
 ];
+
+var sum = "";
+
+users.forEach(function (elem) {
+  sum =
+    sum +
+    `<div class="card">
+        <img id="image1" src="${elem.image}" alt="${elem.fullName}" />
+        <h3>${elem.fullName}</h3>
+        <h4>${elem.profession}</h4>
+        <p>
+          ${elem.description}
+        </p>
+      </div>`;
+});
+
+document.querySelector("main").innerHTML = sum;

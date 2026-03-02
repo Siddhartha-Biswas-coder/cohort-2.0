@@ -23,17 +23,20 @@ main {
   height: 100%;
   width: 100%;
   background-color: black;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
   padding: 20px;
 }
-
-.card {
-  width: 300px;
+main .card {
+  width: 280px;
   background-color: white;
   padding: 30px;
   border-radius: 10px;
   text-align: center;
 }
-.card #image1 {
+main .card #image1 {
   width: 150px;
   height: 150px;
   -o-object-fit: cover;
@@ -41,17 +44,17 @@ main {
   margin-bottom: 10px;
   border-radius: 50%;
 }
-.card h3 {
+main .card h3 {
   font-size: 26px;
   white-space: nowrap;
 }
-.card h4 {
+main .card h4 {
   font-size: 18px;
   margin-top: 10px;
   color: crimson;
   margin-bottom: 10px;
 }
-.card p {
+main .card p {
   font-size: 14px;
   font-family: "helvetica neue light";
   font-weight: bolder;
