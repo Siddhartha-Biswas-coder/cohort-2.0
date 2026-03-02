@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: black;
+}
+body main {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right bottom, rgb(26, 26, 26), rgb(30, 30, 30), black);
+  padding: 20px;
+}
+body main section {
+  height: 100%;
+  width: 350px;
+  background-color: black;
+  border-radius: 10px;
+  margin: auto;
+  overflow: hidden;
+}
+body main section .all-reels {
+  height: 100%;
+  width: 100%;
+}
+body main section .all-reels .reel {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: lightseagreen;
+  overflow: hidden;
+  border-radius: 10px;
+}
+body main section .all-reels .reel .main-img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+body main section .all-reels .reel .bottom {
+  padding: 30px 20px;
+  width: 100%;
+  background: linear-gradient(black);
+  position: absolute;
+  bottom: 0;
+}
+body main section .all-reels .reel .bottom .user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+body main section .all-reels .reel .bottom .user img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=style.css.map */
