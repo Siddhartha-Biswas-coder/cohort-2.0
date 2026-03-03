@@ -2,10 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
@@ -18,6 +19,7 @@ body main {
   width: 100%;
   background: linear-gradient(to right bottom, rgb(26, 26, 26), rgb(30, 30, 30), black);
   padding: 20px;
+  overflow: auto;
 }
 body main section {
   height: 100%;
@@ -25,11 +27,16 @@ body main section {
   background-color: black;
   border-radius: 10px;
   margin: auto;
-  overflow: hidden;
 }
 body main section .all-reels {
   height: 100%;
   width: 100%;
+  overflow: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+body main section .all-reels::-webkit-scrollbar {
+  display: none;
 }
 body main section .all-reels .reel {
   height: 100%;
@@ -38,8 +45,11 @@ body main section .all-reels .reel {
   background-color: lightseagreen;
   overflow: hidden;
   border-radius: 10px;
+  margin-bottom: 20px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
-body main section .all-reels .reel .main-img {
+body main section .all-reels .reel .main-video {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
@@ -48,7 +58,7 @@ body main section .all-reels .reel .main-img {
 body main section .all-reels .reel .bottom {
   padding: 30px 20px;
   width: 100%;
-  background: linear-gradient(black);
+  background: linear-gradient(rgba(0, 0, 0, 0.044), rgba(0, 0, 0, 0.81));
   position: absolute;
   bottom: 0;
 }
@@ -56,11 +66,63 @@ body main section .all-reels .reel .bottom .user {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 20px;
 }
 body main section .all-reels .reel .bottom .user img {
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+body main section .all-reels .reel .bottom .user h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: whitesmoke;
+}
+body main section .all-reels .reel .bottom .user button {
+  background-color: transparent;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  color: white;
+  border: 2px solid white;
+}
+body main section .all-reels .reel .bottom h3 {
+  font-weight: 500;
+  font-size: 20px;
+  color: whitesmoke;
+}
+body main section .all-reels .reel .right {
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 15px;
+  width: 40px;
+  position: absolute;
+  bottom: 12%;
+  right: 0;
+}
+body main section .all-reels .reel .right div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+body main section .all-reels .reel .right div .love {
+  color: red;
+}
+body main section .all-reels .reel .right div i {
+  font-size: 25px;
+  font-weight: 100;
+  cursor: pointer;
+  color: white;
+}
+body main section .all-reels .reel .right div h6 {
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
 }/*# sourceMappingURL=style.css.map */
