@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  color: whitesmoke;
 }
 
 html,
@@ -64,6 +65,33 @@ body {
             object-fit: cover;
           }
 
+          .mute {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 5;
+            padding: 10px;
+            border-radius: 50%;
+            border: none;
+            background-color: #33333377;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            width: 50px;
+
+            &:active {
+              transform: scale(0.95);
+            }
+
+            i {
+              font-size: 25px;
+              color: whitesmoke;
+              pointer-events: none;
+            }
+          }
+
           .bottom {
             padding: 30px 20px;
             width: 100%;
@@ -101,6 +129,7 @@ body {
                 border-radius: 2px;
                 color: white;
                 border: 2px solid white;
+                cursor: pointer;
               }
             }
 
@@ -117,7 +146,7 @@ body {
             align-items: center;
             text-align: center;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
             width: 40px;
             position: absolute;
             bottom: 12%;
@@ -130,12 +159,14 @@ body {
               flex-direction: column;
               justify-content: center;
               align-items: center;
+              width: 50px;
+              cursor: pointer;
 
-              .love{
+              .love {
                 color: red;
               }
 
-              i {
+              h4 {
                 font-size: 25px;
                 font-weight: 100;
                 cursor: pointer;
@@ -146,6 +177,11 @@ body {
                 font-size: 12px;
                 font-weight: 500;
                 color: white;
+              }
+
+              h4,
+              h6 {
+                pointer-events: none;
               }
             }
           }
