@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+
+  div {
+    height: 200px;
+    width: 400px;
+    background-color: rgb(146, 146, 146);
+  }
+
+  .box1 {
+    background: conic-gradient(red,black,white);
+  }
+  .box2 {
+    background: conic-gradient(from 45deg , red,black,white);
+  }
+  .box3 {
+    background: conic-gradient(from 180deg , red,black,white);
+  }
+}
