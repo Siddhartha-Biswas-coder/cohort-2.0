@@ -18,10 +18,28 @@ body {
   align-items: center;
 }
 body p {
-  color: rgb(39, 159, 39);
   font-size: 2.5rem;
   font-family: monospace;
+  font-weight: bold;
+  /* rainbow gradient */
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  background-size: 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowMove 6s linear infinite;
+  /* smoothing */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  text-shadow: 0 0 10px rgb(39, 159, 39);
+  /* glow */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes rainbowMove {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 400%;
+  }
 }/*# sourceMappingURL=style.css.map */
