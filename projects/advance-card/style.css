@@ -29,10 +29,25 @@ body .box {
   flex-direction: column;
   gap: 10px;
   border-radius: 15px;
-  background: linear-gradient(black) padding-box, conic-gradient(from var(--rotate), black, rgb(247, 0, 123), black) border-box;
-  border: 5px solid transparent;
-  animation: borderAnimate 10s;
+  background: linear-gradient(black) padding-box, conic-gradient(from var(--rotate), black, rgb(255, 0, 123), black) border-box;
+  border: 0px solid transparent;
+  animation: borderAnimate 5s;
   animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+  border-width: 0px;
+  transition: all 0.3s linear;
+  box-shadow: 0 0 0px rgb(255, 0, 123);
+  color: white;
+  text-shadow: 0 0 0px rgb(255, 0, 123);
+  cursor: pointer;
+}
+body .box:hover {
+  animation-play-state: running;
+  border-width: 5px;
+  box-shadow: 0 0 30px rgb(255, 0, 123);
+  color: rgb(255, 0, 123);
+  text-shadow: 0 0 10px rgb(255, 0, 123);
 }
 body .box img {
   width: 100%;
