@@ -2,9 +2,8 @@
 // const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 // const text = para.innerText
 
-// let iteration = 0 
+// let iteration = 0
 // let interval;
-
 
 // function randomText (){
 //     const str = text.split('').map((char,index)=>{
@@ -38,30 +37,27 @@ const text = para.innerText;
 let iteration = 0;
 let interval;
 
-para.addEventListener("mouseenter", () => {
+function randomText() {
+  clearInterval(interval);
 
-    clearInterval(interval);
-
-    interval = setInterval(() => {
-
-        para.innerText = text
-            .split("")
-            .map((char, index) => {
-
-                if (index < iteration) {
-                    return text[index];
-                }
-
-                return characters[Math.floor(Math.random() * characters.length)];
-            })
-            .join("");
-
-        iteration += 0.2;
-
-        if (iteration > text.length) {
-            clearInterval(interval);
+  interval = setInterval(() => {
+    para.innerText = text
+      .split("")
+      .map((char, index) => {
+        if (index < iteration) {
+          return text[index];
         }
 
-    }, 30);
+        return characters[Math.floor(Math.random() * characters.length)];
+      })
+      .join("");
 
-});
+    iteration += 0.2;
+
+    if (iteration > text.length) {
+      clearInterval(interval);
+    }
+  }, 30);
+}
+
+para.addEventListener("mouseenter", randomText);
