@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+body .box1 {
+  height: 200px;
+  width: 400px;
+  border: 1px solid white;
+  background-color: var(--bgColor);
+  animation: animateBgColor 5s infinite;
+}
+body .box2 {
+  height: 200px;
+  width: 400px;
+  border: 1px solid white;
+  background-color: red;
+  animation: animateBackgroundColor 5s infinite;
+}
+
+@property --bgColor {
+  syntax: "<color>";
+  initial-value: red;
+  inherits: false;
+}
+@keyframes animateBgColor {
+  from {
+    --bgColor: red;
+  }
+  to {
+    --bgColor: blue;
+  }
+}
+@keyframes animateBackgroundColor {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: blue;
+  }
+}/*# sourceMappingURL=styles.css.map */
