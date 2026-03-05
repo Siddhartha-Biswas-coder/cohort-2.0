@@ -19,5 +19,9 @@ body {
 }
 body p {
   color: rgb(39, 159, 39);
-  font-size: 4rem;
+  font-size: 2.5rem;
+  font-family: monospace;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 0 10px rgb(39, 159, 39);
 }/*# sourceMappingURL=style.css.map */
