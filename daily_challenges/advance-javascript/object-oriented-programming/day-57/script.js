@@ -63,3 +63,28 @@
 // obj3.func();
 
 
+// call apply bind
+// for any function for whose this value is -> "window" , but we dont want the value of this as window but any other object , at that time , we will use call apply bind
+
+let obj = {
+    name: "Siddhartha",
+}
+
+function abcd1(a,b,c){
+    console.log(this);
+}
+
+abcd1.call(obj,1,2,3);
+
+function abcd2(a,b,c){
+    console.log(this);
+}
+
+abcd2.apply(obj,[1,2,3]);
+
+function abcd3(a,b,c){
+    console.log(this);
+}
+
+let newfunc = abcd3.bind(obj,1,2,3); 
+newfunc()
