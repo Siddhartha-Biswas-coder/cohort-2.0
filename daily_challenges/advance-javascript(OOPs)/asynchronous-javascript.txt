@@ -1,0 +1,118 @@
+1️⃣ Synchronous (Sync)
+Meaning
+Code runs line by line, and each line waits for the previous one to finish.
+
+Example
+console.log("A");
+console.log("B");
+console.log("C");
+
+Output
+
+A
+B
+C
+
+Execution order:
+
+A → B → C
+
+The next line cannot start until the previous finishes.
+
+
+2️⃣ Asynchronous (Async)
+Meaning
+
+Some tasks run in the background, so JavaScript does not wait for them.
+
+Example
+console.log("A");
+
+setTimeout(() => {
+    console.log("B");
+}, 2000);
+
+console.log("C");
+
+Output
+
+A
+C
+B
+
+Because JavaScript does not wait for setTimeout.
+
+
+3️⃣ Promise
+Meaning
+
+A Promise is an object representing a value that will be available in the future.
+
+It handles asynchronous operations.
+
+Promise states
+State	                    Meaning
+Pending	                Task still running
+Resolved (Fulfilled)	Task completed
+Rejected	            Task failed
+
+Example
+const promise = new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+        resolve("Task finished");
+    }, 2000);
+
+});
+
+promise.then(result => console.log(result));
+
+Output after 2 seconds
+
+Task finished
+
+
+4️⃣ async
+Meaning
+
+async makes a function always return a Promise.
+
+Example
+async function hello(){
+    return "Hello";
+}
+
+hello().then(console.log);
+
+Output
+
+Hello
+
+Even though we returned a string, async converts it to a Promise automatically.
+
+5️⃣ await
+Meaning
+
+await pauses the async function until a Promise resolves.
+
+⚠️ It only works inside an async function.
+
+Example
+function getData(){
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Data received"), 2000);
+    });
+}
+
+async function run(){
+    let data = await getData();
+    console.log(data);
+}
+
+run();
+
+Output after 2 seconds
+
+Data received
+
+Here await waits for the Promise to finish.
