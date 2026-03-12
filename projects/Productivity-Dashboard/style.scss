@@ -4,6 +4,8 @@
   --tri1: #edf7bd;
   --tri2: #85c79a;
   --tri3: #4855a4;
+  --tri4: #0992c2;
+  --red: red;
 }
 
 @font-face {
@@ -156,20 +158,47 @@ body {
             margin-bottom: 20px;
           }
 
-          input {
+          input#task-input {
             @include input-design;
+            font-weight: 500;
           }
           textarea {
             @include input-design;
+            font-weight: 500;
           }
           button {
             @include input-design;
+            font-size: 26px;
             font-weight: 700;
             transition: all ease 0.3s;
             cursor: pointer;
+            text-shadow: 0 0 10px var(--tri4);
 
             &:active {
               transform: scale(0.96);
+            }
+          }
+
+          .mark-imp {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 30px;
+            padding: 10px 5px;
+            width: 100%;
+            margin-bottom: 20px;
+
+            input {
+              transform: scale(2);
+              cursor: pointer;
+              border: none;
+            }
+
+            label {
+              cursor: pointer;
+              font-size: 24px;
+              color: var(--tri4);
+              text-shadow: 0 0 10px var(--tri4);
             }
           }
         }
@@ -186,8 +215,8 @@ body {
         padding: 30px;
         overflow: auto;
 
-        &::-webkit-scrollbar{
-            display: none;
+        &::-webkit-scrollbar {
+          display: none;
         }
 
         .task {
@@ -203,6 +232,24 @@ body {
           h5 {
             color: var(--tri3);
             font-size: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+
+            span {
+              background-color: var(--red);
+              font-size: 12px;
+              border-radius: 20px;
+              padding: 5px 8px;
+              color: var(--pri);
+              box-shadow: 0 0 10px red;
+            }
+            span.true {
+              opacity: 1;
+            }
+            span.false {
+              opacity: 0;
+            }
           }
           button {
             padding: 15px 30px;
@@ -217,6 +264,9 @@ body {
 
             &:active {
               transform: scale(0.96);
+            }
+            &:hover {
+              box-shadow: 0 0 25px var(--sec);
             }
           }
         }

@@ -4,6 +4,8 @@
   --tri1: #edf7bd;
   --tri2: #85c79a;
   --tri3: #4855a4;
+  --tri4: #0992c2;
+  --red: red;
 }
 
 @font-face {
@@ -135,7 +137,7 @@ body {
   align-items: flex-start;
   padding: 30px;
 }
-#main .todo-list-fullpage .todo-container .addTask form input {
+#main .todo-list-fullpage .todo-container .addTask form input#task-input {
   padding: 15px 25px;
   width: 100%;
   font-size: 28px;
@@ -144,6 +146,7 @@ body {
   border-radius: 5px;
   outline: none;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 #main .todo-list-fullpage .todo-container .addTask form textarea {
   padding: 15px 25px;
@@ -154,6 +157,7 @@ body {
   border-radius: 5px;
   outline: none;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 #main .todo-list-fullpage .todo-container .addTask form button {
   padding: 15px 25px;
@@ -164,12 +168,34 @@ body {
   border-radius: 5px;
   outline: none;
   margin-bottom: 20px;
+  font-size: 26px;
   font-weight: 700;
   transition: all ease 0.3s;
   cursor: pointer;
+  text-shadow: 0 0 10px var(--tri4);
 }
 #main .todo-list-fullpage .todo-container .addTask form button:active {
   transform: scale(0.96);
+}
+#main .todo-list-fullpage .todo-container .addTask form .mark-imp {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  padding: 10px 5px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#main .todo-list-fullpage .todo-container .addTask form .mark-imp input {
+  transform: scale(2);
+  cursor: pointer;
+  border: none;
+}
+#main .todo-list-fullpage .todo-container .addTask form .mark-imp label {
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--tri4);
+  text-shadow: 0 0 10px var(--tri4);
 }
 #main .todo-list-fullpage .todo-container .allTask {
   width: 65%;
@@ -198,6 +224,23 @@ body {
 #main .todo-list-fullpage .todo-container .allTask .task h5 {
   color: var(--tri3);
   font-size: 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+#main .todo-list-fullpage .todo-container .allTask .task h5 span {
+  background-color: var(--red);
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 5px 8px;
+  color: var(--pri);
+  box-shadow: 0 0 10px red;
+}
+#main .todo-list-fullpage .todo-container .allTask .task h5 span.true {
+  opacity: 1;
+}
+#main .todo-list-fullpage .todo-container .allTask .task h5 span.false {
+  opacity: 0;
 }
 #main .todo-list-fullpage .todo-container .allTask .task button {
   padding: 15px 30px;
@@ -212,4 +255,7 @@ body {
 }
 #main .todo-list-fullpage .todo-container .allTask .task button:active {
   transform: scale(0.96);
+}
+#main .todo-list-fullpage .todo-container .allTask .task button:hover {
+  box-shadow: 0 0 25px var(--sec);
 }/*# sourceMappingURL=style.css.map */
