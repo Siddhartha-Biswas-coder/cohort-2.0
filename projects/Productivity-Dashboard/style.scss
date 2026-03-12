@@ -1,3 +1,6 @@
+/* ==========================================
+   1. VARIABLES & FONTS
+   ========================================== */
 :root {
   --pri: #cbd1d5;
   --sec: #281c59;
@@ -24,6 +27,23 @@
   src: url(./fonts/AeonikTRIAL-Bold.otf);
 }
 
+/* ==========================================
+   2. MIXINS
+   ========================================== */
+@mixin input-design {
+  padding: 15px 25px;
+  width: 100%;
+  font-size: 28px;
+  background-color: var(--sec);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+/* ==========================================
+   3. GLOBAL STYLES
+   ========================================== */
 * {
   margin: 0;
   padding: 0;
@@ -32,8 +52,7 @@
   font-family: aeonik;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
 }
@@ -42,19 +61,22 @@ body {
   height: 100%;
   width: 100%;
   background-color: var(--sec);
+  position: relative; // Keeps absolute children contained
 
+  /* --- Navigation --- */
   nav {
     position: fixed;
     width: 100%;
     height: 60px;
     background-color: var(--tri2);
+    z-index: 10;
   }
 
+  /* --- Gallery Section --- */
   section.all-Elements {
     height: 100%;
     width: 100%;
-    padding: 40px;
-    padding-top: 80px;
+    padding: 80px 40px 40px; // Shorthand for top, sides, bottom
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -72,9 +94,7 @@ body {
       cursor: pointer;
       box-shadow: 0 0 20px var(--tri2);
 
-      &:active {
-        transform: scale(0.95);
-      }
+      &:active { transform: scale(0.95); }
 
       img {
         height: 100%;
@@ -93,6 +113,7 @@ body {
     }
   }
 
+  /* --- Full Page Overlay Base --- */
   .fullElem {
     height: 100%;
     width: 100%;
@@ -100,6 +121,7 @@ body {
     display: none;
     position: absolute;
     padding: 30px 40px;
+    z-index: 20;
 
     .back {
       position: absolute;
@@ -115,18 +137,15 @@ body {
       transition: all 0.2s ease;
       box-shadow: 0 0 20px var(--tri1);
 
-      &:active {
-        transform: scale(0.97);
-      }
+      &:active { transform: scale(0.97); }
     }
   }
 
+  /* --- Todo List Specific Page --- */
   .todo-list-fullpage {
-    display: block;
+    display: none; // Initial visibility set by your logic
 
-    h2 {
-      font-size: 70px;
-    }
+    h2 { font-size: 70px; }
 
     .todo-container {
       height: 80%;
@@ -135,6 +154,7 @@ body {
       display: flex;
       justify-content: space-between;
 
+      /* Input Section */
       .addTask {
         width: 33%;
         background-color: var(--tri2);
@@ -147,25 +167,9 @@ body {
           align-items: flex-start;
           padding: 30px;
 
-          @mixin input-design {
-            padding: 15px 25px;
-            width: 100%;
-            font-size: 28px;
-            background-color: var(--sec);
-            border: none;
-            border-radius: 5px;
-            outline: none;
-            margin-bottom: 20px;
-          }
-
-          input#task-input {
-            @include input-design;
-            font-weight: 500;
-          }
-          textarea {
-            @include input-design;
-            font-weight: 500;
-          }
+          input#task-input { @include input-design; font-weight: 500; }
+          textarea { @include input-design; font-weight: 500; }
+          
           button {
             @include input-design;
             font-size: 26px;
@@ -174,9 +178,7 @@ body {
             cursor: pointer;
             text-shadow: 0 0 10px var(--tri4);
 
-            &:active {
-              transform: scale(0.96);
-            }
+            &:active { transform: scale(0.96); }
           }
 
           .mark-imp {
@@ -204,6 +206,7 @@ body {
         }
       }
 
+      /* Task Display Section */
       .allTask {
         width: 65%;
         background-color: var(--tri2);
@@ -215,9 +218,7 @@ body {
         padding: 30px;
         overflow: auto;
 
-        &::-webkit-scrollbar {
-          display: none;
-        }
+        &::-webkit-scrollbar { display: none; }
 
         .task {
           display: flex;
@@ -234,7 +235,7 @@ body {
             font-size: 30px;
             display: flex;
             align-items: flex-start;
-            gap: 5px;
+            gap: 10px;
 
             span {
               background-color: var(--red);
@@ -243,14 +244,13 @@ body {
               padding: 5px 8px;
               color: var(--pri);
               box-shadow: 0 0 10px red;
-            }
-            span.true {
-              opacity: 1;
-            }
-            span.false {
-              opacity: 0;
+              
+              // Maintain your logic for visibility
+              &.show-imp { opacity: 1; }
+              &.hide-imp { opacity: 0; }
             }
           }
+
           button {
             padding: 15px 30px;
             color: var(--tri2);
@@ -259,15 +259,11 @@ body {
             box-shadow: 0 0 15px var(--sec);
             border-radius: 10px;
             font-size: 17px;
-            transform: all ease 0.3s;
+            transition: all ease 0.3s;
             cursor: pointer;
 
-            &:active {
-              transform: scale(0.96);
-            }
-            &:hover {
-              box-shadow: 0 0 25px var(--sec);
-            }
+            &:active { transform: scale(0.96); }
+            &:hover { box-shadow: 0 0 25px var(--sec); }
           }
         }
       }

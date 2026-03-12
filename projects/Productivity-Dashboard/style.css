@@ -1,3 +1,6 @@
+/* ==========================================
+   1. VARIABLES & FONTS
+   ========================================== */
 :root {
   --pri: #cbd1d5;
   --sec: #281c59;
@@ -23,6 +26,12 @@
   font-weight: 700;
   src: url(./fonts/AeonikTRIAL-Bold.otf);
 }
+/* ==========================================
+   2. MIXINS
+   ========================================== */
+/* ==========================================
+   3. GLOBAL STYLES
+   ========================================== */
 * {
   margin: 0;
   padding: 0;
@@ -31,8 +40,7 @@
   font-family: aeonik;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
 }
@@ -41,18 +49,21 @@ body {
   height: 100%;
   width: 100%;
   background-color: var(--sec);
+  position: relative;
+  /* --- Navigation --- */
 }
 #main nav {
   position: fixed;
   width: 100%;
   height: 60px;
   background-color: var(--tri2);
+  z-index: 10;
 }
+
 #main section.all-Elements {
   height: 100%;
   width: 100%;
-  padding: 40px;
-  padding-top: 80px;
+  padding: 80px 40px 40px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -87,6 +98,7 @@ body {
   font-weight: 500;
   font-size: 33px;
 }
+
 #main .fullElem {
   height: 100%;
   width: 100%;
@@ -94,6 +106,7 @@ body {
   display: none;
   position: absolute;
   padding: 30px 40px;
+  z-index: 20;
 }
 #main .fullElem .back {
   position: absolute;
@@ -112,8 +125,9 @@ body {
 #main .fullElem .back:active {
   transform: scale(0.97);
 }
+
 #main .todo-list-fullpage {
-  display: block;
+  display: none;
 }
 #main .todo-list-fullpage h2 {
   font-size: 70px;
@@ -124,6 +138,7 @@ body {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
+  /* Input Section */
 }
 #main .todo-list-fullpage .todo-container .addTask {
   width: 33%;
@@ -197,6 +212,7 @@ body {
   color: var(--tri4);
   text-shadow: 0 0 10px var(--tri4);
 }
+
 #main .todo-list-fullpage .todo-container .allTask {
   width: 65%;
   background-color: var(--tri2);
@@ -226,7 +242,7 @@ body {
   font-size: 30px;
   display: flex;
   align-items: flex-start;
-  gap: 5px;
+  gap: 10px;
 }
 #main .todo-list-fullpage .todo-container .allTask .task h5 span {
   background-color: var(--red);
@@ -236,10 +252,10 @@ body {
   color: var(--pri);
   box-shadow: 0 0 10px red;
 }
-#main .todo-list-fullpage .todo-container .allTask .task h5 span.true {
+#main .todo-list-fullpage .todo-container .allTask .task h5 span.show-imp {
   opacity: 1;
 }
-#main .todo-list-fullpage .todo-container .allTask .task h5 span.false {
+#main .todo-list-fullpage .todo-container .allTask .task h5 span.hide-imp {
   opacity: 0;
 }
 #main .todo-list-fullpage .todo-container .allTask .task button {
@@ -250,7 +266,7 @@ body {
   box-shadow: 0 0 15px var(--sec);
   border-radius: 10px;
   font-size: 17px;
-  transform: all ease 0.3s;
+  transition: all ease 0.3s;
   cursor: pointer;
 }
 #main .todo-list-fullpage .todo-container .allTask .task button:active {

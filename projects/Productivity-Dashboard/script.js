@@ -1,68 +1,102 @@
-function openFeatures() {
-  var allElems = document.querySelectorAll(".all-Elements .elements");
-  var fullElemsPage = document.querySelectorAll(".fullElem");
-  var fullElemsPageBackBtn = document.querySelectorAll(".fullElem .back");
+/* ==========================================
+   1. GLOBAL SELECTORS
+   ========================================== */
+const allElems = document.querySelectorAll(".all-Elements .elements");
+const fullElemsPage = document.querySelectorAll(".fullElem");
+const fullElemsPageBackBtn = document.querySelectorAll(".fullElem .back");
 
-  allElems.forEach(function (elem) {
-    elem.addEventListener("click", function () {
-      fullElemsPage[elem.id].style.display = "block";
+/* ==========================================
+   2. CORE UI NAVIGATION (Feature Switching)
+   ========================================== */
+function initializeNavigation() {
+  allElems.forEach((elem) => {
+    elem.addEventListener("click", () => {
+      if (fullElemsPage[elem.id]) {
+        fullElemsPage[elem.id].style.display = "block";
+      }
     });
   });
 
-  fullElemsPageBackBtn.forEach(function (back) {
-    back.addEventListener("click", function () {
-      // console.log(back.id)
-      fullElemsPage[back.id].style.display = "none";
+  fullElemsPageBackBtn.forEach((back) => {
+    back.addEventListener("click", () => {
+      if (fullElemsPage[back.id]) {
+        fullElemsPage[back.id].style.display = "none";
+      }
     });
   });
 }
-openFeatures();
 
-var form = document.querySelector(".addTask form");
-let taskInput = document.querySelector(".addTask form #task-input");
-let taskDetailsInput = document.querySelector(".addTask form textarea");
-let allTaskList = document.querySelector(".todo-container .allTask ");
-let allTaskCheckBox = document.querySelector(
-  ".todo-container .addTask form .mark-imp #check",
-);
+/* ==========================================
+   3. TODO LIST SECTION (Self-Contained)
+   ========================================== */
+function initTodoList() {
+  // --- Local Selectors (only exist inside this function) ---
+  const todoForm = document.querySelector(".addTask form");
+  const taskInput = document.querySelector("#task-input");
+  const taskDetailsInput = document.querySelector(".addTask form textarea");
+  const allTaskList = document.querySelector(".allTask");
+  const allTaskCheckBox = document.querySelector("#check");
 
-var currentTask = [];
+  // --- Local State ---
+  let currentTask = JSON.parse(localStorage.getItem("currentTask")) || [];
 
-if (localStorage.getItem("currentTask")) {
-  currentTask = JSON.parse(localStorage.getItem("currentTask"));
-  renderTask(currentTask);
-} else {
-  console.log("Task list is empty");
+  // --- Internal Functions ---
+  function renderTodoTasks() {
+    let htmlTemplate = "";
+    currentTask.forEach((elem, idx) => {
+      const impClass = elem.imp ? "show-imp" : "hide-imp";
+      htmlTemplate += `
+        <div class="task">
+          <h5>${elem.task} <span class="${impClass}">imp</span></h5>
+          <button id="${idx}">Mark as Completed</button>
+        </div>`;
+    });
+    allTaskList.innerHTML = htmlTemplate;
+    localStorage.setItem("currentTask", JSON.stringify(currentTask));
+  }
+
+  function handleTodoSubmit(e) {
+    e.preventDefault();
+    if (!taskInput.value.trim()) return;
+
+    currentTask.push({
+      task: taskInput.value,
+      details: taskDetailsInput.value,
+      imp: allTaskCheckBox.checked,
+    });
+
+    taskInput.value = "";
+    taskDetailsInput.value = "";
+    allTaskCheckBox.checked = false;
+    renderTodoTasks();
+  }
+
+  function handleTodoDelete(e) {
+    if (e.target.tagName === "BUTTON") {
+      const index = e.target.id;
+      currentTask.splice(index, 1);
+      renderTodoTasks();
+    }
+  }
+
+  // --- Local Event Listeners ---
+  if (todoForm) todoForm.addEventListener("submit", handleTodoSubmit);
+  if (allTaskList) allTaskList.addEventListener("click", handleTodoDelete);
+
+  // --- Initial Load ---
+  renderTodoTasks();
 }
 
-var allTaskListStorage = localStorage.getItem("currentTask");
-
-function renderTask(currentTask) {
-  var sum = "";
-
-  currentTask.forEach(function (elem) {
-    sum += `<div class="task">
-              <h5>${elem.task} <span class=${elem.imp}>imp</span></h5>
-              <button>Mark as Completed</button>
-            </div>`;
-  });
-  allTaskList.innerHTML = sum;
+/* ==========================================
+   4. OTHER SECTIONS (Future Proofing)
+   ========================================== */
+function initDailyPlanner() {
+  // All Daily Planner variables and logic will go here
 }
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  currentTask.push({
-    task: taskInput.value,
-    details: taskDetailsInput.value,
-    imp: allTaskCheckBox.checked,
-  });
-  localStorage.setItem("currentTask", JSON.stringify(currentTask));
-
-  taskInput.value = "";
-  taskDetailsInput.value = "";
-  allTaskCheckBox.checked = false;
-
-  renderTask(currentTask);
-});
-
-var markCompletedButton = document.querySelectorAll(".task button");
+/* ==========================================
+   5. APP INITIALIZATION
+   ========================================== */
+initializeNavigation(); 
+initTodoList();         // Runs the Todo section independently
+initDailyPlanner();     // Ready for when you build this
