@@ -6,8 +6,9 @@
   --sec: #281c59;
   --tri1: #edf7bd;
   --tri2: #85c79a;
-  --tri3: #4855a4;
+  --tri3: #3b1e54;
   --tri4: #0992c2;
+  --tri5: #123524;
   --red: red;
 }
 
@@ -40,7 +41,8 @@
   font-family: aeonik;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
@@ -50,7 +52,6 @@ html, body {
   width: 100%;
   background-color: var(--sec);
   position: relative;
-  /* --- Navigation --- */
 }
 #main nav {
   position: fixed;
@@ -59,7 +60,6 @@ html, body {
   background-color: var(--tri2);
   z-index: 10;
 }
-
 #main section.all-Elements {
   height: 100%;
   width: 100%;
@@ -98,7 +98,6 @@ html, body {
   font-weight: 500;
   font-size: 33px;
 }
-
 #main .fullElem {
   height: 100%;
   width: 100%;
@@ -109,6 +108,7 @@ html, body {
   z-index: 20;
 }
 #main .fullElem .back {
+  color: var(--tri3);
   position: absolute;
   right: 5%;
   top: 5%;
@@ -125,7 +125,6 @@ html, body {
 #main .fullElem .back:active {
   transform: scale(0.97);
 }
-
 #main .todo-list-fullpage {
   display: none;
 }
@@ -138,7 +137,6 @@ html, body {
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
-  /* Input Section */
 }
 #main .todo-list-fullpage .todo-container .addTask {
   width: 33%;
@@ -212,7 +210,6 @@ html, body {
   color: var(--tri4);
   text-shadow: 0 0 10px var(--tri4);
 }
-
 #main .todo-list-fullpage .todo-container .allTask {
   width: 65%;
   background-color: var(--tri2);
@@ -274,4 +271,124 @@ html, body {
 }
 #main .todo-list-fullpage .todo-container .allTask .task button:hover {
   box-shadow: 0 0 25px var(--sec);
+}
+#main .daily-planner-fullpage h2 {
+  font-size: 70px;
+}
+#main .daily-planner-fullpage .day-planner {
+  background-color: var(--tri1);
+  height: 85%;
+  margin-top: 40px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  overflow: auto;
+}
+#main .daily-planner-fullpage .day-planner::-webkit-scrollbar {
+  display: none;
+}
+#main .daily-planner-fullpage .day-planner .day-planner-time {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 49%;
+  margin-bottom: 15px;
+}
+#main .daily-planner-fullpage .day-planner .day-planner-time p {
+  position: absolute;
+  top: 12%;
+  left: 0.5%;
+  font-size: 16px;
+}
+#main .daily-planner-fullpage .day-planner .day-planner-time input {
+  padding: 20px 45px;
+  width: 100%;
+  background-color: var(--sec);
+  border-radius: 10px;
+  border: none;
+  font-size: 32px;
+  padding-top: 34px;
+  outline: none;
+  box-shadow: 0 0 30px var(--tri4);
+}
+#main .motivational-fullpage {
+  display: block;
+  position: relative;
+}
+#main .motivational-fullpage .motivational-container {
+  height: 600px;
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50px;
+}
+#main .motivational-fullpage .motivational-container::after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: var(--tri1);
+  border-radius: 50px;
+  scale: 1.15;
+  filter: blur(150px);
+  z-index: 8;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  background-color: var(--pri);
+  border-radius: 30px;
+  padding: 17px;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper img {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  opacity: 0.6;
+  height: 100px;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-1 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-1 h2 {
+  box-shadow: 0 0 100px var(--tri3);
+  background-color: var(--tri3);
+  padding: 30px;
+  border-radius: 20px;
+  font-size: 40px;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-weight: 500;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-2 {
+  padding: 20px;
+  margin-top: 20px;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-2 h1 {
+  font-size: 60px;
+  font-weight: 700;
+  color: var(--sec);
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-3 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+#main .motivational-fullpage .motivational-container .motivation-wrapper .motivation-3 h2 {
+  color: var(--tri5);
+  padding: 30px;
+  font-size: 40px;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-weight: 500;
+  text-shadow: 0 0 5px var(--tri4);
 }/*# sourceMappingURL=style.css.map */

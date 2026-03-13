@@ -88,15 +88,76 @@ function initTodoList() {
 }
 
 /* ==========================================
-   4. OTHER SECTIONS (Future Proofing)
+   4. DAILY PLANNER SECTION (Self-Contained)
    ========================================== */
 function initDailyPlanner() {
-  // All Daily Planner variables and logic will go here
+  const dayPlannerContainer = document.querySelector(
+    ".daily-planner-fullpage .day-planner",
+  );
+
+  // State scoped only to this section
+  let dayPlanData = JSON.parse(localStorage.getItem("dayPlanData")) || {};
+
+  // Sub-function 1: Generate the hour strings
+  const generateHours = () => {
+    return Array.from(
+      { length: 18 },
+      (_, idx) => `${6 + idx}:00 - ${idx === 17 ? "00" : 7 + idx}:00`,
+    );
+  };
+
+  // Sub-function 2: Render the HTML
+  const renderPlanner = () => {
+    const hours = generateHours();
+    let htmlTemplate = "";
+
+    hours.forEach((timeLabel, idx) => {
+      const savedText = dayPlanData[idx] || "";
+      htmlTemplate += `
+        <div class="day-planner-time">
+          <p>${timeLabel}</p>
+          <input id="${idx}" type="text" placeholder="..." value="${savedText}">
+        </div>`;
+    });
+
+    dayPlannerContainer.innerHTML = htmlTemplate;
+    setupPlannerListeners(); // Attach listeners after HTML is injected
+  };
+
+  // Sub-function 3: Logic/Listeners
+  const setupPlannerListeners = () => {
+    const inputs = dayPlannerContainer.querySelectorAll("input");
+
+    inputs.forEach((input) => {
+      input.addEventListener("input", (e) => {
+        dayPlanData[e.target.id] = e.target.value;
+        localStorage.setItem("dayPlanData", JSON.stringify(dayPlanData));
+      });
+    });
+  };
+
+  // Run the render on load
+  renderPlanner();
+}
+
+/* ==========================================
+   4. MOTIVATIONAL QUOTES SECTION (Self-Contained
+   ========================================== */
+
+function initMotivational() {
+  async function fetchQuote() {
+    let rawData = await fetch(`https://dummyjson.com/quotes/random`);
+    let data = await rawData.json();
+    console.log(data);
+    return data
+  }
+  fetchQuote();
 }
 
 /* ==========================================
    5. APP INITIALIZATION
    ========================================== */
-initializeNavigation(); 
-initTodoList();         // Runs the Todo section independently
-initDailyPlanner();     // Ready for when you build this
+initializeNavigation();
+initTodoList(); // Runs the Todo section independently
+initDailyPlanner(); // Runs the Daily planner section independently
+initMotivational(); //// Runs the Motivational Quotes section independently

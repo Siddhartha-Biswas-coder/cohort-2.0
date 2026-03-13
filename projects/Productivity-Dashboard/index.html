@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productivity Dashboard</title>
-    
+
     <link rel="stylesheet" href="style.css" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
     <div id="main">
-      
       <section class="all-Elements">
-        
         <div class="todo elements" id="0">
           <img src="./backgrounds/bg1.avif" alt="Todo Background" />
           <h2>To Do List</h2>
@@ -38,7 +39,6 @@
           <img src="./backgrounds/bg5.avif" alt="Goals Background" />
           <h2>Daily Goals</h2>
         </div>
-
       </section>
 
       <section class="fullElem todo-list-fullpage">
@@ -49,7 +49,11 @@
           <div class="addTask">
             <form>
               <input id="task-input" type="text" placeholder="Enter Task" />
-              <textarea placeholder="Enter Details" cols="30" rows="10"></textarea>
+              <textarea
+                placeholder="Enter Details"
+                cols="30"
+                rows="10"
+              ></textarea>
               <div class="mark-imp">
                 <input type="checkbox" name="checkbox" id="check" />
                 <label for="check">Mark as Important!</label>
@@ -58,19 +62,36 @@
             </form>
           </div>
 
-          <div class="allTask">
-            </div>
+          <div class="allTask"></div>
         </div>
       </section>
 
       <section class="fullElem daily-planner-fullpage">
         <button class="back" id="1">Close</button>
-        <h1>Daily Planner</h1>
+        <h2>Plan your Day to be more productive</h2>
+        <div class="day-planner"></div>
       </section>
 
       <section class="fullElem motivational-fullpage">
         <button class="back" id="2">Close</button>
-        <h1>Motivational Quote</h1>
+        <!-- <h2>Motivational Quote</h2> -->
+        <div class="motivational-container">
+          <div class="motivation-wrapper">
+            <img src="./icons/quote-right.png" alt="">
+            <div class="motivation-1">
+              <h2>Quote of the Day</h2>
+            </div>
+            
+            <div class="motivation-2">
+              <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto a quasi explicabo numquam ab perspiciatis!</h1>
+            </div>
+            <div class="motivation-3">
+              <h2>~ Siddhartha Biswas</h2>
+            </div>
+            
+          </div>
+        </div>
+        
       </section>
 
       <section class="fullElem pomodoro-fullpage">
@@ -82,7 +103,7 @@
         <button class="back" id="4">Close</button>
         <h1>Daily Goals</h1>
       </section>
-
-    </div> <script src="script.js"></script>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>
