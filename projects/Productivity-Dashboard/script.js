@@ -4,6 +4,11 @@
 const allElems = document.querySelectorAll(".all-Elements .elements");
 const fullElemsPage = document.querySelectorAll(".fullElem");
 const fullElemsPageBackBtn = document.querySelectorAll(".fullElem .back");
+const toDoListCard = document.querySelector(".todo");
+const dailyPlannerCard = document.querySelector(".daily");
+const motovationalCard = document.querySelector(".motivation");
+const pomodoroCard = document.querySelector(".pomodor");
+const goalsCard = document.querySelector(".goals");
 
 /* ==========================================
    2. CORE UI NAVIGATION (Feature Switching)
@@ -141,23 +146,126 @@ function initDailyPlanner() {
 }
 
 /* ==========================================
-   4. MOTIVATIONAL QUOTES SECTION (Self-Contained
+   5. MOTIVATIONAL QUOTES SECTION (Self-Contained
    ========================================== */
-
 function initMotivational() {
+  const motivationalQuote = document.querySelector(
+    ".motivational-fullpage .motivational-container .motivation-wrapper",
+  );
   async function fetchQuote() {
-    let rawData = await fetch(`https://dummyjson.com/quotes/random`);
-    let data = await rawData.json();
-    console.log(data);
-    return data
+    try {
+      let rawData = await fetch(`https://dummyjson.com/quotes/random`);
+      let data = await rawData.json();
+      return data;
+    } catch (error) {
+      return { quote: "Keep pushing forward", author: "system" };
+    }
   }
-  fetchQuote();
+
+  async function renderQuote() {
+    let htmlTemplate = "";
+    let data = await fetchQuote();
+    htmlTemplate = `
+            <img src="./icons/quote-right.png" alt="">
+            <div class="motivation-1">
+              <h2>Quote of the Day</h2>
+            </div>
+            
+            <div class="motivation-2">
+              <h1>${data.quote}</h1>
+            </div>
+            <div class="motivation-3">
+              <h2>~ ${data.author}</h2>
+            </div>`;
+    motivationalQuote.innerHTML = htmlTemplate;
+  }
+  renderQuote();
 }
 
+// function initMotivational() {
+//   const motivationalQuote = document.querySelector(
+//     ".motivational-fullpage .motivational-container .motivation-wrapper",
+//   );
+
+//   // Helper: Fetch fresh data from API
+//   async function fetchQuote() {
+//     try {
+//       let rawData = await fetch(`https://dummyjson.com/quotes/random`);
+//       let data = await rawData.json();
+//       return data;
+//     } catch (error) {
+//       return { quote: "Keep pushing forward", author: "system" };
+//     }
+//   }
+
+//   async function renderQuote() {
+//     const today = new Date().toDateString(); // e.g., "Sat Mar 14 2026"
+//     const savedQuoteData = JSON.parse(localStorage.getItem("dailyQuote"));
+
+//     let data;
+
+//     // Check if we already have a quote saved for today
+//     if (savedQuoteData && savedQuoteData.date === today) {
+//       data = savedQuoteData.content;
+//     } else {
+//       // It's a new day or first time opening, fetch a new one
+//       data = await fetchQuote();
+//       const quoteToSave = {
+//         date: today,
+//         content: data
+//       };
+//       localStorage.setItem("dailyQuote", JSON.stringify(quoteToSave));
+//     }
+
+//     // Render the UI
+//     const htmlTemplate = `
+//             <img src="./icons/quote-right.png" alt="">
+//             <div class="motivation-1">
+//               <h2>Quote of the Day</h2>
+//             </div>
+//             <div class="motivation-2">
+//               <h1>${data.quote}</h1>
+//             </div>
+//             <div class="motivation-3">
+//               <h2>~ ${data.author}</h2>
+//             </div>`;
+            
+//     motivationalQuote.innerHTML = htmlTemplate;
+//   }
+
+//   // Initial call
+//   renderQuote();
+// }
+
 /* ==========================================
-   5. APP INITIALIZATION
+   6. POMODORO TIMER SECTION (Self-Contained
    ========================================== */
+function initPomodoro() {}
+
+/* ==========================================
+   7. DAILY GOALS SECTION (Self-Contained
+   ========================================== */
+function initDailyGoals() {}
+
+/* ==========================================
+   8. APP INITIALIZATION
+   ========================================== */
+// 1. Initialize Navigation globally
 initializeNavigation();
-initTodoList(); // Runs the Todo section independently
-initDailyPlanner(); // Runs the Daily planner section independently
-initMotivational(); //// Runs the Motivational Quotes section independently
+
+// 2. Initialize Data/Logic Modules ONCE on page load
+// This sets up listeners and loads localstorage without duplicating them
+initTodoList();
+initDailyPlanner();
+
+// 3. For the Motivation Section: 
+// We want to fetch a NEW quote every time the card is clicked.
+// We keep the card selector and add the specific trigger.
+motovationalCard.addEventListener("click", () => {
+  // We can call the internal render function specifically
+  // Or just call the whole init if it's designed to fetch fresh
+  initMotivational(); 
+});
+
+// initPomodoro();
+// initDailyGoals();

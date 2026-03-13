@@ -351,18 +351,20 @@ body {
 
   // --- Motivational Specific Page ---
   .motivational-fullpage {
-    display: block;
     position: relative;
+
+    .motivational-fullpage-container{
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     .motivational-container {
       height: 600px;
       width: 80%;
-      // background-color: var(--tri2);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 50px;
+      position: relative;
 
       &::after {
         content: "";
@@ -383,6 +385,7 @@ body {
         background-color: var(--pri);
         border-radius: 30px;
         padding: 17px;
+        border: 3px solid var(--sec);
 
         img{
           position: absolute;
@@ -434,5 +437,14 @@ body {
         }
       }
     }
+  }
+
+  // --- Pomodoro TimerSpecific Page ---
+  .pomodoro-fullpage {
+  }
+
+  // --- Pomodoro TimerSpecific Page ---
+  .daily-goals-fullpage {
+    
   }
 }
