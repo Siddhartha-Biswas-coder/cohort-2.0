@@ -78,116 +78,41 @@ body {
   section.all-Elements {
     height: 100%;
     width: 100%;
-    padding: 40px;
+    padding: 80px 40px 40px; // Shorthand for top, sides, bottom
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
     position: absolute;
 
-    header {
+    .elements {
+      background-color: var(--tri1);
       height: 400px;
-      width: 100%;
-      // background-color: var(--tri2);
-      background: url(./backgrounds/weather-bg.avif);
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 30px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 40px;
-      box-shadow: 0 0 20px var(--tri4);
+      width: 330px;
+      border-radius: 10px;
+      overflow: hidden;
       position: relative;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--tri2);
 
-      h1,
-      h2,
-      h3,
-      h4 {
-        background: linear-gradient(to right,#281c59,#123524);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
+      &:active {
+        transform: scale(0.95);
       }
 
-      .header-1 {
-        h1 {
-          font-size: 90px;
-          font-weight: 700;
-          padding-bottom: 40px;
-        }
-
-        h3{
-          font-size: 40px;
-          font-weight: 500;
-        }
-
-        h4 {
-          font-size: 70px;
-          font-weight: 500;
-        }
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        pointer-events: none;
       }
 
-      .header-2 {
-        padding-right: 40px;
-
-        .feels-like{
-          position: absolute;
-          top: 10%;
-          right: 3%;
-          font-weight: 700;
-        }
-        .condition{
-          font-weight: 700;
-          font-size: 45px;
-        }
-        h2 {
-          font-size: 70px;
-          font-weight: 700;
-        }
-        h3 {
-          font-size: 25px;
-        }
-        h4 {
-          font-size: 30px;
-        }
-      }
-    }
-
-    .allFeatures {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 20px;
-
-      .elements {
-        background-color: var(--tri1);
-        height: 400px;
-        width: 330px;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        transition: all 0.2s ease;
-        cursor: pointer;
-        box-shadow: 0 0 20px var(--tri2);
-
-        &:active {
-          transform: scale(0.95);
-        }
-
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-          pointer-events: none;
-        }
-
-        h2 {
-          position: absolute;
-          bottom: 5%;
-          right: 4%;
-          font-weight: 700;
-          font-size: 33px;
-          color: var(--tri1);
-        }
+      h2 {
+        position: absolute;
+        bottom: 5%;
+        right: 4%;
+        font-weight: 500;
+        font-size: 33px;
       }
     }
   }
@@ -514,7 +439,7 @@ body {
     }
   }
 
-  // --- Pomodoro Timer Specific Page ---
+  // --- Pomodoro TimerSpecific Page ---
   .pomodoro-fullpage {
     position: relative;
 
@@ -566,108 +491,33 @@ body {
     }
   }
 
-  // --- Daily goals Specific Page ---
+  // --- Pomodoro TimerSpecific Page --- 
   .daily-goals-fullpage {
-    display: none; // Hidden by default
-    flex-direction: column;
-    align-items: center; // Centers everything horizontally
-    justify-content: flex-start;
-    padding: 80px 40px;
-    overflow-y: auto;
-
-    h1 {
-      font-size: 70px;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    .goals-input-container {
+    .goal-item {
       display: flex;
-      width: 60%;
-      gap: 15px;
-      margin-bottom: 50px;
-
-      input {
-        flex: 1;
-        padding: 15px 25px;
-        font-size: 24px;
-        background-color: var(--tri1);
-        border: none;
-        border-radius: 10px;
-        color: var(--sec);
-        outline: none;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
-        &::placeholder {
-          color: rgba(40, 28, 89, 0.5);
-        }
-      }
-
-      button {
-        padding: 15px 30px;
-        background-color: var(--tri2);
-        color: var(--tri3);
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 0 15px var(--tri2);
-
-        &:active {
-          transform: scale(0.95);
-        }
-      }
-    }
-
-    .goals-list {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      justify-content: space-between;
+      padding: 15px;
+      background: var(--tri1);
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
 
       p {
-        text-align: center;
+        color: var(--sec);
         font-size: 20px;
-        opacity: 0.6;
+      }
+      i {
+        color: var(--red);
+        cursor: pointer;
       }
 
-      .goal-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 30px;
-        background: var(--tri1);
-        border-radius: 15px;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
+      &.completed {
+        opacity: 0.6;
         p {
-          color: var(--sec);
-          font-size: 26px;
-          opacity: 1;
-          text-align: left;
+          text-decoration: line-through;
         }
-
-        i {
-          color: var(--red);
-          font-size: 22px;
-          padding: 5px;
-          transition: 0.2s;
-          &:hover {
-            transform: scale(1.2);
-          }
-        }
-
-        &.completed {
-          background: var(--pri);
-          opacity: 0.5;
-          p {
-            text-decoration: line-through;
-          }
-        }
+        background: var(--pri);
       }
     }
   }

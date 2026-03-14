@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productivity Dashboard</title>
-
+    <link rel="icon" type="image/png" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
@@ -15,29 +15,48 @@
   <body>
     <div id="main">
       <section class="all-Elements">
-        <div class="todo elements" id="0">
-          <img src="./backgrounds/bg1.avif" alt="Todo Background" />
-          <h2>To Do List</h2>
-        </div>
+        <header>
+          
+          <div class="header-1">
+            <h3>14 March 2026</h3>
+            <h1>Saturday, 1:00pm</h1>
+            <h4>Kolkata (WB)</h4>
+          </div>
 
-        <div class="daily elements" id="1">
-          <img src="./backgrounds/bg2.avif" alt="Planner Background" />
-          <h2>Daily Planner</h2>
-        </div>
+          <div class="header-2">
+            <h3 class ="feels-like">Feels Like: 28°C</h3>
+            <h2>25°C</h2>
+            <h4 class="condition">Sunny</h4>
+            <h3 class="precipitation">Precipitation: 5%</h3>
+            <h3 class="humidity">Humidity: 48%</h3>
+            <h3 class="wind">Wind: 16 km/h</h3>
+          </div>
+        </header>
+        <div class="allFeatures">
+          <div class="todo elements" id="0">
+            <img src="./backgrounds/bg1.avif" alt="Todo Background" />
+            <h2>To Do List</h2>
+          </div>
 
-        <div class="motivation elements" id="2">
-          <img src="./backgrounds/bg3.avif" alt="Motivation Background" />
-          <h2>Motivation</h2>
-        </div>
+          <div class="daily elements" id="1">
+            <img src="./backgrounds/bg2.avif" alt="Planner Background" />
+            <h2>Daily Planner</h2>
+          </div>
 
-        <div class="pomodoro elements" id="3">
-          <img src="./backgrounds/bg4.avif" alt="Pomodoro Background" />
-          <h2>Pomodoro Timer</h2>
-        </div>
+          <div class="motivation elements" id="2">
+            <img src="./backgrounds/bg3.avif" alt="Motivation Background" />
+            <h2>Motivation</h2>
+          </div>
 
-        <div class="goals elements" id="4">
-          <img src="./backgrounds/bg5.avif" alt="Goals Background" />
-          <h2>Daily Goals</h2>
+          <div class="pomodoro elements" id="3">
+            <img src="./backgrounds/bg4.avif" alt="Pomodoro Background" />
+            <h2>Pomodoro Timer</h2>
+          </div>
+
+          <div class="goals elements" id="4">
+            <img src="./backgrounds/bg5.avif" alt="Goals Background" />
+            <h2>Daily Goals</h2>
+          </div>
         </div>
       </section>
 
@@ -83,12 +102,28 @@
 
       <section class="fullElem pomodoro-fullpage">
         <button class="back" id="3">Close</button>
-        <h1>Pomodoro Timer</h1>
+        <h2>Study with me!</h2>
+
+        <h4 class="session">Work Session</h4>
+
+        <div class="pomo-timer">
+          <h1 id="timer"></h1>
+          <button class="start-timer">Start</button>
+          <button class="pause-timer">Pause</button>
+          <button class="reset-timer">Reset</button>
+        </div>
       </section>
 
       <section class="fullElem daily-goals-fullpage">
         <button class="back" id="4">Close</button>
         <h1>Daily Goals</h1>
+
+        <div class="goals-input-container">
+          <input type="text" placeholder="What is your main goal today?" />
+          <button class="add-goal-btn">Add Goal</button>
+        </div>
+
+        <div class="goals-list"></div>
       </section>
     </div>
     <script src="script.js"></script>
