@@ -28,7 +28,9 @@ cohort-2.0
 * HTML
 * CSS
 * SCSS
+* Tailwind CSS
 * JavaScript
+* React.js
 * Git & GitHub
 
 ---
@@ -47,8 +49,9 @@ To build strong **frontend development skills** through consistent practice, pro
 * HTML
 * CSS
 * SCSS
+* Tailwind CSS
 * JavaScript
-* React
+* React.js
 * Other essential frontend tools and frameworks
 
 ---
@@ -86,6 +89,29 @@ Strengthening **problem-solving skills** through DSA and preparing for high-leve
 I am continuously updating this repository as I move forward in the cohort and learn new concepts.
 
 ---
+✅ Cohort Checklist
+
+Learn HTML fundamentals ✅
+
+Learn CSS fundamentals ✅
+
+Learn SCSS ✅
+
+Learn Tailwind CSS ✅
+
+Learn JavaScript basics ✅ 
+
+Master advanced JavaScript
+
+Build multiple React projects
+
+Learn backend development
+
+Learn Generative AI concepts
+
+Learn Agentic AI
+
+Strengthen DSA for interviews
 
 ## 👨‍💻 Author
 
