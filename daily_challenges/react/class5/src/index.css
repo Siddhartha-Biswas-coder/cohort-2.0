@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+button{
+    background-color: lightseagreen;
+    padding: 5px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: all ease 0.3s;
+}
+
+button:active{
+    transform: scale(0.95);
+}
+
+.parent{
+    padding: 20px;
+}
+
+.wash{
+    width: fit-content;
+    height: 200px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 600;
+    background: conic-gradient(violet,indigo,blue,green,yellow,orange,red,violet);
+    color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+
+/* background-color: rgb(255,84,172); */
