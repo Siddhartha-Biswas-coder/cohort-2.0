@@ -1,16 +1,15 @@
 import React from "react";
-import Card from "./components/card";
-import Button from "./components/Button";
+import Card from "./components/Card";
 
 const App = () => {
-  const users = ["Anubhav", "Sarthak", "Siddhartha", "Harsh"];
+
+  const users = ['Anubhav','Abhishek','Siddhartha',]
+
   return (
-    <div className="bg-black h-screen p-3">
-      {users.map(function(elem){
-        return <Card user={elem}/>
+    <div className="p-3 h-screen text-red-600 bg-black">
+      {users.map((user, index) => {
+        return <Card key={index} user={user} age={index + 20} />;
       })}
-      {/* <Button text="Download" />
-      <Button text="Explore" /> */}
     </div>
   );
 };
