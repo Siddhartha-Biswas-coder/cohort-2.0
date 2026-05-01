@@ -12,7 +12,7 @@ const App = () => {
     <div>
       <h1>{num}</h1>
       <button
-        className="bg-emerald-600 w-40 px-5 py-3 text-white rounded-2xl"
+        className="mybutton w-40 px-5 py-3 text-white rounded-2xl"
         onClick={btnClicked}
       >
         Increase
