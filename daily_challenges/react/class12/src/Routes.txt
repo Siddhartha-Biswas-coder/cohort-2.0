@@ -1,0 +1,23 @@
+React - Single Page Applications
+
+REACT-ROUTER-DOM came to solve this problem
+
+
+Types of Routers 
+
+- BrowserRouter
+    - History API
+    - URL clean
+    - modern web apps
+    - Good SEO
+    - Needs Server COnfiguration.
+
+- HashRouter
+    - contains # 
+    - Older Browsers
+    - URLs not clean
+
+- MemoryRouter
+    - React Native
+
+- StaticRouter
