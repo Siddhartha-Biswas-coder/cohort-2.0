@@ -1,0 +1,224 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+
+main{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'center-1 center-1'
+                        'center-2 center-2'
+                        'center-3 center-3'
+                        'center-4 center-5'
+                        'center-6 center-7'
+                        'center-8 center-9';
+}
+
+nav {
+  height: 60px;
+  width: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  gap: 35px;
+}
+
+nav a{
+  text-decoration: none;
+  color: #111;
+  font-size: 12px;
+}
+
+nav i{
+  font-size: 20px;
+  color: #111;
+}
+
+/* .center{
+  text-align: center;
+  padding: 50px 0 0 0;
+  width: 100%;
+  margin-bottom: 10px;
+} */
+
+.center{
+  min-height: 80vh;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 80px;
+}
+
+#center-1{
+  position: relative;
+  grid-area: center-1;
+  color: white;
+  overflow: hidden;
+  display: flex;
+}
+
+/* VIDEO */
+.bg-video{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* TEXT ABOVE VIDEO */
+#center-1 .content{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+  height: 100%;
+  font-size: 35px;
+}
+
+#center-1 .content > p{
+  padding: 10px;
+  font-size: 27px;
+}
+
+#center-2{
+  background-image: url('./resources/hero_iphone_family__fuz5j2v5xx6y_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-2;
+}
+
+#center-3{
+  background-image: url('./resources/hero_apple_watch_series_11__bdz1mml4dx6q_medium.jpg');
+  grid-area: center-3;
+  background-position: center;
+  background-size: cover;
+}
+
+#center-4{
+  background-image: url('./resources/hero_valentines_day_announce__ezg8dset3vki_medium.png');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-4;
+}
+
+#center-5{
+  background-image: url('./resources/hero_ipad_air_avail__c34ycq52exg2_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-5;
+}
+
+#center-6{
+  background-image: url('./resources/promo_macbook_pro_m5__gnwzdhijhm6a_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-6;
+}
+
+#center-6>h3{
+  font-size: 45px;
+  font-weight: 600;
+  color: white;
+}
+
+#center-6>p{
+  color: white;
+  font-size: 25px;
+}
+
+#center-7{
+  background-image: url('./resources/promo_airpodspro_3__f6xmza7bglei_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-7;
+}
+
+#center-8{
+  background-image: url('./resources/promo_iphone_tradein__bugw15ka691e_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-8;
+}
+
+#center-9{
+  background-image: url('./resources/promo_apple_card__5cm7draujpey_medium.jpg');
+  background-size: cover;
+  background-position: center;
+  grid-area: center-9;
+}
+
+#center-8 img, #center-9 img{
+  width: 140px;
+  padding-bottom: 20px ;
+}
+
+#center-8>p, #center-9>p{
+  font-size: 25px;
+}
+
+.center>h2{
+  font-size: 56px;
+  font-weight: 600;
+}
+
+.center>p{
+  font-size: 29px;
+  margin-bottom: 20px;
+}
+
+#center-3 img{
+  padding: 13px;
+}
+
+.btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn button{
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+
+.btn .btn-1{
+  background-color: rgb(0, 113, 227);
+  color: white; 
+  border: none;
+}
+
+.btn .btn-2{
+  background-color: white;
+  color: rgb(0, 113, 227);
+  border:solid rgb(0, 113, 227) 1px;
+}
+
+.btn .btn-2:hover{
+  cursor: pointer;
+  background-color: rgb(0, 113, 227);
+  color: white; 
+  border: none
+}
