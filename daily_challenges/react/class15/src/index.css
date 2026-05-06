@@ -1,0 +1,25 @@
+/* @import "tailwindcss"; */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.section{
+  background-color: rgb(73, 73, 242);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.nav, .foot{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
