@@ -1,14 +1,14 @@
 # 🚀 Cohort 2.0 Learning Journey
 
 This repository documents my progress while going through **Cohort 2.0**.
-Here I track my daily learning, assignments, challenges, and projects while building strong fundamentals in **modern web development**.
+Here I track my daily learning, assignments, challenges, and projects while building strong fundamentals in **modern web development** and backend development.
 
 ---
 
 ## 📚 What this repository contains
 
-* 📝 **Assignments** – Practice tasks from the cohort
-* ⚡ **Daily Challenges** – Small problems and exercises to strengthen concepts
+* 📝 **backend** – Backend concepts, Node.js practice, Express servers, APIs, and deployment exercises
+* ⚡ **frontend** – Small problems and exercises to strengthen frontend concepts
 * 🧩 **Projects** – Mini projects built while learning new topics
 
 ---
@@ -17,8 +17,8 @@ Here I track my daily learning, assignments, challenges, and projects while buil
 
 cohort-2.0
 │
-├── assignments
-├── daily_challenges
+├── backend
+├── frontend
 └── projects
 
 ---
@@ -31,6 +31,8 @@ cohort-2.0
 * Tailwind CSS
 * JavaScript
 * React.js
+* Node.js
+* Express.js
 * Git & GitHub
 
 ---
@@ -44,7 +46,7 @@ Each goal will be **unlocked as I progress** through the course and strengthen m
 
 🔓 **Goal 1 — Frontend Development**
 
-To build strong **frontend development skills** through consistent practice, projects, and challenges while deeply understanding core concepts such as:
+To build strong frontend development skills through consistent practice, projects, and challenges while deeply understanding core concepts such as:
 
 * HTML
 * CSS
@@ -56,9 +58,17 @@ To build strong **frontend development skills** through consistent practice, pro
 
 ---
 
-🔒 **Goal 2 — Backend Development**
+🔓 **Goal 2 — Backend Development**
 
-Learning how to build scalable backend systems, APIs, and server-side applications.
+Learning how to build scalable backend systems, APIs, and server-side applications using:
+
+* Node.js
+* Express.js
+* REST APIs
+* Packages & npm
+* Server deployment
+* Authentication
+* Databases
 
 ---
 
@@ -76,11 +86,11 @@ Learning how to build **AI agents and autonomous systems** capable of complex re
 
 🔒 **Goal 5 — Data Structures & Algorithms**
 
-Strengthening **problem-solving skills** through DSA and preparing for high-level technical interviews.
+Strengthening problem-solving skills through DSA and preparing for high-level technical interviews.
 
 ---
 
-✨ **More goals will be added and unlocked as I progress through the cohort.**
+✨ More goals will be added and unlocked as I progress through the cohort.
 
 ---
 
@@ -89,29 +99,35 @@ Strengthening **problem-solving skills** through DSA and preparing for high-leve
 I am continuously updating this repository as I move forward in the cohort and learn new concepts.
 
 ---
-✅ Cohort Checklist
 
-Learn HTML fundamentals ✅
+## ✅ Cohort Checklist
 
-Learn CSS fundamentals ✅
+### Frontend
+- Learn HTML fundamentals ✅
+- Learn CSS fundamentals ✅
+- Learn SCSS ✅
+- Learn Tailwind CSS ✅
+- Learn JavaScript basics ✅
+- Master advanced JavaScript ✅
+- Build multiple React projects ✅
 
-Learn SCSS ✅
+### Backend
+- Run JavaScript outside the browser ✅
+- Understand packages and npm ✅
+- Install and use npm packages ✅
+- Understand servers and backend fundamentals ✅
+- Create server using Express.js ✅
+- Program server responses ✅
+- Deploy backend server ✅
 
-Learn Tailwind CSS ✅
+### Upcoming
+- Learn databases
+- Learn authentication
+- Learn Generative AI concepts
+- Learn Agentic AI
+- Strengthen DSA for interviews
 
-Learn JavaScript basics ✅ 
-
-Master advanced JavaScript
-
-Build multiple React projects
-
-Learn backend development
-
-Learn Generative AI concepts
-
-Learn Agentic AI
-
-Strengthen DSA for interviews
+---
 
 ## 👨‍💻 Author
 
