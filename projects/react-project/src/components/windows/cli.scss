@@ -1,0 +1,87 @@
+.cli-window {
+  height: 100%;
+  width: 100%;
+  padding-bottom: 3rem;
+
+  background-color: #0d0d0d;
+  color: #f5f5f5;
+
+  font-family: "Fira Code", monospace;
+
+  border-radius: 0 0 0.75rem 0.75rem;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  .react-terminal-wrapper {
+    height: 100%;
+    width: 100%;
+
+    background-color: transparent !important;
+    border: none !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    padding: 1rem;
+  }
+
+  .react-terminal {
+    height: 100%;
+    width: 100%;
+
+    background-color: transparent !important;
+    color: #f5f5f5;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  /* REMOVE INNER HEADER + DOTS */
+
+  .react-terminal__header,
+  .react-terminal-header,
+  .react-terminal-wrapper header,
+  .react-terminal-wrapper > div:first-child {
+    display: none !important;
+  }
+
+  .react-terminal-line {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  input {
+    background: transparent !important;
+
+    color: #00ff88 !important;
+
+    border: none !important;
+    outline: none !important;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .react-terminal-hidden-input {
+    display: none !important;
+  }
+
+  [aria-label="Terminal Hidden Input"] {
+    display: none !important;
+  }
+
+  /* HIDE SCROLLBAR BUT KEEP SCROLLING */
+
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
