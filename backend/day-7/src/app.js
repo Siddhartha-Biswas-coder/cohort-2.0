@@ -9,17 +9,29 @@ app.use(express.json());
  * - req.body => {title,description}
  */
 app.post("/notes", async (req, res) => {
-  const { title, description, age } = req.body;
+  const { title, description} = req.body;
 
   const note = await noteModel.create({
     title,
     description,
-    age,
   });
 
   res.status(201).json({
     message: "Note created successfully",
     note,
+  });
+});
+
+/**
+ * - GET /notes
+ * - fetch all the notes data
+ */
+app.get("/notes", async (req, res) => {
+  const notes = await noteModel.find();
+
+  res.status(200).json({
+    message: "Notes fetched successfully",
+    notes,
   });
 });
 
