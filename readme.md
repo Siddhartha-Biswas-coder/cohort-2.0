@@ -7,7 +7,7 @@ Here I track my daily learning, assignments, challenges, and projects while buil
 
 ## 📚 What this repository contains
 
-* 📝 **backend** – Backend concepts, Node.js practice, Express servers, REST APIs, MongoDB, and deployment exercises
+* 📝 **backend** – Backend concepts, Node.js practice, Express servers, REST APIs, MongoDB, Mongoose, and deployment exercises
 * ⚡ **frontend** – Frontend exercises, UI practice, React projects, and responsive design concepts
 * 🧩 **Projects** – Mini projects built while learning new technologies and concepts
 
@@ -43,12 +43,16 @@ cohort-2.0
 * Express.js
 * REST APIs
 * MongoDB
+* Mongoose
+* CRUD Operations
 
 ### Tools & Platforms
 
 * Git
 * GitHub
 * npm
+* Nodemon
+* Dotenv
 * MongoDB Compass
 * VS Code
 * Render
@@ -86,6 +90,8 @@ Learning how to build scalable backend systems, APIs, and server-side applicatio
 * REST APIs
 * npm packages
 * MongoDB
+* Mongoose
+* CRUD Operations
 * Server deployment
 * Authentication
 * Database integration
@@ -149,6 +155,9 @@ I continuously update this repository as I move forward in the cohort and learn 
 - Learn MongoDB fundamentals ✅
 - Learn MongoDB Compass ✅
 - Understand REST APIs ✅
+- Learn Mongoose fundamentals ✅
+- Perform CRUD operations with MongoDB ✅
+- Connect MongoDB Atlas with Express.js ✅
 
 ---
 
@@ -175,7 +184,10 @@ I continuously update this repository as I move forward in the cohort and learn 
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST%20API-02569B?style=for-the-badge&logo=fastapi&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![MongoDB Compass](https://img.shields.io/badge/MongoDB%20Compass-10AA50?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
+![Nodemon](https://img.shields.io/badge/Nodemon-76D04B?style=for-the-badge&logo=nodemon&logoColor=white)
+![Dotenv](https://img.shields.io/badge/Dotenv-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black)
 ![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
@@ -190,6 +202,7 @@ I continuously update this repository as I move forward in the cohort and learn 
 ### 🌐 Socials
 
 - GitHub: https://github.com/Siddhartha-Biswas-coder
+- LinkedIn: https://www.linkedin.com/in/siddhartha-biswas-616042395/
 
 ---
 
