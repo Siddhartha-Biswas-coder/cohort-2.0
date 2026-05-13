@@ -83,7 +83,7 @@ Building strong frontend development skills through:
 
 ## 🔓 Goal 2 — Backend Development
 
-Learning how to build scalable backend systems, APIs, and server-side applications using:
+Learning how to build scalable backend systems, APIs, and full-stack applications using:
 
 * Node.js
 * Express.js
@@ -92,9 +92,12 @@ Learning how to build scalable backend systems, APIs, and server-side applicatio
 * MongoDB
 * Mongoose
 * CRUD Operations
-* Server deployment
-* Authentication
-* Database integration
+* Frontend & Backend Integration
+* Authentication & Authorization
+* JWT Basics
+* Database Integration
+* Backend Deployment
+* Full-Stack Deployment
 
 ---
 
@@ -145,6 +148,8 @@ I continuously update this repository as I move forward in the cohort and learn 
 
 ## Backend
 
+## Backend
+
 - Run JavaScript outside the browser ✅
 - Understand packages and npm ✅
 - Install and use npm packages ✅
@@ -158,14 +163,19 @@ I continuously update this repository as I move forward in the cohort and learn 
 - Learn Mongoose fundamentals ✅
 - Perform CRUD operations with MongoDB ✅
 - Connect MongoDB Atlas with Express.js ✅
+- Integrate frontend and backend ✅
+- Deploy full-stack applications ✅
+- Learn authentication fundamentals ✅
+- Learn JWT basics ✅
 
 ---
 
 ## Upcoming
 
-- Learn database relationships
-- Learn authentication & authorization
-- Build full-stack applications
+- Learn advanced JWT authentication
+- Learn refresh tokens & cookies
+- Learn role-based authorization
+- Build advanced full-stack applications
 - Learn Generative AI concepts
 - Learn Agentic AI
 - Strengthen DSA for interviews
