@@ -28,6 +28,14 @@ html {
     sans-serif;
 }
 
+.note-create-form {
+  display: flex;
+  gap: 1rem;
+  padding-inline: 3rem;
+  padding-block: 1rem;
+  
+}
+
 .notes {
   display: flex;
   gap: 1rem;
