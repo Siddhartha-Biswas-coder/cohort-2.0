@@ -15107,7 +15107,7 @@ var Un = o((e) => {
         [c, l] = (0, v.useState)(``),
         [u, d] = (0, v.useState)(``);
       function f() {
-        F.get(`http://localhost:3000/api/notes`)
+        F.get(`https://cohort-2-0-8hp8.onrender.com/api/notes`)
           .then((e) => {
             t(e.data.notes);
           })
@@ -15116,7 +15116,10 @@ var Un = o((e) => {
           });
       }
       function p(e, t) {
-        F.post(`http://localhost:3000/api/notes`, { title: e, description: t })
+        F.post(`https://cohort-2-0-8hp8.onrender.com/api/notes`, {
+          title: e,
+          description: t,
+        })
           .then((e) => {
             (console.log(e.data), f());
           })
@@ -15125,7 +15128,7 @@ var Un = o((e) => {
           });
       }
       function m(e) {
-        F.delete(`http://localhost:3000/api/notes/` + e)
+        F.delete(`https://cohort-2-0-8hp8.onrender.com/api/notes/` + e)
           .then((e) => {
             (console.log(e.data), f());
           })
@@ -15137,7 +15140,7 @@ var Un = o((e) => {
         let r = {};
         (t && (r.title = t),
           n && (r.description = n),
-          F.patch(`http://localhost:3000/api/notes/` + e, r)
+          F.patch(`https://cohort-2-0-8hp8.onrender.com/api/notes/` + e, r)
             .then((e) => {
               (console.log(e.data), f());
             })
