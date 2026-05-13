@@ -6,7 +6,7 @@ const path = require("path");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static("./public"))
+app.use(express.static("./public"));
 
 /**
  * - POST /api/notes
@@ -65,9 +65,9 @@ app.delete("/api/notes/:id", async (req, res) => {
 
 app.patch("/api/notes/:id", async (req, res) => {
   const id = req.params.id;
-  const { description } = req.body;
+  const { title, description } = req.body;
 
-  await noteModel.findByIdAndUpdate(id, { description });
+  await noteModel.findByIdAndUpdate(id, { title, description });
 
   res.status(200).json({
     message: "note updated successfully",

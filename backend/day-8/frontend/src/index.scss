@@ -28,12 +28,12 @@ html {
     sans-serif;
 }
 
-.note-create-form {
+.note-create-form,
+.note-update-form {
   display: flex;
   gap: 1rem;
   padding-inline: 3rem;
   padding-block: 1rem;
-  
 }
 
 .notes {

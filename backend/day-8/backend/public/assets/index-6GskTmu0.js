@@ -15102,8 +15102,11 @@ var Un = o((e) => {
     children: (0, Wn.jsx)(() => {
       let [e, t] = (0, v.useState)([]),
         [n, r] = (0, v.useState)(``),
-        [i, a] = (0, v.useState)(``);
-      function o() {
+        [i, a] = (0, v.useState)(``),
+        [o, s] = (0, v.useState)(``),
+        [c, l] = (0, v.useState)(``),
+        [u, d] = (0, v.useState)(``);
+      function f() {
         F.get(`http://localhost:3000/api/notes`)
           .then((e) => {
             t(e.data.notes);
@@ -15112,36 +15115,58 @@ var Un = o((e) => {
             console.log(`Error: `, e);
           });
       }
-      function s(e, t) {
+      function p(e, t) {
         F.post(`http://localhost:3000/api/notes`, { title: e, description: t })
           .then((e) => {
-            (console.log(e.data), o());
+            (console.log(e.data), f());
           })
           .catch((e) => {
             console.log(`Error: `, e);
           });
       }
-      function c(e) {
+      function m(e) {
         F.delete(`http://localhost:3000/api/notes/` + e)
           .then((e) => {
-            (console.log(e.data), o());
+            (console.log(e.data), f());
           })
           .catch((e) => {
             console.log(`Error: `, e);
           });
       }
-      function l(e) {
-        (e.preventDefault(), s(n, i), r(``), a(``));
+      function h(e, t, n) {
+        let r = {};
+        (t && (r.title = t),
+          n && (r.description = n),
+          F.patch(`http://localhost:3000/api/notes/` + e, r)
+            .then((e) => {
+              (console.log(e.data), f());
+            })
+            .catch((e) => {
+              console.log(`Error: `, e);
+            }),
+          console.log(e, t, n));
+      }
+      function g(t) {
+        t.preventDefault();
+        let n = e[Number(o) - 1];
+        if (!n) {
+          alert(`Invalid Note Number`);
+          return;
+        }
+        (h(n._id, c, u), s(``), l(``), d(``));
+      }
+      function _(e) {
+        (e.preventDefault(), p(n, i), r(``), a(``));
       }
       return (
         (0, v.useEffect)(() => {
-          o();
+          f();
         }, []),
         (0, Wn.jsxs)(Wn.Fragment, {
           children: [
             (0, Wn.jsxs)(`form`, {
               className: `note-create-form`,
-              onSubmit: l,
+              onSubmit: _,
               children: [
                 (0, Wn.jsx)(`input`, {
                   name: `title`,
@@ -15164,6 +15189,40 @@ var Un = o((e) => {
                 (0, Wn.jsx)(`button`, { children: `Create Note` }),
               ],
             }),
+            (0, Wn.jsxs)(`form`, {
+              className: `note-update-form`,
+              onSubmit: g,
+              children: [
+                (0, Wn.jsx)(`input`, {
+                  name: `Note`,
+                  type: `text`,
+                  placeholder: `Note No.`,
+                  value: o,
+                  onChange: (e) => {
+                    s(e.target.value);
+                  },
+                }),
+                (0, Wn.jsx)(`input`, {
+                  name: `updateTitle`,
+                  type: `text`,
+                  placeholder: `Update title`,
+                  value: c,
+                  onChange: (e) => {
+                    l(e.target.value);
+                  },
+                }),
+                (0, Wn.jsx)(`input`, {
+                  name: `updateDescription`,
+                  type: `text`,
+                  placeholder: `Update description`,
+                  value: u,
+                  onChange: (e) => {
+                    d(e.target.value);
+                  },
+                }),
+                (0, Wn.jsx)(`button`, { children: `Update Note` }),
+              ],
+            }),
             (0, Wn.jsx)(`div`, {
               className: `notes`,
               children: e.map((e, t) =>
@@ -15176,7 +15235,7 @@ var Un = o((e) => {
                       (0, Wn.jsx)(`p`, { children: e.description }),
                       (0, Wn.jsx)(`button`, {
                         onClick: () => {
-                          c(e._id);
+                          m(e._id);
                         },
                         children: `Delete`,
                       }),

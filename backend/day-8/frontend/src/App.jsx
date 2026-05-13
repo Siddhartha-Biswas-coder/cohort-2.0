@@ -5,6 +5,9 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [noteNo, setNoteNo] = useState("");
+  const [updateTitle, setUpdateTitle] = useState("");
+  const [updateDescription, setUpdateDescription] = useState("");
 
   function fetchNotes() {
     axios
@@ -45,6 +48,46 @@ const App = () => {
       });
   }
 
+  function updateNote(noteID, updateTitle, updateDescription) {
+    const data = {};
+
+    if (updateTitle) {
+      data.title = updateTitle;
+    }
+
+    if (updateDescription) {
+      data.description = updateDescription;
+    }
+
+    axios
+      .patch("http://localhost:3000/api/notes/" + noteID, data)
+      .then((res) => {
+        console.log(res.data);
+        fetchNotes();
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+    console.log(noteID, updateTitle, updateDescription);
+  }
+
+  function handleUpdateNote(e) {
+    e.preventDefault();
+
+    const selectedNote = notes[Number(noteNo) - 1];
+
+    if (!selectedNote) {
+      alert("Invalid Note Number");
+      return;
+    }
+
+    updateNote(selectedNote._id, updateTitle, updateDescription);
+
+    setNoteNo("");
+    setUpdateTitle("");
+    setUpdateDescription("");
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     createNotes(title, description);
@@ -79,6 +122,37 @@ const App = () => {
           }}
         />
         <button>Create Note</button>
+      </form>
+
+      <form className="note-update-form" onSubmit={handleUpdateNote}>
+        <input
+          name="Note"
+          type="text"
+          placeholder="Note No."
+          value={noteNo}
+          onChange={(e) => {
+            setNoteNo(e.target.value);
+          }}
+        />
+        <input
+          name="updateTitle"
+          type="text"
+          placeholder="Update title"
+          value={updateTitle}
+          onChange={(e) => {
+            setUpdateTitle(e.target.value);
+          }}
+        />
+        <input
+          name="updateDescription"
+          type="text"
+          placeholder="Update description"
+          value={updateDescription}
+          onChange={(e) => {
+            setUpdateDescription(e.target.value);
+          }}
+        />
+        <button>Update Note</button>
       </form>
 
       <div className="notes">
