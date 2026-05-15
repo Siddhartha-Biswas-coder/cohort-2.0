@@ -1,4 +1,4 @@
-# 🚀 macOS Portfolio Clone
+# 🍎 macOS Interactive Desktop Portfolio Clone
 
 A sleek and interactive **macOS-inspired portfolio website** built with **React, Vite, and SCSS** — designed to feel like a real desktop experience.
 
@@ -6,9 +6,17 @@ This project features draggable windows, a fully interactive terminal, Spotify i
 
 ---
 
+# 🚀 Live Demo
+
+🔗 Deployed Link: https://your-deployment-link.com
+
+---
+
 # ✨ Features
 
-- 🖥️ macOS Desktop Inspired UI
+- 🍎 macOS Desktop Inspired UI
+- 🚀 Smooth dock animations
+- 📂 App icons with hover effects
 - 🪟 Draggable & Resizable Windows
 - 💻 Interactive Terminal CLI
 - 🎵 Spotify Integration
@@ -19,18 +27,24 @@ This project features draggable windows, a fully interactive terminal, Spotify i
 - ⚡ Fast Performance with Vite
 
 ---
+# 🛠 Tech Stack
 
-# 🛠️ Tech Stack
+### Frontend
 
-| Technology | Usage |
-|---|---|
-| React.js | Frontend Framework |
-| Vite | Build Tool |
-| SCSS | Styling |
-| react-rnd | Draggable & Resizable Windows |
-| react-terminal-ui | Interactive CLI |
+- React.js - Frontend Framework
+- SCSS - Styling
+- JavaScript
+- Vite - Build Tool
+
+### Libraries & Tools
+
+- react-rnd - Draggable & Resizable Windows
+- React Icons - Interactive CLI
+- react-terminal-ui
+- Git & GitHub
 
 ---
+
 
 # 📁 Project Structure
 
