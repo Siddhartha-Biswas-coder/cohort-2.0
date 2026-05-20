@@ -1,0 +1,20 @@
+=> UI
+    => showing UI or navigate the page
+    => no logic part
+
+=> Hook
+    => manages the state and api layers
+
+
+
+=> State
+    => managemet of State
+        => loading
+        => user 
+        => post list
+        => error
+
+
+=> Api
+    => communicating with backend
+    
