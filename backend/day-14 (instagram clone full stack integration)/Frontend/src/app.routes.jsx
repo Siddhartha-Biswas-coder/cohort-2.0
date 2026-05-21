@@ -5,7 +5,7 @@ import Register from "./features/auth/pages/Register";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <h1>This is Home page</h1>,
+    element: <h1>Welcome to 4 layer architecture of React</h1>,
   },
   {
     path: "/login",
