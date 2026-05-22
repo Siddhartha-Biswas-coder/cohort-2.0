@@ -29,4 +29,8 @@ const userRouter = require("./routes/user.routes.js");
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
+
+app.get("/", (req, res) => {
+  res.send("InstaClone Backend API is running successfully");
+});
 module.exports = app;
