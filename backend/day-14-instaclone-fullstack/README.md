@@ -8,6 +8,20 @@ The application includes authentication, post creation, cloud image uploads, fee
 
 ---
 
+# 🌐 Live Deployment
+
+## 🚀 Frontend Deployment
+
+https://siddhartha-instaclone.vercel.app
+
+---
+
+## ⚙️ Backend API Deployment
+
+https://siddhartha-instaclone-api.onrender.com
+
+---
+
 # 🚀 Project Vision
 
 The goal of this project is to build a scalable production-inspired social media platform while learning and implementing:
@@ -23,6 +37,7 @@ The goal of this project is to build a scalable production-inspired social media
 - Secure Backend Development
 - Scalable Folder Structuring
 - Real-world Full Stack Workflows
+- Production Deployment Workflows
 
 ---
 
@@ -86,6 +101,8 @@ The goal of this project is to build a scalable production-inspired social media
 - Authentication Flow
 - Global State Handling
 - Route Navigation
+- Protected Frontend Routing
+- Production Deployment on Vercel
 
 ---
 
@@ -108,6 +125,8 @@ The goal of this project is to build a scalable production-inspired social media
 - Reusable Component Design
 - API Layer Structuring
 - FormData Handling
+- SPA Deployment Handling
+- React Router Production Routing
 
 ---
 
@@ -129,6 +148,8 @@ The goal of this project is to build a scalable production-inspired social media
 - Database Indexing
 - Async Backend Operations
 - Secure API Development
+- Production Backend Deployment
+- CORS Configuration
 
 ---
 
@@ -141,6 +162,7 @@ The goal of this project is to build a scalable production-inspired social media
 - React Router
 - Axios
 - SCSS / SASS
+- Vercel
 
 ---
 
@@ -155,6 +177,7 @@ The goal of this project is to build a scalable production-inspired social media
 - cookie-parser
 - multer
 - ImageKit
+- Render
 
 ---
 
@@ -208,11 +231,70 @@ InstaClone/
 │   │   ├── app.routes.jsx
 │   │   └── main.jsx
 │   │
+│   ├── vercel.json
 │   ├── package.json
 │   └── vite.config.js
 │
 └── README.md
 ```
+
+---
+
+# 🚀 Deployment Workflow
+
+# ⚙️ Backend Deployment (Render)
+
+Backend deployed on **Render** with:
+
+- Environment Variables
+- MongoDB Atlas Integration
+- ImageKit Configuration
+- JWT Secret Configuration
+- Cookie-based Authentication
+- Production CORS Setup
+
+---
+
+# 🎨 Frontend Deployment (Vercel)
+
+Frontend deployed on **Vercel** with:
+
+- React Router Rewrite Configuration
+- Production API Integration
+- Cookie-based Authentication Support
+- Axios `withCredentials`
+- SPA Routing Support
+
+---
+
+# 🔐 Production Authentication Flow
+
+```text
+Frontend Login/Register
+            ↓
+Backend Generates JWT
+            ↓
+JWT Stored in Secure Cookie
+            ↓
+Browser Automatically Sends Cookie
+            ↓
+Protected Backend Middleware Verifies JWT
+            ↓
+Authenticated Access Granted
+```
+
+---
+
+# 🌐 Production Challenges Solved
+
+- Cross-Origin Cookie Authentication
+- Production CORS Errors
+- React Router 404 Refresh Issues
+- Vercel SPA Routing
+- Secure Cookie Configuration
+- Frontend ↔ Backend Communication
+- Production Environment Variables
+- Cloud Media Upload Handling
 
 ---
 
@@ -315,31 +397,13 @@ Backend Validates User
         ↓
 JWT Token Generated
         ↓
-Token Stored in Cookie
+Token Stored in Secure Cookie
         ↓
 Frontend Automatically Sends Cookie
         ↓
 Protected Middleware Verifies JWT
         ↓
 Authenticated User Access Granted
-```
-
----
-
-# 📰 Feed Rendering Flow
-
-```text
-Feed Component Loads
-          ↓
-useEffect triggers feed fetching
-          ↓
-Hook Layer calls API Layer
-          ↓
-Backend returns posts
-          ↓
-Feed stored in Context API
-          ↓
-Posts rendered dynamically using reusable Post component
 ```
 
 ---
@@ -382,36 +446,6 @@ UI updates dynamically
 
 ---
 
-# 🔌 API Features
-
-# Authentication APIs
-
-- Register User
-- Login User
-- Get Current User
-
----
-
-# User APIs
-
-- Follow User
-- Unfollow User
-- Accept Follow Request
-- Reject Follow Request
-
----
-
-# Post APIs
-
-- Create Post
-- Like Post
-- Unlike Post
-- Get Feed Posts
-- Get User Posts
-- Get Post Details
-
----
-
 # 🛡️ Security Features
 
 - Password Hashing using `bcryptjs`
@@ -422,6 +456,7 @@ UI updates dynamically
 - Duplicate Request Prevention
 - MongoDB Indexing
 - Protected API Access
+- Secure Production Cookies
 
 ---
 
@@ -439,69 +474,6 @@ This enables:
 - Optimized Image Delivery
 - Scalable Image Handling
 - Better Frontend Performance
-
----
-
-# ⚙️ Installation & Setup
-
-# 1️⃣ Clone Repository
-
-```bash
-git clone <your-repository-url>
-```
-
----
-
-# 2️⃣ Setup Backend
-
-```bash
-cd Backend
-npm install
-```
-
-Create `.env` file:
-
-```env
-PORT=3000
-
-MONGO_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-IMAGEKIT_PUBLIC_KEY=your_public_key
-
-IMAGEKIT_PRIVATE_KEY=your_private_key
-
-IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
-```
-
-Start backend server:
-
-```bash
-npm run dev
-```
-
-Backend runs on:
-
-```bash
-http://localhost:3000
-```
-
----
-
-# 3️⃣ Setup Frontend
-
-```bash
-cd Frontend
-npm install
-npm run dev
-```
-
-Frontend runs on:
-
-```bash
-http://localhost:5173
-```
 
 ---
 
@@ -525,6 +497,9 @@ http://localhost:5173
 - Frontend & Backend Integration
 - Reusable Components
 - API Layer Structuring
+- Production Deployment
+- Secure Cookie Authentication
+- React Router Production Routing
 
 ---
 
@@ -538,7 +513,6 @@ As I continue improving as a developer, I plan to expand this project further by
 
 # 🚀 Areas I Plan to Explore & Improve
 
-- Protected Frontend Routes
 - Comment System
 - Saved Posts
 - Stories Feature
@@ -558,6 +532,8 @@ As I continue improving as a developer, I plan to expand this project further by
 - Frontend Testing
 - Accessibility Improvements
 - TypeScript Integration
+- Docker & Containerization
+- CI/CD Pipelines
 
 ---
 
@@ -576,6 +552,8 @@ This project helped in understanding:
 - Cloud Media Uploads
 - Image Optimization
 - Full Stack Integration
+- Production Deployment
+- Cross-Origin Authentication
 - Real-world Development Practices
 
 ---
