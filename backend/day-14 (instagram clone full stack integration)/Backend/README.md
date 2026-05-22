@@ -20,6 +20,7 @@ The project follows a clean and scalable backend architecture inspired by real-w
 - Persistent Login Sessions
 - Secure Password Hashing using `bcryptjs`
 - Auth Middleware Verification
+- Fetch Logged-in User (`get-me`)
 
 ---
 
@@ -31,6 +32,7 @@ The project follows a clean and scalable backend architecture inspired by real-w
 - Reject Follow Requests
 - Prevent Self Follow
 - Duplicate Follow Protection
+- Follow Request Status Management
 
 ---
 
@@ -44,8 +46,10 @@ The project follows a clean and scalable backend architecture inspired by real-w
 - Fetch Feed Posts
 - Get Detailed Post Information
 - Like Posts
+- Unlike Posts
 - Prevent Duplicate Likes
 - Feed Like Status Detection (`isLiked`)
+- Feed Sorted by Latest Posts
 
 ---
 
@@ -62,6 +66,7 @@ The project follows a clean and scalable backend architecture inspired by real-w
 - Environment Variable Management
 - RESTful API Design
 - Error Response Handling
+- Async/Await Workflow Handling
 
 ---
 
@@ -134,6 +139,9 @@ Backend/
 │
 ├── src/
 │   │
+│   ├── config/
+│   │   └── database.js
+│   │
 │   ├── controllers/
 │   │   ├── auth.controller.js
 │   │   ├── post.controller.js
@@ -152,9 +160,6 @@ Backend/
 │   │   ├── auth.routes.js
 │   │   ├── post.routes.js
 │   │   └── user.routes.js
-│   │
-│   ├── config/
-│   │   └── database.js
 │   │
 │   └── app.js
 │
@@ -195,7 +200,15 @@ git clone <your-repository-url>
 
 ---
 
-## 2️⃣ Install Dependencies
+## 2️⃣ Navigate into Project
+
+```bash
+cd backend
+```
+
+---
+
+## 3️⃣ Install Dependencies
 
 ```bash
 npm install
@@ -203,7 +216,7 @@ npm install
 
 ---
 
-## 3️⃣ Run Development Server
+## 4️⃣ Start Development Server
 
 ```bash
 npm run dev
@@ -237,7 +250,8 @@ http://localhost:3000
 | GET | `/api/posts` | Get Logged-in User Posts |
 | GET | `/api/posts/feed` | Get Feed Posts |
 | GET | `/api/posts/details/:postId` | Get Detailed Post |
-| POST | `/api/posts/likes/:postId` | Like a Post |
+| POST | `/api/posts/like/:postId` | Like a Post |
+| POST | `/api/posts/unlike/:postId` | Unlike a Post |
 
 ---
 
@@ -279,11 +293,27 @@ Multer Processes File
         ↓
 Image Uploaded to ImageKit
         ↓
-Image Optimized using CDN Transformations
+CDN Optimization Applied
         ↓
 Optimized Image URL Stored in MongoDB
         ↓
 Frontend Renders Optimized Image
+```
+
+---
+
+# ❤️ Like System Flow
+
+```text
+User Clicks Like
+        ↓
+Protected Route Verifies User
+        ↓
+Like Stored in MongoDB
+        ↓
+Duplicate Like Prevented
+        ↓
+Feed Returns isLiked Status
 ```
 
 ---
@@ -316,26 +346,57 @@ Implemented MongoDB indexes to prevent:
 ✔ MongoDB Relationships  
 ✔ Database Indexing  
 ✔ Feed System  
-✔ Like System  
+✔ Like & Unlike System  
 ✔ Follow Request System  
 ✔ RESTful API Design  
+✔ Async/Await Backend Workflow  
 
 ---
 
-# 🔮 Future Improvements
+# 🚀 Continuous Learning & Future Growth
+
+This project represents my current understanding of full-stack development and scalable backend architecture.
+
+As I continue learning and improving, I plan to further enhance this backend by implementing more advanced real-world features and backend engineering concepts.
+
+---
+
+# 🌱 Areas I Plan to Explore & Improve
 
 - Comments System
-- Saved Posts
+- Saved Posts Feature
 - Realtime Notifications
-- Stories Feature
-- Chat System
+- Stories System
+- Chat & Messaging Features
 - User Profile Editing
-- Feed Pagination
-- Search Functionality
-- Refresh Tokens
-- API Rate Limiting
+- Feed Pagination & Infinite Scroll APIs
+- Search & Recommendation Systems
+- Refresh Token Authentication
+- API Rate Limiting & Security Enhancements
 - Swagger API Documentation
-- Socket.IO Realtime Features
+- Socket.IO Realtime Communication
+- Scalable Production Deployment
+- Advanced Database Optimization
+- Redis Caching
+- Role-Based Authorization
+- Microservices Architecture
+- CI/CD Pipelines
+- Advanced Backend Testing
+
+---
+
+# 🎯 Learning Mindset
+
+I believe in continuously improving by:
+
+- Building real-world projects
+- Learning scalable software architecture
+- Practicing clean code principles
+- Exploring production-level backend systems
+- Strengthening frontend & backend integration
+- Improving problem-solving and system design skills
+
+This project is one important step in my full-stack development journey, and I will continue expanding it as I grow as a developer.
 
 ---
 

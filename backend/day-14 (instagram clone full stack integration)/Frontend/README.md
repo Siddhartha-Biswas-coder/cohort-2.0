@@ -2,9 +2,9 @@
 
 A modern and scalable frontend for an **Instagram-inspired social media platform** built using **React.js**, **React Router**, **Axios**, and **SCSS**.
 
-This frontend follows a clean **4-Layer Frontend Architecture** to maintain proper separation of concerns between UI, logic, state management, and API communication.
+This frontend follows a clean **4-Layer Frontend Architecture** to maintain proper separation of concerns between UI, business logic, global state management, and API communication.
 
-The project includes authentication flow, global state management, feed rendering, reusable components, API integration, dynamic post rendering, and scalable frontend structuring inspired by real-world frontend engineering practices.
+The project includes authentication flow, feed rendering, post creation, like/unlike functionality, reusable components, API integration, and scalable frontend structuring inspired by real-world frontend engineering practices.
 
 ---
 
@@ -26,13 +26,36 @@ The project includes authentication flow, global state management, feed renderin
 # 📰 Feed System
 
 - Fetch Feed Posts from Backend
-- Render Dynamic Post Feed
+- Dynamic Feed Rendering
 - Show User Information
 - Show Profile Images
-- Render Optimized Images from ImageKit
-- Dynamic Like UI State
+- Render Optimized ImageKit Images
+- Dynamic Like / Unlike UI State
 - Feed Loading State
 - Reusable Post Component Architecture
+- Latest Posts Render First
+
+---
+
+# 📸 Post Creation System
+
+- Create Posts with Images
+- Upload Image using FormData
+- Caption Support
+- Create Post UI
+- Automatic Feed Updates
+- Image Preview Workflow
+- Backend Image Upload Integration
+
+---
+
+# ❤️ Like System
+
+- Like Posts
+- Unlike Posts
+- Dynamic Heart Icon State
+- Real-time Feed Refresh after Like/Unlike
+- Like State Synchronization with Backend
 
 ---
 
@@ -61,6 +84,7 @@ The project includes authentication flow, global state management, feed renderin
 - Feed Card Design
 - Interactive Icon Buttons
 - Smooth Transitions & Animations
+- Gradient Profile Ring UI
 
 ---
 
@@ -85,6 +109,7 @@ This project demonstrates hands-on implementation of:
 - Reusable Component Design
 - Backend Integration
 - API Layer Structuring
+- FormData Handling
 - Scalable Frontend Practices
 
 ---
@@ -123,10 +148,11 @@ This project demonstrates hands-on implementation of:
 
 ---
 
-# Media & Icons
+# Media & Assets
 
 - ImageKit CDN Images
 - SVG Icons
+- FormData Uploads
 
 ---
 
@@ -165,19 +191,27 @@ Frontend/
 │   │   │   │   └── usePost.js
 │   │   │   │
 │   │   │   ├── pages/
-│   │   │   │   └── Feed.jsx
+│   │   │   │   ├── Feed.jsx
+│   │   │   │   └── CreatePost.jsx
 │   │   │   │
 │   │   │   ├── services/
 │   │   │   │   └── post.api.js
 │   │   │   │
 │   │   │   ├── styles/
-│   │   │   │   └── feed.scss
+│   │   │   │   ├── feed.scss
+│   │   │   │   └── createPost.scss
 │   │   │   │
 │   │   │   └── post.context.jsx
 │   │   │
 │   │   └── shared/
-│   │       ├── button.scss
-│   │       └── global.scss
+│   │       │
+│   │       ├── components/
+│   │       │   └── Nav.jsx
+│   │       │
+│   │       ├── styles/
+│   │       │   ├── button.scss
+│   │       │   ├── global.scss
+│   │       │   └── nav.scss
 │   │
 │   ├── App.jsx
 │   ├── app.routes.jsx
@@ -198,7 +232,7 @@ This project follows a scalable frontend architecture pattern.
 
 # 🎨 UI Layer
 
-Responsible for rendering the UI and handling user interactions.
+Responsible for rendering UI and handling user interactions.
 
 ## Responsibilities
 
@@ -215,6 +249,7 @@ Responsible for rendering the UI and handling user interactions.
 Login.jsx
 Register.jsx
 Feed.jsx
+CreatePost.jsx
 Post.jsx
 ```
 
@@ -228,6 +263,8 @@ Responsible for frontend business logic and async operations.
 
 - Handle Authentication Logic
 - Handle Feed Fetching
+- Handle Post Creation
+- Handle Like/Unlike Logic
 - Connect API Layer with State Layer
 - Manage Async Logic
 
@@ -277,6 +314,7 @@ Responsible for backend communication.
 - Handle Backend Communication
 - Manage API Calls
 - Handle Authentication Cookies
+- Upload Multipart FormData
 
 ## Example
 
@@ -325,6 +363,40 @@ Posts dynamically rendered using reusable Post component
 
 ---
 
+# 📸 Post Creation Flow
+
+```text
+User selects image + caption
+            ↓
+FormData created in frontend
+            ↓
+API Layer sends multipart/form-data request
+            ↓
+Backend uploads image to ImageKit
+            ↓
+Optimized image URL returned
+            ↓
+Feed updates dynamically
+```
+
+---
+
+# ❤️ Like / Unlike Flow
+
+```text
+User clicks like button
+          ↓
+Frontend sends API request
+          ↓
+Backend updates database
+          ↓
+Feed refreshed with updated like state
+          ↓
+UI updates dynamically
+```
+
+---
+
 # ⚙️ Installation & Setup
 
 # 1️⃣ Clone Repository
@@ -335,7 +407,15 @@ git clone <your-repository-url>
 
 ---
 
-# 2️⃣ Install Dependencies
+# 2️⃣ Navigate into Frontend
+
+```bash
+cd frontend
+```
+
+---
+
+# 3️⃣ Install Dependencies
 
 ```bash
 npm install
@@ -343,7 +423,7 @@ npm install
 
 ---
 
-# 3️⃣ Start Development Server
+# 4️⃣ Start Development Server
 
 ```bash
 npm run dev
@@ -361,7 +441,9 @@ http://localhost:5173
 
 Frontend communicates with backend using Axios.
 
-## Authentication API
+---
+
+# 🔐 Authentication API
 
 ```js
 const api = axios.create({
@@ -372,7 +454,7 @@ const api = axios.create({
 
 ---
 
-## Feed API
+# 📸 Posts API
 
 ```js
 const api = axios.create({
@@ -441,6 +523,20 @@ Handles:
 
 ---
 
+# Create Post Styling
+
+```bash
+createPost.scss
+```
+
+Handles:
+
+- Create Post Form Styling
+- File Upload UI
+- Custom Upload Button Styling
+
+---
+
 # 🚀 Frontend Highlights
 
 ✔ 4 Layer Architecture  
@@ -455,26 +551,57 @@ Handles:
 ✔ SCSS Styling Architecture  
 ✔ Dynamic Post Rendering  
 ✔ Optimized Image Rendering  
+✔ Like & Unlike System  
+✔ Create Post Functionality  
+✔ FormData Image Uploads  
 ✔ Scalable Frontend Structure  
 ✔ Modern React Practices  
 
 ---
 
-# 🔮 Future Improvements
+# 🌱 Continuous Learning & Future Growth
+
+This project represents my current understanding of frontend development and full-stack integration.
+
+As I continue learning and improving, I plan to further enhance this frontend by exploring more advanced frontend engineering concepts and production-level features.
+
+---
+
+# 🚀 Areas I Plan to Explore & Improve
 
 - Protected Frontend Routes
-- Create Post UI
-- Like Functionality
-- Comment System
-- Saved Posts
 - User Profile Pages
+- Comment System UI
+- Saved Posts UI
 - Follow System UI
 - Infinite Scrolling Feed
 - Realtime Notifications
-- Responsive Mobile Design
 - Dark / Light Theme Toggle
 - Toast Notifications
 - Skeleton Loading UI
+- Mobile Responsive Optimization
+- Advanced State Management
+- Realtime Frontend Features
+- Frontend Performance Optimization
+- Advanced React Patterns
+- TypeScript Integration
+- Accessibility Improvements
+- Frontend Testing
+
+---
+
+# 🎯 Learning Mindset
+
+I believe in continuously improving by:
+
+- Building real-world applications
+- Learning scalable frontend architecture
+- Practicing clean UI structuring
+- Strengthening frontend & backend integration
+- Improving React development skills
+- Exploring production-level frontend engineering
+
+This project is one important step in my frontend and full-stack development journey, and I will continue improving it as I grow as a developer.
 
 ---
 

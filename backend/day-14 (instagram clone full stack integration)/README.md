@@ -4,7 +4,7 @@ A modern and scalable **full-stack Instagram-inspired social media application**
 
 This project focuses on implementing real-world **frontend architecture**, **backend architecture**, **authentication systems**, **REST APIs**, **state management**, **cloud media handling**, and **scalable project structuring** while following modern full-stack development practices.
 
-> ⚠️ This project is currently under active development and continuously evolving with new features and improvements.
+The application includes authentication, post creation, cloud image uploads, feed rendering, follow systems, like systems, reusable frontend architecture, protected APIs, and full frontend-backend integration.
 
 ---
 
@@ -26,7 +26,7 @@ The goal of this project is to build a scalable production-inspired social media
 
 ---
 
-# ✨ Current Features
+# ✨ Features
 
 # 🔐 Authentication System
 
@@ -38,6 +38,7 @@ The goal of this project is to build a scalable production-inspired social media
 - Protected Backend Routes
 - Authentication State Management
 - Secure Password Hashing using `bcryptjs`
+- Auth Middleware Verification
 
 ---
 
@@ -54,16 +55,18 @@ The goal of this project is to build a scalable production-inspired social media
 
 # 📸 Post Features
 
-- Create Posts
-- Upload Images
+- Create Posts with Images
+- Upload Images using Multer
 - Cloud Image Storage using ImageKit
 - Optimized CDN Image Delivery
-- Like Posts
-- Prevent Duplicate Likes
 - Fetch Feed Posts
 - Fetch Logged-in User Posts
 - Get Detailed Post Information
-- Feed Like Status Detection (`isLiked`)
+- Like Posts
+- Unlike Posts
+- Prevent Duplicate Likes
+- Dynamic Feed Like Status (`isLiked`)
+- Real-time Feed Refresh after Like/Unlike
 
 ---
 
@@ -75,11 +78,14 @@ The goal of this project is to build a scalable production-inspired social media
 - Axios API Layer
 - SCSS Styling Architecture
 - Feed Rendering System
+- Dynamic Post Rendering
+- Create Post UI
+- Like / Unlike UI
 - Reusable Components
 - Feature-Based Folder Structure
-- Dynamic Feed Rendering
 - Authentication Flow
 - Global State Handling
+- Route Navigation
 
 ---
 
@@ -101,6 +107,7 @@ The goal of this project is to build a scalable production-inspired social media
 - Async Frontend Operations
 - Reusable Component Design
 - API Layer Structuring
+- FormData Handling
 
 ---
 
@@ -232,6 +239,7 @@ Responsible for:
 Login.jsx
 Register.jsx
 Feed.jsx
+CreatePost.jsx
 Post.jsx
 ```
 
@@ -244,6 +252,8 @@ Responsible for:
 - Business Logic
 - Feed Fetching Logic
 - Authentication Logic
+- Post Creation Logic
+- Like / Unlike Logic
 - API Handling
 - Connecting UI & State Layers
 
@@ -283,6 +293,7 @@ Responsible for:
 - Axios Services
 - Sending HTTP Requests
 - Cookie-based Session Handling
+- Multipart FormData Uploads
 
 ### Example
 
@@ -333,6 +344,44 @@ Posts rendered dynamically using reusable Post component
 
 ---
 
+# 📸 Image Upload Flow
+
+```text
+User selects image + caption
+            ↓
+Frontend creates FormData
+            ↓
+API request sent to backend
+            ↓
+Multer processes uploaded image
+            ↓
+Image uploaded to ImageKit
+            ↓
+Optimized CDN image URL generated
+            ↓
+Post stored in MongoDB
+            ↓
+Frontend renders optimized image
+```
+
+---
+
+# ❤️ Like / Unlike Flow
+
+```text
+User clicks like button
+          ↓
+Frontend sends API request
+          ↓
+Backend updates database
+          ↓
+Feed refreshed automatically
+          ↓
+UI updates dynamically
+```
+
+---
+
 # 🔌 API Features
 
 # Authentication APIs
@@ -356,6 +405,7 @@ Posts rendered dynamically using reusable Post component
 
 - Create Post
 - Like Post
+- Unlike Post
 - Get Feed Posts
 - Get User Posts
 - Get Post Details
@@ -455,17 +505,17 @@ http://localhost:5173
 
 ---
 
-# 🚀 Current Development Status
+# ✅ Current Project Status
 
-# ✅ Completed
+# ✔ Completed Features
 
 - JWT Authentication System
 - Cookie-Based Authentication
 - Follow System
-- Like System
+- Like & Unlike System
 - Feed System
-- Feed Rendering
-- Post Creation APIs
+- Dynamic Feed Rendering
+- Post Creation System
 - Cloud Image Uploads
 - Image Optimization
 - Frontend Authentication Flow
@@ -473,22 +523,22 @@ http://localhost:5173
 - 4 Layer Frontend Architecture
 - Backend MVC Architecture
 - Frontend & Backend Integration
+- Reusable Components
+- API Layer Structuring
 
 ---
 
-# 🚧 In Progress
+# 🌱 Continuous Learning & Future Improvements
+
+This project represents my current understanding of full-stack development and scalable application architecture.
+
+As I continue improving as a developer, I plan to expand this project further by learning and implementing more advanced production-level features and engineering concepts.
+
+---
+
+# 🚀 Areas I Plan to Explore & Improve
 
 - Protected Frontend Routes
-- Create Post UI
-- Better Error Handling
-- Responsive Mobile UI
-- Improved Feed UI
-- Frontend Like Functionality
-
----
-
-# 🔮 Planned Features
-
 - Comment System
 - Saved Posts
 - Stories Feature
@@ -503,6 +553,11 @@ http://localhost:5173
 - Refresh Tokens
 - Socket.IO Integration
 - API Documentation
+- Advanced State Management
+- Performance Optimization
+- Frontend Testing
+- Accessibility Improvements
+- TypeScript Integration
 
 ---
 
