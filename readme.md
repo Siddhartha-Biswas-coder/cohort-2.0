@@ -1,6 +1,6 @@
 # 🚀 Cohort 2.0 Learning Journey
 
-This repository documents my journey while going through **Cohort 2.0** and strengthening my understanding of **modern frontend development, backend systems, authentication flows, databases, deployment workflows, scalable full-stack architecture, cloud media handling, secure backend development, and problem solving**.
+This repository documents my journey while going through **Cohort 2.0** and strengthening my understanding of **modern frontend development, backend systems, authentication flows, databases, deployment workflows, scalable full-stack architecture, cloud media handling, secure backend development, production deployment, and problem solving**.
 
 This repository serves as both:
 
@@ -16,19 +16,19 @@ This repository serves as both:
 
 ## ⚙️ Backend Development
 
-Backend concepts, Express.js servers, REST APIs, authentication systems, middleware, MongoDB integration, scalable backend architecture, file uploads, cloud media handling, JWT authentication, cookies, protected routes, and deployment workflows.
+Backend concepts, Express.js servers, REST APIs, authentication systems, middleware, MongoDB integration, scalable backend architecture, file uploads, cloud media handling, JWT authentication, cookies, protected routes, deployment workflows, and production-ready backend concepts.
 
 ---
 
 ## 🎨 Frontend Development
 
-Frontend exercises, React.js projects, frontend architecture, Context API, custom hooks, routing, API integration, SCSS styling systems, responsive web design, and scalable frontend structuring.
+Frontend exercises, React.js projects, frontend architecture, Context API, custom hooks, routing, API integration, SCSS styling systems, responsive web design, scalable frontend structuring, SPA routing, and production deployment handling.
 
 ---
 
 ## 🧩 Full Stack Projects
 
-Mini projects and full-stack applications built while learning new technologies and software engineering concepts.
+Mini projects and full-stack applications built while learning new technologies, scalable architecture, authentication systems, deployment workflows, and software engineering concepts.
 
 ---
 
@@ -42,6 +42,7 @@ Mini projects and full-stack applications built while learning new technologies 
 - API Practice
 - DSA Progress
 - Development Workflows
+- Deployment Workflows
 
 ---
 
@@ -81,6 +82,9 @@ cohort-2.0
 - Dynamic Rendering
 - Responsive Web Development
 - Frontend & Backend Integration
+- SPA Routing
+- Production Deployment Handling
+- Vercel Deployment
 
 ---
 
@@ -108,6 +112,9 @@ cohort-2.0
 - Secure API Development
 - Backend Deployment
 - Full Stack Deployment
+- Production CORS Configuration
+- Cross-Origin Authentication
+- Render Deployment
 
 ---
 
@@ -118,6 +125,7 @@ cohort-2.0
 - Multipart Form Data Handling
 - Cloud Media Storage
 - CDN Image Optimization
+- Optimized Media Delivery
 
 ---
 
@@ -140,12 +148,13 @@ cohort-2.0
 - MongoDB Compass
 - VS Code
 - Render
+- Vercel
 
 ---
 
 # 🎯 Learning Goals
 
-My journey through **Cohort 2.0** is structured through multiple progressive milestones that strengthen my understanding of software engineering and full-stack development.
+My journey through **Cohort 2.0** is structured through multiple progressive milestones that strengthen my understanding of software engineering, scalable systems, and production-level full-stack development.
 
 ---
 
@@ -164,6 +173,8 @@ Building strong frontend engineering skills through:
 - Feature-Based Folder Structure
 - Scalable Frontend Structuring
 - Dynamic Rendering Systems
+- Protected Frontend Routing
+- SPA Deployment Handling
 
 ---
 
@@ -190,6 +201,8 @@ Learning how to build scalable backend systems and production-inspired APIs usin
 - Backend Deployment
 - Full Stack Deployment
 - Frontend & Backend Integration
+- Production CORS Handling
+- Cross-Origin Cookie Authentication
 
 ---
 
@@ -204,6 +217,8 @@ Building complete frontend + backend applications while understanding:
 - Scalable Architecture
 - Cloud Media Systems
 - Real-world Development Workflows
+- Production Deployment Workflows
+- Frontend ↔ Backend Integration
 
 ---
 
@@ -262,6 +277,7 @@ Responsible for:
 - Business Logic
 - Connecting UI & APIs
 - Async Operations
+- Like / Unlike Logic
 
 ---
 
@@ -287,6 +303,7 @@ Responsible for:
 - API Handling
 - Request Configuration
 - Cookie-Based Requests
+- Cross-Origin Requests
 
 ---
 
@@ -301,7 +318,7 @@ Backend Validates User
         ↓
 JWT Token Generated
         ↓
-Token Stored in Cookie
+Token Stored in Secure Cookie
         ↓
 Frontend Automatically Sends Cookie
         ↓
@@ -314,7 +331,7 @@ Authenticated User Access Granted
 
 # 📈 Progress
 
-I continuously update this repository while learning new technologies, concepts, architectures, workflows, and software engineering practices.
+I continuously update this repository while learning new technologies, concepts, architectures, deployment workflows, scalable systems, and software engineering practices.
 
 ---
 
@@ -343,6 +360,8 @@ I continuously update this repository while learning new technologies, concepts,
 - Build reusable component systems ✅
 - Build API layer architecture ✅
 - Build scalable state management structure ✅
+- Learn SPA deployment handling ✅
+- Deploy frontend applications on Vercel ✅
 
 ---
 
@@ -398,6 +417,8 @@ I continuously update this repository while learning new technologies, concepts,
 - Build persistent authentication systems ✅
 - Learn secure authentication workflows ✅
 - Build scalable authentication flow ✅
+- Configure production-ready CORS ✅
+- Implement cross-origin authentication ✅
 
 ---
 
@@ -415,20 +436,30 @@ I continuously update this repository while learning new technologies, concepts,
 
 ## Full Stack & Deployment
 
-- Deploy backend servers ✅
-- Deploy frontend applications ✅
+- Deploy backend servers on Render ✅
+- Deploy frontend applications on Vercel ✅
 - Build authenticated full-stack applications ✅
 - Build frontend & backend integrated systems ✅
 - Integrate cloud-based media storage ✅
 - Build social media application architecture basics ✅
 - Build feed APIs ✅
 - Build like & unlike systems ✅
+- Fix React Router production routing ✅
+- Handle frontend ↔ backend production integration ✅
+- Configure environment variables for deployment ✅
 
 ---
 
 # 🚀 Current Major Project
 
 # 📸 InstaClone — Full Stack Social Media Application
+
+## 🌐 Live Deployment
+
+- Frontend: https://siddhartha-instaclone.vercel.app
+- Backend API: https://siddhartha-instaclone-api.onrender.com
+
+---
 
 A modern Instagram-inspired full-stack project focused on scalable frontend and backend architecture.
 
@@ -449,6 +480,8 @@ A modern Instagram-inspired full-stack project focused on scalable frontend and 
 - Feature-Based Folder Structure
 - Authentication Flow
 - Route Navigation
+- Protected Frontend Routing
+- Production Deployment on Vercel
 
 ---
 
@@ -469,12 +502,15 @@ A modern Instagram-inspired full-stack project focused on scalable frontend and 
 - Authentication Middleware
 - Database Relationships
 - MongoDB Indexing
+- Secure CORS Configuration
+- Cross-Origin Cookie Authentication
+- Production Deployment on Render
 
 ---
 
 ## 🚀 Project Status
 
-Completed core frontend and backend integration with authentication, feed system, likes system, follow system, cloud image uploads, and scalable frontend/backend architecture.
+Completed core frontend and backend integration with authentication, feed system, likes system, follow system, cloud image uploads, production deployment, and scalable frontend/backend architecture.
 
 The project now serves as a strong foundation for learning advanced full-stack engineering concepts and scalable application development.
 
@@ -493,6 +529,8 @@ The project now serves as a strong foundation for learning advanced full-stack e
 - Performance Optimization
 - System Design Concepts
 - TypeScript
+- Docker & Containerization
+- CI/CD Concepts
 - Generative AI Concepts
 - Agentic AI
 - Advanced DSA & Interview Preparation
@@ -544,6 +582,7 @@ The project now serves as a strong foundation for learning advanced full-stack e
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![VSCode](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 ---
 
