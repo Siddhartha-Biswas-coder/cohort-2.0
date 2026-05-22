@@ -1,116 +1,144 @@
 # 📸 InstaClone — Full Stack Social Media Application
 
-A modern **full-stack Instagram-inspired social media application** built using **React**, **Node.js**, **Express.js**, and **MongoDB**.
+A modern and scalable **full-stack Instagram-inspired social media application** built using **React.js**, **Node.js**, **Express.js**, and **MongoDB**.
 
-This project focuses on implementing real-world **frontend architecture**, **backend architecture**, **authentication systems**, **REST APIs**, **state management**, and **scalable project structuring** while following industry-level development practices.
+This project focuses on implementing real-world **frontend architecture**, **backend architecture**, **authentication systems**, **REST APIs**, **state management**, **cloud media handling**, and **scalable project structuring** while following modern full-stack development practices.
 
-> ⚠️ This project is currently under active development.
+> ⚠️ This project is currently under active development and continuously evolving with new features and improvements.
 
 ---
 
 # 🚀 Project Vision
 
-The goal of this project is to build a scalable and production-like social media platform while learning and implementing:
+The goal of this project is to build a scalable production-inspired social media platform while learning and implementing:
 
 - Full Stack Development
 - Frontend & Backend Architecture
 - Authentication & Authorization
-- REST API Design
+- REST API Development
 - Database Relationships
 - Cloud Media Uploads
 - State Management
 - Modern React Practices
 - Secure Backend Development
+- Scalable Folder Structuring
+- Real-world Full Stack Workflows
 
 ---
 
 # ✨ Current Features
 
-## 🔐 Authentication System
+# 🔐 Authentication System
+
 - User Registration
 - User Login
 - JWT Authentication
-- Cookie-based Authentication
-- Persistent User Sessions
+- Cookie-Based Authentication
+- Persistent Login Sessions
 - Protected Backend Routes
+- Authentication State Management
+- Secure Password Hashing using `bcryptjs`
 
 ---
 
-## 👤 User Features
+# 👤 User Features
+
 - Follow Users
 - Unfollow Users
 - Accept Follow Requests
 - Reject Follow Requests
 - Prevent Duplicate Follow Requests
+- Prevent Self Follow
 
 ---
 
-## 📸 Post Features
+# 📸 Post Features
+
 - Create Posts
 - Upload Images
+- Cloud Image Storage using ImageKit
+- Optimized CDN Image Delivery
 - Like Posts
 - Prevent Duplicate Likes
-- Fetch User Posts
-- Get Post Details
+- Fetch Feed Posts
+- Fetch Logged-in User Posts
+- Get Detailed Post Information
+- Feed Like Status Detection (`isLiked`)
 
 ---
 
-## 🎨 Frontend Features
+# 🎨 Frontend Features
+
 - 4 Layer Frontend Architecture
 - Context API State Management
 - Custom Hooks
 - Axios API Layer
-- SCSS Styling System
-- Feature-based Folder Structure
+- SCSS Styling Architecture
+- Feed Rendering System
 - Reusable Components
+- Feature-Based Folder Structure
+- Dynamic Feed Rendering
+- Authentication Flow
+- Global State Handling
 
 ---
 
 # 🧠 Concepts & Topics Covered
 
-This project demonstrates practical implementation of:
+# Frontend
 
-## Frontend
-- React
+- React.js
 - React Router
 - Context API
 - Custom Hooks
 - Axios
 - SCSS / SASS
-- Component-based Architecture
+- Component-Based Architecture
+- Feature-Based Folder Structure
 - State Management
-- Feature-based Folder Structure
+- Dynamic Rendering
+- Conditional Rendering
+- Async Frontend Operations
+- Reusable Component Design
+- API Layer Structuring
 
 ---
 
-## Backend
+# Backend
+
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
 - JWT Authentication
-- Cookie-based Authentication
+- Cookie-Based Authentication
 - Middleware
 - MVC Architecture
 - REST APIs
 - File Upload Handling
-- Cloud Storage Integration
+- Cloud Media Storage
+- CDN Image Optimization
+- MongoDB Relationships
 - Database Indexing
+- Async Backend Operations
+- Secure API Development
 
 ---
 
 # 🏗️ Tech Stack
 
-## Frontend
-- React
+# Frontend
+
+- React.js
 - Vite
 - React Router
 - Axios
-- SCSS
+- SCSS / SASS
 
 ---
 
-## Backend
+# Backend
+
 - Node.js
 - Express.js
 - MongoDB
@@ -130,11 +158,32 @@ InstaClone/
 │
 ├── Backend/
 │   │
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── models/
-│   ├── routes/
-│   ├── app.js
+│   ├── src/
+│   │   │
+│   │   ├── config/
+│   │   │   └── database.js
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── post.controller.js
+│   │   │   └── user.controller.js
+│   │   │
+│   │   ├── middlewares/
+│   │   │   └── auth.middleware.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── user.model.js
+│   │   │   ├── post.model.js
+│   │   │   ├── like.model.js
+│   │   │   └── follow.model.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   ├── post.routes.js
+│   │   │   └── user.routes.js
+│   │   │
+│   │   └── app.js
+│   │
 │   ├── server.js
 │   └── package.json
 │
@@ -143,6 +192,7 @@ InstaClone/
 │   ├── src/
 │   │   │
 │   │   ├── features/
+│   │   │   │
 │   │   │   ├── auth/
 │   │   │   ├── posts/
 │   │   │   └── shared/
@@ -161,45 +211,89 @@ InstaClone/
 
 # 🧩 Frontend Architecture
 
-The frontend follows a clean **4 Layer Architecture**:
+The frontend follows a scalable **4 Layer Architecture** approach.
 
 ---
 
-## 🎨 UI Layer
+# 🎨 UI Layer
+
 Responsible for:
-- Showing UI
-- Rendering Pages
-- User Interaction
+
+- Rendering UI
+- Showing Feed Posts
 - Navigation
+- User Interaction
+- Form Handling
+- Loading States
+
+### Example
+
+```bash
+Login.jsx
+Register.jsx
+Feed.jsx
+Post.jsx
+```
 
 ---
 
-## 🪝 Hook Layer
+# 🪝 Hook Layer
+
 Responsible for:
+
 - Business Logic
+- Feed Fetching Logic
+- Authentication Logic
 - API Handling
 - Connecting UI & State Layers
 
+### Example
+
+```bash
+useAuth.js
+usePost.js
+```
+
 ---
 
-## 🧠 State Layer
+# 🧠 State Layer
+
 Responsible for:
+
 - Global State Management
 - Authentication State
+- Feed State
 - Loading State
-- Shared Data
+- Shared Application Data
+
+### Example
+
+```bash
+auth.context.jsx
+post.context.jsx
+```
 
 ---
 
-## 🌐 API Layer
+# 🌐 API Layer
+
 Responsible for:
+
 - Backend Communication
-- API Requests
 - Axios Services
+- Sending HTTP Requests
+- Cookie-based Session Handling
+
+### Example
+
+```bash
+auth.api.js
+post.api.js
+```
 
 ---
 
-# 🔄 Authentication Flow
+# 🔄 Full Stack Authentication Flow
 
 ```text
 User Login/Register
@@ -212,23 +306,45 @@ JWT Token Generated
         ↓
 Token Stored in Cookie
         ↓
-Protected Routes Verify JWT
+Frontend Automatically Sends Cookie
+        ↓
+Protected Middleware Verifies JWT
         ↓
 Authenticated User Access Granted
 ```
 
 ---
 
+# 📰 Feed Rendering Flow
+
+```text
+Feed Component Loads
+          ↓
+useEffect triggers feed fetching
+          ↓
+Hook Layer calls API Layer
+          ↓
+Backend returns posts
+          ↓
+Feed stored in Context API
+          ↓
+Posts rendered dynamically using reusable Post component
+```
+
+---
+
 # 🔌 API Features
 
-## Authentication APIs
+# Authentication APIs
+
 - Register User
 - Login User
 - Get Current User
 
 ---
 
-## User APIs
+# User APIs
+
 - Follow User
 - Unfollow User
 - Accept Follow Request
@@ -236,9 +352,11 @@ Authenticated User Access Granted
 
 ---
 
-## Post APIs
+# Post APIs
+
 - Create Post
 - Like Post
+- Get Feed Posts
 - Get User Posts
 - Get Post Details
 
@@ -248,22 +366,29 @@ Authenticated User Access Granted
 
 - Password Hashing using `bcryptjs`
 - JWT Authentication
-- Cookie-based Authorization
+- Cookie-Based Authorization
 - Protected Routes Middleware
 - Secure CORS Configuration
 - Duplicate Request Prevention
 - MongoDB Indexing
+- Protected API Access
 
 ---
 
-# 📸 Cloud Image Uploads
+# 📸 Cloud Image Upload System
 
-Images are uploaded and managed using:
+Images are uploaded and optimized using:
 
 - Multer
 - ImageKit
+- CDN Transformations
 
-This enables scalable cloud-based image handling for posts.
+This enables:
+
+- Cloud Media Storage
+- Optimized Image Delivery
+- Scalable Image Handling
+- Better Frontend Performance
 
 ---
 
@@ -294,8 +419,10 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 
 IMAGEKIT_PUBLIC_KEY=your_public_key
+
 IMAGEKIT_PRIVATE_KEY=your_private_key
-IMAGEKIT_URL_ENDPOINT=your_url_endpoint
+
+IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
 ```
 
 Start backend server:
@@ -330,40 +457,51 @@ http://localhost:5173
 
 # 🚀 Current Development Status
 
-## ✅ Completed
-- Authentication System
-- JWT Authorization
-- Cookie Authentication
+# ✅ Completed
+
+- JWT Authentication System
+- Cookie-Based Authentication
 - Follow System
 - Like System
+- Feed System
+- Feed Rendering
 - Post Creation APIs
+- Cloud Image Uploads
+- Image Optimization
 - Frontend Authentication Flow
+- Context API State Management
 - 4 Layer Frontend Architecture
 - Backend MVC Architecture
+- Frontend & Backend Integration
 
 ---
 
-## 🚧 In Progress
-- Feed System
+# 🚧 In Progress
+
 - Protected Frontend Routes
-- User Dashboard
-- Better UI Components
-- Error Handling Improvements
+- Create Post UI
+- Better Error Handling
+- Responsive Mobile UI
+- Improved Feed UI
+- Frontend Like Functionality
 
 ---
 
-## 🔮 Planned Features
-- Comments System
+# 🔮 Planned Features
+
+- Comment System
+- Saved Posts
 - Stories Feature
+- User Profile Pages
+- Profile Editing
+- Infinite Scrolling Feed
 - Realtime Notifications
 - Chat System
-- Responsive Mobile UI
-- Saved Posts
-- Profile Editing
-- Infinite Scrolling
-- Dark/Light Theme Toggle
-- Socket.IO Integration
+- Dark / Light Theme Toggle
+- Toast Notifications
+- Skeleton Loading UI
 - Refresh Tokens
+- Socket.IO Integration
 - API Documentation
 
 ---
@@ -373,14 +511,16 @@ http://localhost:5173
 This project helped in understanding:
 
 - Full Stack Project Structuring
-- Authentication Flow
-- REST API Development
-- State Management
 - Frontend Architecture
 - Backend Architecture
+- Authentication Flow
+- REST API Development
+- Context API State Management
 - Secure Authentication
-- Cloud Media Uploads
 - MongoDB Relationships
+- Cloud Media Uploads
+- Image Optimization
+- Full Stack Integration
 - Real-world Development Practices
 
 ---
@@ -388,6 +528,9 @@ This project helped in understanding:
 # 👨‍💻 Developer
 
 Built with ❤️ by **Siddhartha Biswas**
+
+- GitHub: https://github.com/Siddhartha-Biswas-coder
+- LinkedIn: https://www.linkedin.com/in/siddhartha-biswas-616042395/
 
 ---
 

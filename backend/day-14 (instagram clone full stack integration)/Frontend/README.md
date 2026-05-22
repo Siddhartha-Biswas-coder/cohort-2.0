@@ -1,90 +1,139 @@
 # 🚀 InstaClone Frontend
 
-A modern and scalable frontend for an **Instagram-inspired social media application** built with **React**, **React Router**, **Axios**, and **SCSS**.
+A modern and scalable frontend for an **Instagram-inspired social media platform** built using **React.js**, **React Router**, **Axios**, and **SCSS**.
 
-This frontend follows a clean **4-Layer Architecture** approach for better scalability, maintainability, and separation of concerns. It includes authentication flow, protected state handling, API communication, reusable styling structure, and modern React development practices.
+This frontend follows a clean **4-Layer Frontend Architecture** to maintain proper separation of concerns between UI, logic, state management, and API communication.
+
+The project includes authentication flow, global state management, feed rendering, reusable components, API integration, dynamic post rendering, and scalable frontend structuring inspired by real-world frontend engineering practices.
 
 ---
 
 # ✨ Features
 
-## 🔐 Authentication System
-- User Login
+# 🔐 Authentication System
+
 - User Registration
-- Persistent Authentication
-- Cookie-based Authentication Support
+- User Login
+- Cookie-Based Authentication
+- Persistent Login Sessions
+- Authentication State Handling
 - Loading State Management
-- Context API State Management
+- Context API Global Authentication State
+- Automatic Navigation after Authentication
 
 ---
 
-## 🎯 Frontend Architecture
+# 📰 Feed System
+
+- Fetch Feed Posts from Backend
+- Render Dynamic Post Feed
+- Show User Information
+- Show Profile Images
+- Render Optimized Images from ImageKit
+- Dynamic Like UI State
+- Feed Loading State
+- Reusable Post Component Architecture
+
+---
+
+# 🏗️ Frontend Architecture
+
 - 4 Layer Architecture
-- Feature-based Folder Structure
+- Feature-Based Folder Structure
 - Separation of Concerns
 - Reusable Components
-- Custom Hooks
 - API Service Layer
-- Global State Handling
+- Custom Hooks
+- Global State Management
+- Context-Based Architecture
+- Scalable Frontend Structuring
 
 ---
 
-## 🎨 UI & Styling
-- Responsive Form UI
-- Reusable Button Styles
-- Global SCSS Styling
-- Modern Dark Theme
+# 🎨 UI & Styling
+
+- Modern Dark Theme UI
+- Responsive Layout Structure
+- SCSS Styling Architecture
+- Reusable Button Styling
+- Shared Global Styling
 - SCSS Mixins
+- Feed Card Design
+- Interactive Icon Buttons
 - Smooth Transitions & Animations
 
 ---
 
-# 🧠 Concepts & Topics Covered
+# 🧠 Concepts Covered
 
-This project demonstrates practical implementation of:
+This project demonstrates hands-on implementation of:
 
 - React Fundamentals
+- React Component Architecture
 - React Router
 - Context API
 - Custom Hooks
-- API Layer Architecture
-- Axios Integration
-- State Management
-- Component-based Architecture
-- Feature-based Folder Structure
-- SCSS Styling
-- Form Handling
-- Navigation Handling
+- Global State Management
+- Axios API Integration
 - Authentication Flow
-- Cookie-based Authentication
+- Cookie-Based Authentication
+- Async Frontend Operations
+- Feature-Based Folder Structure
+- SCSS Architecture
+- Dynamic Rendering
+- Conditional Rendering
+- Reusable Component Design
+- Backend Integration
+- API Layer Structuring
+- Scalable Frontend Practices
 
 ---
 
 # 🏗️ Tech Stack
 
-## Frontend
-- React
+# Frontend
+
+- React.js
 - Vite
 
-## Routing
+---
+
+# Routing
+
 - React Router
 
-## State Management
+---
+
+# State Management
+
 - Context API
 - Custom Hooks
 
-## API Communication
+---
+
+# API Communication
+
 - Axios
 
-## Styling
+---
+
+# Styling
+
 - SCSS / SASS
+
+---
+
+# Media & Icons
+
+- ImageKit CDN Images
+- SVG Icons
 
 ---
 
 # 📂 Project Structure
 
 ```bash
-frontend/
+Frontend/
 │
 ├── src/
 │   │
@@ -92,7 +141,6 @@ frontend/
 │   │   │
 │   │   ├── auth/
 │   │   │   │
-│   │   │   ├── components/
 │   │   │   ├── hooks/
 │   │   │   │   └── useAuth.js
 │   │   │   │
@@ -109,6 +157,24 @@ frontend/
 │   │   │   └── auth.context.jsx
 │   │   │
 │   │   ├── posts/
+│   │   │   │
+│   │   │   ├── components/
+│   │   │   │   └── Post.jsx
+│   │   │   │
+│   │   │   ├── hooks/
+│   │   │   │   └── usePost.js
+│   │   │   │
+│   │   │   ├── pages/
+│   │   │   │   └── Feed.jsx
+│   │   │   │
+│   │   │   ├── services/
+│   │   │   │   └── post.api.js
+│   │   │   │
+│   │   │   ├── styles/
+│   │   │   │   └── feed.scss
+│   │   │   │
+│   │   │   └── post.context.jsx
+│   │   │
 │   │   └── shared/
 │   │       ├── button.scss
 │   │       └── global.scss
@@ -124,75 +190,99 @@ frontend/
 
 ---
 
-# 🧩 4 Layer Architecture
+# 🧩 4 Layer Frontend Architecture
 
-This project follows a clean frontend architecture pattern:
+This project follows a scalable frontend architecture pattern.
 
 ---
 
-## 🎨 UI Layer
-Responsible for displaying UI and handling user interaction.
+# 🎨 UI Layer
 
-### Responsibilities
+Responsible for rendering the UI and handling user interactions.
+
+## Responsibilities
+
 - Render UI
+- Show Feed Posts
+- Handle Form Inputs
 - Navigate Pages
-- Handle User Inputs
-- Show Loading States
+- Render Loading States
+- Display Dynamic Data
 
-### Example
+## Example
+
 ```bash
 Login.jsx
 Register.jsx
+Feed.jsx
+Post.jsx
 ```
 
 ---
 
-## 🪝 Hook Layer
-Responsible for managing logic and communication between UI and API.
+# 🪝 Hook Layer
 
-### Responsibilities
+Responsible for frontend business logic and async operations.
+
+## Responsibilities
+
 - Handle Authentication Logic
-- Manage Async Functions
-- Connect State & API Layers
+- Handle Feed Fetching
+- Connect API Layer with State Layer
+- Manage Async Logic
 
-### Example
+## Example
+
 ```bash
 useAuth.js
+usePost.js
 ```
 
 ---
 
-## 🧠 State Layer
-Responsible for global state management.
+# 🧠 State Layer
 
-### Responsibilities
+Responsible for managing global application state.
+
+## Responsibilities
+
 - Store User Data
-- Manage Loading State
+- Store Feed Data
+- Manage Loading States
 - Share State Across Components
 
-### Example
+## Example
+
 ```bash
 auth.context.jsx
+post.context.jsx
 ```
 
-Managed States:
+## Managed States
+
 - User
-- Loading
+- Feed Posts
+- Loading State
 - Authentication State
 
 ---
 
-## 🌐 API Layer
+# 🌐 API Layer
+
 Responsible for backend communication.
 
-### Responsibilities
-- Send API Requests
-- Handle HTTP Calls
-- Manage Backend Communication
+## Responsibilities
 
-### Example
+- Send HTTP Requests
+- Handle Backend Communication
+- Manage API Calls
+- Handle Authentication Cookies
+
+## Example
+
 ```bash
 auth.api.js
+post.api.js
 ```
 
 ---
@@ -210,16 +300,34 @@ API Layer sends request to backend
               ↓
 Backend returns user data + cookie
               ↓
-State Layer stores authenticated user
+Context API stores authenticated user
               ↓
 UI updates and navigates user
 ```
 
 ---
 
+# 📰 Feed Rendering Flow
+
+```text
+Feed Component Loads
+          ↓
+useEffect triggers feed fetching
+          ↓
+Hook Layer calls API Layer
+          ↓
+Backend returns posts
+          ↓
+Feed stored in Context API
+          ↓
+Posts dynamically rendered using reusable Post component
+```
+
+---
+
 # ⚙️ Installation & Setup
 
-## 1️⃣ Clone Repository
+# 1️⃣ Clone Repository
 
 ```bash
 git clone <your-repository-url>
@@ -227,7 +335,7 @@ git clone <your-repository-url>
 
 ---
 
-## 2️⃣ Install Dependencies
+# 2️⃣ Install Dependencies
 
 ```bash
 npm install
@@ -235,7 +343,7 @@ npm install
 
 ---
 
-## 3️⃣ Start Development Server
+# 3️⃣ Start Development Server
 
 ```bash
 npm run dev
@@ -249,9 +357,11 @@ http://localhost:5173
 
 ---
 
-# 🔗 Backend Connection
+# 🔗 Backend Integration
 
-Frontend communicates with backend using Axios:
+Frontend communicates with backend using Axios.
+
+## Authentication API
 
 ```js
 const api = axios.create({
@@ -260,68 +370,111 @@ const api = axios.create({
 });
 ```
 
-### Why `withCredentials: true`?
-Allows browser to:
-- Receive authentication cookies
-- Send cookies automatically with requests
+---
+
+## Feed API
+
+```js
+const api = axios.create({
+  baseURL: "http://localhost:3000",
+  withCredentials: true,
+});
+```
 
 ---
 
-# 🎨 Styling System
+# 🍪 Why `withCredentials: true`?
 
-## Shared Global Styling
+Allows the browser to:
+
+- Receive authentication cookies
+- Send cookies automatically with requests
+- Maintain authenticated sessions
+
+---
+
+# 🎨 Styling Architecture
+
+# Global Styling
+
 ```bash
 global.scss
 ```
 
 Handles:
+
 - Reset Styles
-- Fonts
 - Theme Colors
+- Fonts
 - Shared Styling Rules
 
 ---
 
-## Reusable Button Styling
+# Shared Button Styling
+
 ```bash
 button.scss
 ```
 
 Provides:
+
 - Reusable Button Classes
-- Hover Effects
 - Active Animations
-- Theme Styling
+- Hover Effects
+- Shared Theme Styling
 
 ---
 
-# 🚀 Highlights
+# Feed Styling
+
+```bash
+feed.scss
+```
+
+Handles:
+
+- Feed Layout
+- Post Card Styling
+- User Profile Styling
+- Interactive Icons
+- Feed Responsiveness
+
+---
+
+# 🚀 Frontend Highlights
 
 ✔ 4 Layer Architecture  
-✔ Clean Folder Structure  
+✔ Feature-Based Folder Structure  
 ✔ Context API State Management  
 ✔ Custom Hooks  
 ✔ Axios API Layer  
+✔ Feed Rendering System  
 ✔ Authentication Flow  
-✔ SCSS Styling System  
+✔ Cookie-Based Authentication  
 ✔ Reusable Components  
-✔ Modern React Practices  
+✔ SCSS Styling Architecture  
+✔ Dynamic Post Rendering  
+✔ Optimized Image Rendering  
 ✔ Scalable Frontend Structure  
+✔ Modern React Practices  
 
 ---
 
 # 🔮 Future Improvements
 
-- Protected Routes
-- User Dashboard
-- Feed System
-- Post Creation UI
-- Dark/Light Theme Toggle
-- Global Toast Notifications
-- Infinite Scrolling
-- Profile Pages
-- Real-time Features
-- Responsive Mobile UI
+- Protected Frontend Routes
+- Create Post UI
+- Like Functionality
+- Comment System
+- Saved Posts
+- User Profile Pages
+- Follow System UI
+- Infinite Scrolling Feed
+- Realtime Notifications
+- Responsive Mobile Design
+- Dark / Light Theme Toggle
+- Toast Notifications
+- Skeleton Loading UI
 
 ---
 

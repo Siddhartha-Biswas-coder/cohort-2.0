@@ -5,23 +5,46 @@ const postModel = require("../models/post.model.js");
 const likeModel = require("../models/like.model.js");
 
 const ImageKit = require("@imagekit/nodejs");
-const { toFile } = require("@imagekit/nodejs");
 const jwt = require("jsonwebtoken");
 
 const imageKit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
 });
 
 async function createPostController(req, res) {
+  if (!req.file) {
+    return res.status(400).json({
+      message: "Image is required",
+    });
+  }
+
+  const safeFileName = `${Date.now()}-${req.file.originalname.replace(/\s+/g, "-")}`;
+
   const file = await imageKit.files.upload({
-    file: await toFile(Buffer.from(req.file.buffer), "file"),
-    fileName: "Test",
+    file: await ImageKit.toFile(Buffer.from(req.file.buffer), safeFileName),
+
+    fileName: safeFileName,
+
     folder: "Cohort-2-insta-clone-post",
   });
 
+  // const post = await postModel.create({
+  //   caption: req.body.caption,
+
+  //   imgUrl: file.thumbnailUrl,
+
+  //   user: req.user.id,
+  // });
+
   const post = await postModel.create({
     caption: req.body.caption,
-    imgUrl: file.url,
+
+    imgUrl: `${process.env.IMAGEKIT_URL_ENDPOINT}/tr:w-1000${file.filePath}`,
+
     user: req.user.id,
   });
 
@@ -103,9 +126,36 @@ async function likePostController(req, res) {
   });
 }
 
+async function getFeedController(req, res) {
+  const user = req.user;
+
+  const posts = await Promise.all(
+    (await postModel.find().populate("user").lean()).map(async (post) => {
+      const isLiked = await likeModel.findOne({
+        user: user.username,
+        postId: post._id,
+      });
+
+      post.isLiked = !!isLiked;
+
+      /**
+       *  !!isLiked = Boolean(isLiked)
+       */
+
+      return post;
+    }),
+  );
+
+  res.status(200).json({
+    message: "Post fetched successfully",
+    posts,
+  });
+}
+
 module.exports = {
   createPostController,
   getPostController,
   getPostDetailsController,
   likePostController,
+  getFeedController,
 };
