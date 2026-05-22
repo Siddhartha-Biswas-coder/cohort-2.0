@@ -32,14 +32,6 @@ async function createPostController(req, res) {
     folder: "Cohort-2-insta-clone-post",
   });
 
-  // const post = await postModel.create({
-  //   caption: req.body.caption,
-
-  //   imgUrl: file.thumbnailUrl,
-
-  //   user: req.user.id,
-  // });
-
   const post = await postModel.create({
     caption: req.body.caption,
 
@@ -125,31 +117,73 @@ async function likePostController(req, res) {
     message: "Post liked successfully",
   });
 }
+async function unlikePostController(req, res) {
+  const postId = req.params.postId;
+  const username = req.user.username;
 
-async function getFeedController(req, res) {
-  const user = req.user;
+  const post = await postModel.findById(postId);
 
-  const posts = await Promise.all(
-    (await postModel.find().populate("user").lean()).map(async (post) => {
-      const isLiked = await likeModel.findOne({
-        user: user.username,
-        postId: post._id,
-      });
+  if (!post) {
+    return res.status(404).json({
+      message: "Post not found",
+    });
+  }
 
-      post.isLiked = !!isLiked;
+  const isPostLiked = await likeModel.findOne({
+    postId: postId,
+    user: username,
+  });
 
-      /**
-       *  !!isLiked = Boolean(isLiked)
-       */
+  if (!isPostLiked) {
+    return res.status(400).json({
+      message: "Post is not liked",
+    });
+  }
 
-      return post;
-    }),
-  );
+  await likeModel.findByIdAndDelete({
+    _id: isPostLiked._id,
+  });
 
   res.status(200).json({
-    message: "Post fetched successfully",
-    posts,
+    message: "Post unliked successfully",
   });
+}
+
+async function getFeedController(req, res) {
+  try {
+    const user = req.user;
+
+    const posts = await postModel
+      .find()
+      .sort({ _id: -1 })
+      .populate("user")
+      .lean();
+
+    const updatedPosts = await Promise.all(
+      posts.map(async (post) => {
+        const isLiked = await likeModel.findOne({
+          user: user.username,
+          postId: post._id,
+        });
+
+        post.isLiked = !!isLiked;
+
+        return post;
+      }),
+    );
+
+    res.status(200).json({
+      message: "Post fetched successfully",
+      posts: updatedPosts,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
 }
 
 module.exports = {
@@ -157,5 +191,6 @@ module.exports = {
   getPostController,
   getPostDetailsController,
   likePostController,
+  unlikePostController,
   getFeedController,
 };

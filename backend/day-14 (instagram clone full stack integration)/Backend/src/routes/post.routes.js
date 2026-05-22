@@ -41,9 +41,14 @@ postRouter.get(
  */
 
 postRouter.post(
-  "/likes/:postId",
+  "/like/:postId",
   identifyUser,
   postController.likePostController,
+);
+postRouter.post(
+  "/unlike/:postId",
+  identifyUser,
+  postController.unlikePostController,
 );
 
 /**
