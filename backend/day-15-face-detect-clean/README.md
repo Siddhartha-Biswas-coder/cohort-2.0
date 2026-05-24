@@ -14,6 +14,12 @@ A simple React project that detects user facial expressions in real time using G
 
 ---
 
+## Live Demo
+
+https://face-expression-detect.vercel.app
+
+---
+
 ## Tech Stack
 
 - React
