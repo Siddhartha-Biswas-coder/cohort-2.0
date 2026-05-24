@@ -1,6 +1,6 @@
 # 🚀 Cohort 2.0 Learning Journey
 
-This repository documents my journey while going through **Cohort 2.0** and strengthening my understanding of **modern frontend development, backend systems, authentication flows, databases, deployment workflows, scalable full-stack architecture, cloud media handling, secure backend development, production deployment, and problem solving**.
+This repository documents my journey while going through **Cohort 2.0** and strengthening my understanding of **modern frontend development, backend systems, authentication flows, databases, deployment workflows, scalable full-stack architecture, cloud media handling, secure backend development, production deployment, AI integrations, and problem solving**.
 
 This repository serves as both:
 
@@ -28,7 +28,7 @@ Frontend exercises, React.js projects, frontend architecture, Context API, custo
 
 ## 🧩 Full Stack Projects
 
-Mini projects and full-stack applications built while learning new technologies, scalable architecture, authentication systems, deployment workflows, and software engineering concepts.
+Mini projects and full-stack applications built while learning new technologies, scalable architecture, authentication systems, deployment workflows, AI integrations, and software engineering concepts.
 
 ---
 
@@ -126,6 +126,17 @@ cohort-2.0
 - Cloud Media Storage
 - CDN Image Optimization
 - Optimized Media Delivery
+
+---
+
+# 🤖 AI / Computer Vision
+
+- MediaPipe
+- Real-Time Face Detection
+- Face Landmark Detection
+- Face Expression Detection
+- Webcam API
+- Browser-Based AI Processing
 
 ---
 
@@ -331,10 +342,9 @@ Authenticated User Access Granted
 
 # 📈 Progress
 
-I continuously update this repository while learning new technologies, concepts, architectures, deployment workflows, scalable systems, and software engineering practices.
+I continuously update this repository while learning new technologies, concepts, architectures, deployment workflows, scalable systems, AI integrations, and software engineering practices.
 
 ---
-
 # ✅ Cohort Checklist
 
 # 🎨 Frontend
@@ -362,6 +372,12 @@ I continuously update this repository while learning new technologies, concepts,
 - Build scalable state management structure ✅
 - Learn SPA deployment handling ✅
 - Deploy frontend applications on Vercel ✅
+- Learn webcam integration in browser ✅
+- Work with browser media APIs ✅
+- Integrate AI/computer vision libraries in React ✅
+- Build real-time face detection systems ✅
+- Learn MediaPipe fundamentals ✅
+- Build real-time browser AI applications ✅
 
 ---
 
@@ -450,6 +466,18 @@ I continuously update this repository while learning new technologies, concepts,
 
 ---
 
+## 🤖 AI / Computer Vision
+
+- Learn MediaPipe basics ✅
+- Work with webcam video streams ✅
+- Detect facial landmarks in real time ✅
+- Build face expression detection systems ✅
+- Process real-time browser-based AI inference ✅
+- Explore AI-assisted development workflows ✅
+- Learn how developers research unfamiliar technologies ✅
+
+---
+
 # 🚀 Current Major Project
 
 # 📸 InstaClone — Full Stack Social Media Application
@@ -461,7 +489,7 @@ I continuously update this repository while learning new technologies, concepts,
 
 ---
 
-A modern Instagram-inspired full-stack project focused on scalable frontend and backend architecture.
+A modern Instagram-inspired full-stack project focused on scalable frontend and backend architecture, authentication systems, cloud media handling, and production-level deployment workflows.
 
 ---
 
@@ -472,14 +500,15 @@ A modern Instagram-inspired full-stack project focused on scalable frontend and 
 - Context API State Management
 - Custom Hooks
 - Axios API Layer
-- Feed Rendering System
-- Reusable Post Components
-- Dynamic Feed Rendering
-- Like / Unlike UI System
 - SCSS Styling Architecture
 - Feature-Based Folder Structure
 - Authentication Flow
+- Feed Rendering System
+- Dynamic Feed Rendering
+- Like / Unlike Functionality
+- Reusable Post Components
 - Route Navigation
+- Create Post System
 - Protected Frontend Routing
 - Production Deployment on Vercel
 
@@ -501,18 +530,83 @@ A modern Instagram-inspired full-stack project focused on scalable frontend and 
 - MVC Backend Architecture
 - Authentication Middleware
 - Database Relationships
-- MongoDB Indexing
-- Secure CORS Configuration
-- Cross-Origin Cookie Authentication
 - Production Deployment on Render
+- Secure CORS Configuration
 
 ---
 
-## 🚀 Project Status
+## 🚀 Production Concepts Learned
 
-Completed core frontend and backend integration with authentication, feed system, likes system, follow system, cloud image uploads, production deployment, and scalable frontend/backend architecture.
+- Cross-Origin Cookie Authentication
+- Production CORS Handling
+- React Router 404 Fixes
+- SPA Deployment Handling
+- Frontend ↔ Backend Integration
+- Secure Cookie Configuration
+- Environment Variables
+- Production Deployment Workflow
+- Vercel Deployment
+- Render Deployment
 
-The project now serves as a strong foundation for learning advanced full-stack engineering concepts and scalable application development.
+---
+
+## 🚀 What I Learned
+
+- Full Stack Integration
+- Scalable Frontend Architecture
+- Backend MVC Architecture
+- Authentication Flow
+- Context API State Management
+- File Upload Handling
+- Cloud Media Storage
+- MongoDB Relationships
+- REST API Development
+- Protected Route Handling
+- Dynamic Rendering
+- Reusable Component Design
+- Async Operations & Error Handling
+- Production Deployment Workflows
+
+---
+
+# 🧪 Practice & Exploration Projects
+
+## 😀 AI Face Expression Detection
+
+### 🌐 Live Deployment
+
+- Live Demo: https://face-expression-detect.vercel.app
+
+A small practice project built to explore how developers work with technologies they are learning for the first time.
+
+This project was created after learning about real-world developer workflows, where developers often explore unfamiliar technologies using documentation, experimentation, web research, debugging, and AI-assisted learning.
+
+The project uses Google's MediaPipe Face Landmarker to detect facial expressions in real time through webcam input.
+
+### Features
+
+- Real-time webcam face detection
+- Expression Detection:
+  - Happy 😀
+  - Surprised 😲
+  - Neutral 😐
+- Face landmark tracking using MediaPipe
+- Browser-based AI processing
+
+### Tech Used
+
+- React
+- Vite
+- MediaPipe Tasks Vision
+- Webcam API
+
+### What I Learned
+
+- Integrating AI/computer vision libraries into React
+- Working with webcam streams in browser
+- Real-time face landmark detection
+- Expression detection using blendshape scores
+- Exploring and learning new technologies through documentation, experimentation, debugging, web research, and AI tools
 
 ---
 
@@ -550,6 +644,12 @@ The project now serves as a strong foundation for learning advanced full-stack e
 ![Custom Hooks](https://img.shields.io/badge/Custom_Hooks-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+
+![MediaPipe](https://img.shields.io/badge/MediaPipe-0097A7?style=for-the-badge&logo=google&logoColor=white)
+![Computer Vision](https://img.shields.io/badge/Computer_Vision-5C6BC0?style=for-the-badge&logo=opencv&logoColor=white)
+![AI](https://img.shields.io/badge/AI-FF6F00?style=for-the-badge&logo=openai&logoColor=white)
+![Webcam API](https://img.shields.io/badge/Webcam_API-00897B?style=for-the-badge&logo=googlechrome&logoColor=white)
+![Face Detection](https://img.shields.io/badge/Face_Detection-7B1FA2?style=for-the-badge&logo=tensorflow&logoColor=white)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
