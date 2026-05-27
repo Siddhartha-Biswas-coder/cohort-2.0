@@ -1,13 +1,16 @@
 import { router } from "./app.routes";
 import { RouterProvider } from "react-router";
 import "./features/shared/styles/global.scss";
-import { AuthProvider } from "./features/auth/auth.context";
+import { AuthContextProvider } from "./features/auth/auth.context";
+import { SongContextProvider } from "./features/home/song.context";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <AuthContextProvider>
+      <SongContextProvider>
+        <RouterProvider router={router} />
+      </SongContextProvider>
+    </AuthContextProvider>
   );
 };
 

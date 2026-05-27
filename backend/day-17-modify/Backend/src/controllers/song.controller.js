@@ -35,7 +35,7 @@ async function uploadSong(req, res) {
 }
 
 async function getSong(req, res) {
-  const { mood } = req.body;
+  const { mood } = req.query;
 
   const song = await songModel.findOne({
     mood,
