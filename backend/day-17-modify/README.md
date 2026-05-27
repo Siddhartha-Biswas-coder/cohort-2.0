@@ -1,6 +1,8 @@
 # 🎵 Moodify — AI Powered Emotion Based Music Player
 
-Moodify is a full-stack AI-powered music player that detects a user’s facial expression in real-time using webcam analysis and recommends songs based on their mood.
+An AI-integrated full-stack music recommendation platform that uses real-time facial emotion detection to dynamically play mood-based songs.
+
+Moodify detects a user’s facial expression in real-time using webcam analysis and recommends songs based on their mood.
 
 Built with:
 - React
@@ -10,6 +12,60 @@ Built with:
 - Redis
 - MediaPipe
 - ImageKit
+
+---
+
+# 🌍 Live Demo
+
+## Frontend Deployment
+https://moodify-ai-git-main-siddhartha-biswas-projects.vercel.app
+
+## Backend API
+https://moodify-ai-api.onrender.com
+
+---
+
+# ☁️ Deployment
+
+## Frontend
+Deployed on Vercel.
+
+## Backend
+Deployed on Render.
+
+## Database
+MongoDB Atlas
+
+## Redis
+Redis Cloud
+
+## Media Storage
+ImageKit
+
+---
+
+# 🚀 Deployment Architecture
+
+```text
+Frontend (Vercel)
+        ↓
+Backend API (Render)
+        ↓
+MongoDB Atlas
+        ↓
+Redis Cloud
+        ↓
+ImageKit
+```
+
+---
+
+# 📌 Production Notes
+
+- Backend hosted on Render free tier may take 30–60 seconds to wake up after inactivity.
+- Webcam access requires HTTPS (supported by Vercel).
+- Emotion detection is powered by MediaPipe Face Landmarker.
+- Authentication uses secure HTTP-only cookies.
 
 ---
 
@@ -25,6 +81,7 @@ Built with:
 ---
 
 ## 😀 AI Face Expression Detection
+
 Using webcam + MediaPipe face landmark detection:
 - Happy 😄
 - Sad 😢
@@ -35,6 +92,7 @@ The detected mood is sent to the backend which returns a matching song.
 ---
 
 ## 🎶 Music Player
+
 Custom-built music player with:
 - Play / Pause
 - Seekbar
@@ -46,8 +104,22 @@ Custom-built music player with:
 ---
 
 ## ☁️ Cloud Storage
+
 Songs and posters are uploaded using:
 - ImageKit Cloud Storage
+
+---
+
+# 🧠 AI Integration
+
+Moodify uses MediaPipe Face Landmarker to detect real-time facial expressions using webcam analysis.
+
+Detected expressions:
+- Happy
+- Sad
+- Surprised
+
+The detected emotion is mapped to mood-based music recommendations dynamically.
 
 ---
 
@@ -72,28 +144,114 @@ Songs and posters are uploaded using:
 
 ---
 
-# 📂 Project Structure
+# 📂 Folder Structure
+
+## Backend Structure
 
 ```bash
-Moodify/
+Backend/
 │
-├── frontend/
-│   ├── components/
-│   ├── hooks/
-│   ├── pages/
-│   ├── services/
-│   ├── styles/
-│   └── utils/
-│
-├── backend/
+├── src/
+│   ├── config/
+│   │   ├── cache.js
+│   │   └── database.js
+│   │
 │   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   └── song.controller.js
+│   │
 │   ├── middleware/
+│   │   ├── auth.middleware.js
+│   │   └── upload.middleware.js
+│   │
 │   ├── models/
+│   │   ├── blacklist.model.js
+│   │   ├── song.model.js
+│   │   └── user.model.js
+│   │
 │   ├── routes/
+│   │   ├── auth.routes.js
+│   │   └── song.routes.js
+│   │
 │   ├── services/
-│   └── config/
+│   │   └── storage.service.js
+│   │
+│   └── app.js
 │
-└── README.md
+├── .env
+├── server.js
+├── package.json
+└── package-lock.json
+```
+
+---
+
+## Frontend Structure
+
+```bash
+Frontend/
+│
+├── src/
+│   ├── features/
+│   │
+│   │── auth/
+│   │   ├── components/
+│   │   │   ├── FormGroup.jsx
+│   │   │   └── Protected.jsx
+│   │   │
+│   │   ├── hooks/
+│   │   │   └── useAuth.js
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── auth.api.js
+│   │   │
+│   │   ├── style/
+│   │   │   ├── login.scss
+│   │   │   └── register.scss
+│   │   │
+│   │   └── auth.context.jsx
+│   │
+│   │── Expression/
+│   │   ├── components/
+│   │   │   └── FaceExpression.jsx
+│   │   │
+│   │   └── utils/
+│   │       └── utils.js
+│   │
+│   │── home/
+│   │   ├── components/
+│   │   │   ├── Player.jsx
+│   │   │   └── player.scss
+│   │   │
+│   │   ├── hooks/
+│   │   │   └── useSong.js
+│   │   │
+│   │   ├── pages/
+│   │   │   └── Home.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── song.api.js
+│   │   │
+│   │   └── song.context.jsx
+│   │
+│   │── shared/
+│   │   └── styles/
+│   │       ├── button.scss
+│   │       └── global.scss
+│   │
+│   ├── App.jsx
+│   ├── app.routes.jsx
+│   └── main.jsx
+│
+├── vercel.json
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── index.html
 ```
 
 ---
@@ -121,24 +279,32 @@ IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/moodify.git
+git clone https://github.com/Siddhartha-Biswas-coder/cohort-2.0.git
 ```
 
 ---
 
-## 2️⃣ Install Frontend Dependencies
+## 2️⃣ Navigate To Project Folder
 
 ```bash
-cd frontend
+cd backend/day-17-modify
+```
+
+---
+
+## 3️⃣ Install Frontend Dependencies
+
+```bash
+cd Frontend
 npm install
 ```
 
 ---
 
-## 3️⃣ Install Backend Dependencies
+## 4️⃣ Install Backend Dependencies
 
 ```bash
-cd backend
+cd ../Backend
 npm install
 ```
 
@@ -228,6 +394,17 @@ http://localhost:5173
 - Redis token blacklist
 - Protected API routes
 - Cookie-based auth
+- Secure HTTP-only production cookies
+
+---
+
+# 🛠️ Challenges Faced
+
+- Cross-origin cookie authentication between Vercel and Render
+- Real-time webcam permission handling
+- Emotion detection accuracy tuning
+- React Router deployment issues on Vercel
+- Production CORS configuration
 
 ---
 
