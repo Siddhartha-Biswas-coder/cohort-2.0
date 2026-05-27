@@ -461,6 +461,67 @@ I continuously update this repository while learning new technologies, concepts,
 
 # 🚀 Current Major Project
 
+# 🎵 Moodify — AI Powered Emotion Based Music Player
+
+## 🌐 Live Deployment
+
+- Frontend: https://moodify-ai-git-main-siddhartha-biswas-projects.vercel.app
+- Backend API: https://moodify-ai-api.onrender.com
+
+---
+
+An AI-integrated full-stack music recommendation platform that detects facial expressions in real time and dynamically plays mood-based songs.
+
+---
+
+## 🚀 Features
+
+- React + Vite Frontend
+- JWT Authentication
+- Cookie-Based Authentication
+- Protected Routes
+- Redis Token Blacklisting
+- Real-Time Face Expression Detection
+- MediaPipe AI Integration
+- Mood-Based Song Recommendation
+- Custom Music Player
+- MongoDB Integration
+- ImageKit Cloud Storage
+- Production Deployment on Vercel & Render
+- Secure Production CORS Handling
+
+---
+
+## 🧠 Concepts Learned
+
+- Full Stack Integration
+- AI + Web Application Integration
+- Real-Time Webcam Processing
+- Authentication Workflows
+- Redis Session Handling
+- Context API State Management
+- Production Deployment Workflows
+- Secure Cookie Authentication
+- Production Debugging
+
+---
+
+## 🛠️ Challenges Faced
+
+- Cross-origin authentication between Vercel and Render
+- React Router deployment configuration
+- Production CORS handling
+- Webcam permission management
+- Emotion detection accuracy tuning
+
+---
+
+## 📂 Repository
+
+https://github.com/Siddhartha-Biswas-coder/cohort-2.0/tree/main/backend/day-17-modify
+
+---
+
 # 📸 InstaClone — Full Stack Social Media Application
 
 ## 🌐 Live Deployment
