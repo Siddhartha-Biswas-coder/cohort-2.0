@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://moodify-five-blush.vercel.app/"],
+    origin: "https://moodify-ai-git-main-siddhartha-biswas-projects.vercel.app",
     credentials: true,
   }),
 );
