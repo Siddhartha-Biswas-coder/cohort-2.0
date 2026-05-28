@@ -416,6 +416,14 @@ I continuously update this repository while learning new technologies, concepts,
 - Implement token blacklisting using Redis ✅
 - Build secure logout systems ✅
 - Learn JWT invalidation workflows ✅
+- Learn Express Validator fundamentals ✅
+- Validate incoming request data using express-validator ✅
+- Handle validation errors properly ✅
+- Build centralized error handling workflows ✅
+- Learn backend error handling fundamentals ✅
+- Return meaningful API error responses ✅
+- Handle async errors in Express.js ✅
+- Build scalable middleware-based validation systems ✅
 
 ---
 
