@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { registerValidator } from "../validators/auth.validator.js";
-import { register } from "../controllers/auth.controller.js";
+import { loginValidator, registerValidator } from "../validators/auth.validator.js";
+import { getMe, login, register, verifyEmail } from "../controllers/auth.controller.js";
+import { authUser } from "../middlewares/auth.middleware.js";
 
 const authRouter = Router();
 
@@ -9,9 +10,34 @@ const authRouter = Router();
  *  @desc Regiter a new user
  *  @access Public
  *  @body {username, email, password}
- *  @returns {user: { id, username, email }, token }
  */
 
-authRouter.post("/register",registerValidator,register);
+authRouter.post("/register",registerValidator,register)
+
+/**
+ *  @route POST /api/auth/login
+ *  @desc login an user and return jwt token
+ *  @access Public
+ *  @body {email, password}
+ */
+
+authRouter.post("/login",loginValidator,login)
+
+/**
+ *  @route GET /api/auth/get-me
+ *  @desc Get current logged in user's details
+ *  @access Private
+ */
+
+authRouter.get("/get-me",authUser,getMe)
+
+/**
+ *  @route GET /api/auth/verify-email
+ *  @desc Verify user's email address
+ *  @access Public
+ *  @query {token}
+ */
+
+authRouter.get("/verify-email",verifyEmail)
 
 export default authRouter;
