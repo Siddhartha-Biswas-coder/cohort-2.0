@@ -211,10 +211,34 @@ Building complete frontend + backend applications while understanding:
 
 ---
 
-# 🔒 Goal 4 — Generative AI
+# 🔓 Goal 4 — Generative AI (In Progress)
 
-Understanding and building applications using **Generative AI technologies**.
+## Foundations
 
+- Understand LLM fundamentals ✅
+- Work with AI APIs ✅
+- Integrate Mistral AI in Node.js ✅
+- Learn LangChain fundamentals ✅
+- Build conversational AI applications ✅
+- Manage chat history & memory ✅
+
+## Currently Learning
+
+- Prompt Engineering 🔄
+- Structured Output Generation 🔄
+- System Prompts 🔄
+- Streaming Responses 🔄
+
+## Upcoming
+
+- Retrieval Augmented Generation (RAG)
+- Vector Databases
+- Embeddings
+- Tool Calling
+- AI Agents
+- Multi-Agent Systems
+- Agentic AI Applications
+- 
 ---
 
 # 🔒 Goal 5 — Agentic AI
@@ -464,6 +488,23 @@ I continuously update this repository while learning new technologies, concepts,
 - Process real-time browser-based AI inference ✅
 - Explore AI-assisted development workflows ✅
 - Learn how developers research unfamiliar technologies ✅
+
+---
+
+## 🤖 Generative AI
+
+- Learn LLM fundamentals ✅
+- Learn Mistral AI basics ✅
+- Learn LangChain fundamentals ✅
+- Build conversational AI applications ✅
+- Understand message-based architectures ✅
+- Manage conversational memory ✅
+- Learn prompt engineering fundamentals 🔄
+- Learn structured outputs 🔄
+- Learn streaming responses 🔄
+- Build RAG applications ⏳
+- Learn vector databases ⏳
+- Build AI agents ⏳
 
 ---
 
