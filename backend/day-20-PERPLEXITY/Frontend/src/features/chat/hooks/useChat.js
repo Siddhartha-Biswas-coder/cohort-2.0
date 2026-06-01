@@ -31,6 +31,8 @@ export const useChat = () => {
           title: chat.title,
         }),
       );
+
+      dispatch(setCurrentChatId(chat._id));
     }
 
     dispatch(
@@ -77,6 +79,7 @@ export const useChat = () => {
       const { messages } = data;
 
       const formattedMessags = messages.map((msg) => ({
+        id: msg._id,
         content: msg.content,
         role: msg.role,
       }));

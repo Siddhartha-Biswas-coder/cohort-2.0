@@ -29,7 +29,7 @@ export async function sendMessage(req, res) {
 
   const aiMessage = await messageModel.create({
     chat: chatId || chat._id,
-    content: result,
+    content: result.content,
     role: "ai",
   });
 

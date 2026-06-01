@@ -1,6 +1,14 @@
 import { ChatMistralAI } from "@langchain/mistralai";
 import { ChatGoogle } from "@langchain/google";
-import { AIMessage, HumanMessage, SystemMessage } from "langchain";
+import {
+  AIMessage,
+  createAgent,
+  HumanMessage,
+  SystemMessage,
+  tool,
+} from "langchain";
+import * as z from "zod";
+import { searchInternet } from "./internet.service.js";
 
 const googleModel = new ChatGoogle({
   model: "gemini-2.5-flash-lite",
@@ -12,18 +20,31 @@ const mistralModel = new ChatMistralAI({
   apiKey: process.env.MISTRAL_API_KEY,
 });
 
+const searchInternetTool = tool(searchInternet, {
+  name: "searchInternet",
+  description: "Use this tool to get the latest information from the internet",
+  schema: z.object({
+    query: z.string().describe("The search query to look up on the internet"),
+  }),
+});
+
+const agent = createAgent({
+  model: mistralModel,
+  tools: [searchInternetTool],
+});
+
 export async function generateResponse(messages) {
-  const newMessages = messages.map((msg) => {
-    if (msg.role == "user") {
-      return new HumanMessage(msg.content);
-    } else {
-      return new AIMessage(msg.content);
-    }
+  const response = await agent.invoke({
+    messages: messages.map((msg) => {
+      if (msg.role == "user") {
+        return new HumanMessage(msg.content);
+      } else if (msg.role == "ai") {
+        return new AIMessage(msg.content);
+      }
+    }),
   });
 
-  const response = await googleModel.invoke(newMessages);
-
-  return response.content;
+  return response.messages[response.messages.length - 1];
 }
 
 export async function generateChatTitle(message) {
