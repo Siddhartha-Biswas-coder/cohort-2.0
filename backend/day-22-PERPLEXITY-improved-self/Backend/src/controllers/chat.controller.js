@@ -1,4 +1,7 @@
 import { generateResponse, generateChatTitle } from "../services/ai.service.js";
+import { renameChatById } from "../services/chat.service.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
+import ApiResponse from "../utils/ApiResponse.js";
 import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
 
@@ -74,6 +77,21 @@ export async function getMessages(req, res) {
     messages,
   });
 }
+
+export const renameChat = asyncHandler(async (req, res) => {
+  const { chatId } = req.params;
+  const { title } = req.body;
+
+  const chat = await renameChatById({
+    chatId,
+    title,
+    userId: req.user.id,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, chat, "Chat renamed successfully"));
+});
 
 export async function deleteChat(req, res) {
   const userId = req.user.id;

@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useChat } from "../hooks/useChat";
 
 import Sidebar from "../components/Sidebar";
 import ChatMessages from "../components/ChatMessages";
 import ChatInput from "../components/ChatInput";
 import ChatHeader from "../components/ChatHeader";
+import { setCurrentChatId } from "../chat.slice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const chat = useChat();
   const [chatInput, setChatInput] = useState("");
   const chats = useSelector((state) => state.chat.chats);
   const currentChatId = useSelector((state) => state.chat.currentChatId);
+
+  const handleRenameChat = async (title) => {
+    if (!currentChatId) return;
+
+    await chat.handleRenameChat(currentChatId, title);
+  };
+
+  const handleDeleteChat = async (chatId) => {
+   await chat.handleDeleteChat(chatId);
+  };
 
   useEffect(() => {
     chat.intitailizeSocketConnection();
@@ -36,15 +48,29 @@ const Dashboard = () => {
     chat.handleOpenChat(chatId, chats);
   };
 
+  const handleNewChat = () => {
+    dispatch(setCurrentChatId(null));
+    setChatInput("");
+  };
+
   const currentChat = chats[currentChatId];
 
   return (
     <main className="h-screen w-full flex bg-[#07090f] p-3 text-white md:p-5">
       <section className="mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none">
-        <Sidebar chats={chats} openChat={openChat} />
+        <Sidebar
+          chats={chats}
+          openChat={openChat}
+          handleNewChat={handleNewChat}
+          currentChatId={currentChatId}
+        />
 
         <section className="relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4">
-          <ChatHeader currentChat={currentChat} />
+          <ChatHeader
+            currentChat={currentChat}
+            onRename={handleRenameChat}
+            onDelete={handleDeleteChat}
+          />
 
           <ChatMessages
             chats={chats}

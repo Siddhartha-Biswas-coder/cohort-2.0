@@ -27,6 +27,22 @@ const chatSlice = createSlice({
       const { chatId, messages } = action.payload;
       state.chats[chatId].messages.push(...messages);
     },
+    updateChatTitle: (state, action) => {
+      const { chatId, title } = action.payload;
+
+      if (state.chats[chatId]) {
+        state.chats[chatId].title = title;
+      }
+    },
+    deleteChat: (state, action) => {
+      const chatId = action.payload;
+
+      delete state.chats[chatId];
+
+      if (state.currentChatId === chatId) {
+        state.currentChatId = null;
+      }
+    },
     setChats: (state, action) => {
       state.chats = action.payload;
     },
@@ -50,6 +66,8 @@ export const {
   createNewChat,
   addNewMessage,
   addMessages,
+  updateChatTitle,
+  deleteChat,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

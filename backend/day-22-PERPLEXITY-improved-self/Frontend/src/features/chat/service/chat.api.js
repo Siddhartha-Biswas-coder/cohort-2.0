@@ -23,6 +23,12 @@ export async function getMessages(chatId) {
   return response.data;
 }
 
+export async function renameChat(chatId, title) {
+  const response = await api.patch(`/api/chats/${chatId}`, { title });
+
+  return response.data;
+}
+
 export async function deleteChat(chatId) {
   const response = await api.delete(`api/chats/delete/${chatId}`);
   return response.data;
