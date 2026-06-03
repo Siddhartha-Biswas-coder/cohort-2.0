@@ -73,7 +73,7 @@ const Dashboard = () => {
           currentChatId={currentChatId}
         />
 
-        <section className="relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4">
+        <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">
           <ChatHeader
             currentChat={currentChat}
             onRename={handleRenameChat}

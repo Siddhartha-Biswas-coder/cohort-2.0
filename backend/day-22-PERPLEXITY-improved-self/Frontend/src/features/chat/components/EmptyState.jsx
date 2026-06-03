@@ -1,5 +1,7 @@
 import React from "react";
 import { SUGGESTIONS } from "../../../constants/suggestions";
+import SuggestionCard from "./SuggestionCard";
+
 
 const EmptyState = ({ onSuggestionClick }) => {
   return (
@@ -11,17 +13,15 @@ const EmptyState = ({ onSuggestionClick }) => {
         answers.
       </p>
 
-      <div className="mt-8 flex flex-wrap justify-center gap-3">
+      <div className="mt-10 grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-2">
         {SUGGESTIONS.map((item) => (
-          <button
-            key={item}
-            onClick={() => {
-              onSuggestionClick(item);
-            }}
-            className="rounded-full border border-white/20 px-4 py-2 text-sm transition hover:bg-white/10"
-          >
-            {item}
-          </button>
+          <SuggestionCard
+            key={item.title}
+            title={item.title}
+            description={item.description}
+            prompt={item.prompt}
+            onClick={onSuggestionClick}
+          />
         ))}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import { Globe } from "lucide-react";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -83,19 +84,33 @@ const MessageBubble = ({ message }) => {
                 Sources
               </p>
 
-              <div className="flex flex-col gap-2">
-                {message.sources.map((source, index) => (
-                  <a
-                    href={source.url}
-                    key={index}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white"
-                  >
-                    <span>🔗</span>
-                    <span>{source.title}</span>
-                  </a>
-                ))}
+              <div className="grid gap-3 md:grid-cols-2">
+                {message.sources.map((source) => {
+                  const domain = new URL(source.url).hostname.replace(
+                    "www.",
+                    "",
+                  );
+                  return (
+                    <a
+                      href={source.url}
+                      key={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex flex-col rounded-xl border border-white/10 bg-white/2 p-3 transition-all duration-200 hover:border-white/20 hover:bg-white/4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <Globe size={16} className="mt-1 text-white/60" />
+
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium text-white">
+                            {source.title}
+                          </p>
+                          <p className="mt-1 text-xs text-shite/50">{domain}</p>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           )}
