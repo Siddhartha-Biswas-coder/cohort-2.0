@@ -20,8 +20,8 @@ const chatSlice = createSlice({
       };
     },
     addNewMessage: (state, action) => {
-      const { chatId, content, role } = action.payload;
-      state.chats[chatId].messages.push({ content, role });
+      const { chatId, content, role, sources = [] } = action.payload;
+      state.chats[chatId].messages.push({ content, role, sources });
     },
     addMessages: (state, action) => {
       const { chatId, messages } = action.payload;
@@ -41,6 +41,7 @@ const chatSlice = createSlice({
 
       if (state.currentChatId === chatId) {
         state.currentChatId = null;
+        localStorage.removeItem("currentChatId");
       }
     },
     setChats: (state, action) => {

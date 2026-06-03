@@ -1,5 +1,4 @@
 import { ChatMistralAI } from "@langchain/mistralai";
-import { ChatGoogle } from "@langchain/google";
 import {
   AIMessage,
   createAgent,
@@ -10,15 +9,22 @@ import {
 import * as z from "zod";
 import { searchInternet } from "./internet.service.js";
 
-const googleModel = new ChatGoogle({
-  model: "gemini-2.5-flash-lite",
-  apiKey: process.env.GOOGLE_API_KEY,
-});
-
 const mistralModel = new ChatMistralAI({
   model: "mistral-small-latest",
   apiKey: process.env.MISTRAL_API_KEY,
 });
+
+const SYSTEM_PROMPT = `
+You are a helpful AI search assistant.
+
+When answering:
+- Give accurate and concise answers.
+- Use information from tools when available.
+- Do NOT include a "Sources" section.
+- Do NOT list URLs.
+- Do NOT cite websites in the response.
+- Sources are displayed separately by the application.
+`;
 
 const searchInternetTool = tool(searchInternet, {
   name: "searchInternet",
@@ -34,17 +40,41 @@ const agent = createAgent({
 });
 
 export async function generateResponse(messages) {
-  const response = await agent.invoke({
-    messages: messages.map((msg) => {
-      if (msg.role == "user") {
+  const formattedMessages = messages
+    .map((msg) => {
+      if (msg.role === "user") {
         return new HumanMessage(msg.content);
-      } else if (msg.role == "ai") {
+      }
+      if (msg.role === "ai") {
         return new AIMessage(msg.content);
       }
-    }),
+      return null;
+    })
+    .filter(Boolean);
+
+  const response = await agent.invoke({
+    messages: [new SystemMessage(SYSTEM_PROMPT), ...formattedMessages],
   });
 
-  return response.messages[response.messages.length - 1];
+  const finalMessage = response.messages[response.messages.length - 1];
+
+  const toolMessage = response.messages.find((msg) => msg.type === "tool");
+
+  let sources = [];
+
+  if (toolMessage) {
+    const searchData = JSON.parse(toolMessage.content);
+
+    sources = searchData.results.map((result) => ({
+      title: result.title,
+      url: result.url,
+    }));
+  }
+
+  return {
+    content: finalMessage.content,
+    sources,
+  };
 }
 
 export async function generateChatTitle(message) {
@@ -53,7 +83,8 @@ export async function generateChatTitle(message) {
       `You are a helpful assistant that generated concise and descriptive titles for chat conversations,
       
       
-      User will provide you with the first message of a chat conversation, and you will generate a title that csptures the essence of the conversation in 2-4 words. The title should be clear, relevant, and engaging, giving users a quick understanding of the chat's topic.`,
+      User will provide you with the first message of a chat conversation, and you will generate a title that csptures the essence of the conversation in 2-4 words. The title should be clear, relevant, and engaging, giving users a quick understanding of the chat's topic.
+      `,
     ),
 
     new HumanMessage(`
@@ -63,5 +94,5 @@ export async function generateChatTitle(message) {
       `),
   ]);
 
-  return response.content;
+  return response.content.replace(/^"|"$/g, "").trim();
 }

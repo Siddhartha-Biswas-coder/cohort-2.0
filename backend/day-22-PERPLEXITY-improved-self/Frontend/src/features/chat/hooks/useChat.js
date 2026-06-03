@@ -28,9 +28,7 @@ export const useChat = () => {
 
       const data = await sendMessage({ message, chatId });
 
-      console.log("API RESPONSE: ", data);
-
-      const { chat, aiMessage } = data;
+      const { chat, aiMessage, sources } = data;
 
       if (!chatId) {
         dispatch(
@@ -41,6 +39,8 @@ export const useChat = () => {
         );
 
         dispatch(setCurrentChatId(chat._id));
+
+        localStorage.setItem("currentChatId", chat._id);
       }
 
       dispatch(
@@ -56,6 +56,7 @@ export const useChat = () => {
           chatId: chatId || chat._id,
           content: aiMessage.content,
           role: aiMessage.role,
+          sources: aiMessage.sources || [],
         }),
       );
     } catch (error) {
@@ -70,19 +71,23 @@ export const useChat = () => {
       dispatch(setLoading(true));
       const data = await getChats();
       const { chats } = data;
-      dispatch(
-        setChats(
-          chats.reduce((acc, chat) => {
-            acc[chat._id] = {
-              id: chat._id,
-              title: chat.title,
-              messages: [],
-              lastUpdated: chat.updatedAt,
-            };
-            return acc;
-          }, {}),
-        ),
-      );
+
+      const formattedChats = chats.reduce((acc, chat) => {
+        acc[chat._id] = {
+          id: chat._id,
+          title: chat.title,
+          messages: [],
+          lastUpdated: chat.updatedAt,
+        };
+        return acc;
+      }, {});
+
+      dispatch(setChats(formattedChats));
+      const savedChatId = localStorage.getItem("currentChatId");
+
+      if (savedChatId && formattedChats[savedChatId]) {
+        dispatch(setCurrentChatId(savedChatId));
+      }
     } catch (error) {
       dispatch(setError(error.message));
     } finally {
@@ -102,6 +107,7 @@ export const useChat = () => {
           id: msg._id,
           content: msg.content,
           role: msg.role,
+          sources: msg.sources || [],
         }));
 
         dispatch(
@@ -113,6 +119,8 @@ export const useChat = () => {
       }
 
       dispatch(setCurrentChatId(chatId));
+
+      localStorage.setItem("currentChatId", chatId);
     } catch (error) {
       dispatch(setError(error.message));
     } finally {

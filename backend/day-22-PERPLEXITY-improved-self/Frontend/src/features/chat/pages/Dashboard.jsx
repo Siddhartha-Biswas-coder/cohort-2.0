@@ -23,13 +23,26 @@ const Dashboard = () => {
   };
 
   const handleDeleteChat = async (chatId) => {
-   await chat.handleDeleteChat(chatId);
+    await chat.handleDeleteChat(chatId);
+  };
+
+  const handleNewChat = () => {
+    localStorage.removeItem("currentChatId");
+
+    dispatch(setCurrentChatId(null));
+    setChatInput("");
   };
 
   useEffect(() => {
     chat.intitailizeSocketConnection();
     chat.handleGetChats();
   }, []);
+
+  useEffect(() => {
+    if (currentChatId && chats[currentChatId]) {
+      chat.handleOpenChat(currentChatId, chats);
+    }
+  }, [currentChatId]);
 
   const handleSubmitMessage = (event) => {
     event.preventDefault();
@@ -46,11 +59,6 @@ const Dashboard = () => {
 
   const openChat = (chatId) => {
     chat.handleOpenChat(chatId, chats);
-  };
-
-  const handleNewChat = () => {
-    dispatch(setCurrentChatId(null));
-    setChatInput("");
   };
 
   const currentChat = chats[currentChatId];

@@ -10,5 +10,5 @@ export const searchInternet = async ({query}) => {
     searchDepth: "advanced",
   });
 
-  return JSON.stringify(results);
+  return results;
 };

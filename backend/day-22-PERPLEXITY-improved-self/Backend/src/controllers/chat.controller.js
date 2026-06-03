@@ -34,12 +34,16 @@ export async function sendMessage(req, res) {
     chat: chatId || chat._id,
     content: result.content,
     role: "ai",
+    sources: result.sources,
   });
+
+  console.log(result);
 
   res.status(201).json({
     chat,
     userMessage,
     aiMessage,
+    sources: result.sources,
   });
 }
 
