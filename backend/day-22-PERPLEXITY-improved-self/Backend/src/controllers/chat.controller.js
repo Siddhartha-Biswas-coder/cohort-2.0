@@ -4,12 +4,17 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
+import ApiError from "../errors/ApiError.js";
 
-export async function sendMessage(req, res) {
+export const sendMessage = asyncHandler(async (req, res) => {
   const { message, chat: chatId } = req.body;
 
   let title = null,
-    chat = await chatModel.findOne({ _id: chatId });
+    chat = await chatModel.findOne({ _id: chatId, user: req.user.id });
+
+  if (chatId && !chat) {
+    throw new ApiError(404, "Chat not found");
+  }
 
   if (!chatId) {
     title = await generateChatTitle(message);
@@ -45,20 +50,17 @@ export async function sendMessage(req, res) {
     aiMessage,
     sources: result.sources,
   });
-}
+});
 
-export async function getChats(req, res) {
+export const getChats = asyncHandler(async (req, res) => {
   const user = req.user;
 
   const chats = await chatModel.find({ user: user.id });
 
-  res.status(200).json({
-    message: "Chats received successfully",
-    chats,
-  });
-}
+  res.status(200).json(ApiResponse(200, chats, "Chats retrived successfully"));
+});
 
-export async function getMessages(req, res) {
+export const getMessages = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
 
   const chat = await chatModel.findOne({
@@ -67,20 +69,15 @@ export async function getMessages(req, res) {
   });
 
   if (!chat) {
-    return res.status(404).json({
-      message: "Chat not found",
-    });
+    throw new ApiError(404, "Chat not found");
   }
 
   const messages = await messageModel.find({
     chat: chatId,
   });
 
-  res.status(200).json({
-    message: "Messages retrieved successfully",
-    messages,
-  });
-}
+  res.status(200).json(ApiResponse(200, chat, "message retrived successfully"));
+});
 
 export const renameChat = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
@@ -97,7 +94,7 @@ export const renameChat = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, chat, "Chat renamed successfully"));
 });
 
-export async function deleteChat(req, res) {
+export const deleteChat = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { chatId } = req.params;
 
@@ -111,12 +108,8 @@ export async function deleteChat(req, res) {
   });
 
   if (!chat) {
-    return res.status(404).json({
-      message: "Chat not found",
-    });
+    throw new ApiError(404, "Chat not found");
   }
 
-  res.status(200).json({
-    message: "chat deleted successfully",
-  });
-}
+  res.status(200).json(ApiResponse(200, chat, "Chat deleted successfully"));
+});
