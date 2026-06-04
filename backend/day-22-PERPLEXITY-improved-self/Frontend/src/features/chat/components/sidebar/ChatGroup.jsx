@@ -6,6 +6,8 @@ const ChatGroup = ({
   chats,
   currentChatId,
   openChat,
+  openMenuId,
+  setOpenMenuId,
   onRename,
   onDelete,
 }) => {
@@ -22,6 +24,8 @@ const ChatGroup = ({
             chat={chat}
             currentChatId={currentChatId}
             openChat={openChat}
+            openMenuId={openMenuId}
+            setOpenMenuId={setOpenMenuId}
             onRename={onRename}
             onDelete={onDelete}
           />

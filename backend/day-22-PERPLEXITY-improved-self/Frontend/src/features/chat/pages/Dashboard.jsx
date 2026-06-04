@@ -17,10 +17,10 @@ const Dashboard = () => {
 
   const currentChatId = useSelector((state) => state.chat.currentChatId);
 
-  const handleRenameChat = async (title) => {
-    if (!currentChatId) return;
+  const handleRenameChat = async (chatId, title) => {
+    if (!chatId) return;
 
-    await chat.handleRenameChat(currentChatId, title);
+    await chat.handleRenameChat(chatId, title);
   };
 
   const handleDeleteChat = async (chatId) => {

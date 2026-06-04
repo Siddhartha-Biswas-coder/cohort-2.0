@@ -1,60 +1,83 @@
-import React, { useEffect, useRef, useState } from "react";
 import { MoreHorizontal } from "lucide-react";
-import ChatMenu from "./ChatMenu";
+import React, { useEffect, useRef, useState } from "react";
+import ChatMenu from "./ChatMenu.jsx";
 
-const ChatItem = ({ chat, currentChatId, openChat, onRename, onDelete }) => {
+const ChatItem = ({
+  chat,
+  currentChatId,
+  openChat,
+  onRename,
+  onDelete,
+  openMenuId,
+  setOpenMenuId,
+}) => {
   const menuRef = useRef(null);
 
-  const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(chat.title);
+
+  const showMenu = openMenuId === chat.id;
+  const isActive = currentChatId === chat.id;
 
   useEffect(() => {
     setTitle(chat.title);
   }, [chat.title]);
 
   useEffect(() => {
-    const handleClickOutiside = (event) => {
+    const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowMenu(false);
+        setOpenMenuId(null);
+
+        if (isEditing) {
+          setTitle(chat.title);
+          setIsEditing(false);
+        }
       }
     };
-
-    document.addEventListener("click", handleClickOutiside);
-
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutiside);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [isEditing, chat.title, setOpenMenuId]);
 
-  const isActive = currentChatId === chat.id;
+  const handleSaveRename = async () => {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
+      setTitle(chat.title);
+      setIsEditing(false);
+      return;
+    }
+
+    await onRename(chat.id, trimmedTitle);
+
+    setIsEditing(false);
+  };
 
   return (
     <div
-      onClick={() => openChat(chat.id)}
-      className={`w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium transition
-    ${
-      isActive
-        ? "border border-white bg-white/10 text-white"
-        : "border border-white/10 text-white/80 hover:border-white/20 hover:bg-white/5 hover:text-white"
-    }`}
+      ref={menuRef}
+      onClick={() => {
+        if (isEditing) return;
+        openChat(chat.id);
+      }}
+      className={`w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium transition ${
+        isActive
+          ? "border border-white bg-white/10 text-white"
+          : "border border-white/10 text-white/80 hover:border-white/20 hover:bg-white/5"
+      }`}
     >
       <div className="group relative flex items-center justify-between">
         {isEditing ? (
           <input
             autoFocus
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            onClick={(event) => event.stopPropagation()}
+            onChange={(e) => setTitle(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+            onBlur={handleSaveRename}
             onKeyDown={async (event) => {
               if (event.key === "Enter") {
-                const trimmedTitle = title.trim();
-
-                if (!trimmedTitle) return;
-
-                await onRename(chat.id, trimmedTitle);
-
-                setIsEditing(false);
+                await handleSaveRename();
               }
 
               if (event.key === "Escape") {
@@ -62,41 +85,53 @@ const ChatItem = ({ chat, currentChatId, openChat, onRename, onDelete }) => {
                 setIsEditing(false);
               }
             }}
-            className="w-full bg-transparent outline-none"
+            className="min-w-0 flex-1 bg-transparent outline-none"
           />
         ) : (
           <p className="min-w-0 flex-1 truncate">{chat.title}</p>
         )}
 
-        <button
-          className={`ml-2 shrink-0 opacity-0 cursor-pointer transition-opacity group-hover:opacity-100 ${showMenu && !isEditing ? "opacity-100" :""}`}
-          onClick={(event) => {
-            event.stopPropagation();
-            setShowMenu((prev) => !prev);
-          }}
-        >
-          <MoreHorizontal size={16} />
-        </button>
+        {!isEditing && (
+          <button
+            className={`ml-2 shrink-0 cursor-pointer transition-opacity ${
+              showMenu || isActive
+                ? "opacity-100 "
+                : "opacity-0 group-hover:opacity-100"
+            }`}
+            onClick={(event) => {
+              event.stopPropagation();
 
-        <div ref={menuRef}>
-          {showMenu && !isEditing && (
-            <ChatMenu
-              onRenameClick={() => {
+              if (showMenu) {
+                setOpenMenuId(null);
+              } else {
+                setOpenMenuId(chat.id);
+              }
+            }}
+          >
+            <MoreHorizontal size={16} />
+          </button>
+        )}
+
+        {showMenu && !isEditing && (
+          <ChatMenu
+            onRenameClick={() => {
+              setOpenMenuId(null);
+
+              setTimeout(() => {
                 setIsEditing(true);
-                setShowMenu(false);
-              }}
-              onDeleteClick={() => {
-                setShowMenu(false);
+              }, 0);
+            }}
+            onDeleteClick={() => {
+              setOpenMenuId(null);
 
-                const confirmed = window.confirm("Delete this chat?");
+              const confirmed = window.confirm("Delete this chat?");
 
-                if (confirmed) {
-                  onDelete(chat.id);
-                }
-              }}
-            />
-          )}
-        </div>
+              if (confirmed) {
+                onDelete(chat.id);
+              }
+            }}
+          />
+        )}
       </div>
     </div>
   );

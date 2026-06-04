@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatItem from "./ChatItem";
 import EmptySearch from "./EmptySearch";
 import ChatGroup from "./ChatGroup";
@@ -11,6 +11,8 @@ const ChatList = ({
   onRename,
   onDelete,
 }) => {
+  const [openMenuId, setOpenMenuId] = useState(null);
+
   const filteredChats = Object.values(chats).filter((chat) =>
     chat.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -55,6 +57,8 @@ const ChatList = ({
           chats={groupChats.today}
           currentChatId={currentChatId}
           openChat={openChat}
+          openMenuId={openMenuId}
+          setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -65,6 +69,8 @@ const ChatList = ({
           chats={groupChats.yesterday}
           currentChatId={currentChatId}
           openChat={openChat}
+          openMenuId={openMenuId}
+          setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -75,6 +81,8 @@ const ChatList = ({
           chats={groupChats.previous7days}
           currentChatId={currentChatId}
           openChat={openChat}
+          openMenuId={openMenuId}
+          setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -85,6 +93,8 @@ const ChatList = ({
           chats={groupChats.older}
           currentChatId={currentChatId}
           openChat={openChat}
+          openMenuId={openMenuId}
+          setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
         />
