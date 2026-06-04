@@ -70,7 +70,7 @@ export const useChat = () => {
     try {
       dispatch(setLoading(true));
       const data = await getChats();
-      const { chats } = data;
+      const { data: chats } = data;
 
       const formattedChats = chats.reduce((acc, chat) => {
         acc[chat._id] = {
@@ -101,7 +101,7 @@ export const useChat = () => {
 
       if (chats[chatId]?.messages.length === 0) {
         const data = await getMessages(chatId);
-        const { messages } = data;
+        const { data: messages } = data;
 
         const formattedMessags = messages.map((msg) => ({
           id: msg._id,

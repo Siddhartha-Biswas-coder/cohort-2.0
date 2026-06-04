@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useChat } from "../hooks/useChat";
 
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import ChatMessages from "../components/ChatMessages";
 import ChatInput from "../components/ChatInput";
 import ChatHeader from "../components/ChatHeader";
@@ -14,6 +14,7 @@ const Dashboard = () => {
   const chat = useChat();
   const [chatInput, setChatInput] = useState("");
   const chats = useSelector((state) => state.chat.chats);
+
   const currentChatId = useSelector((state) => state.chat.currentChatId);
 
   const handleRenameChat = async (title) => {
@@ -71,14 +72,12 @@ const Dashboard = () => {
           openChat={openChat}
           handleNewChat={handleNewChat}
           currentChatId={currentChatId}
+          onRename={handleRenameChat}
+          onDelete={handleDeleteChat}
         />
 
         <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">
-          <ChatHeader
-            currentChat={currentChat}
-            onRename={handleRenameChat}
-            onDelete={handleDeleteChat}
-          />
+          <ChatHeader currentChat={currentChat} />
 
           <ChatMessages
             chats={chats}

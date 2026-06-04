@@ -42,8 +42,6 @@ export const sendMessage = asyncHandler(async (req, res) => {
     sources: result.sources,
   });
 
-  console.log(result);
-
   res.status(201).json({
     chat,
     userMessage,
@@ -57,7 +55,7 @@ export const getChats = asyncHandler(async (req, res) => {
 
   const chats = await chatModel.find({ user: user.id });
 
-  res.status(200).json(ApiResponse(200, chats, "Chats retrived successfully"));
+  res.status(200).json(new ApiResponse(200, chats, "Chats retrived successfully"));
 });
 
 export const getMessages = asyncHandler(async (req, res) => {
@@ -76,7 +74,7 @@ export const getMessages = asyncHandler(async (req, res) => {
     chat: chatId,
   });
 
-  res.status(200).json(ApiResponse(200, chat, "message retrived successfully"));
+  res.status(200).json(new ApiResponse(200, messages, "message retrived successfully"));
 });
 
 export const renameChat = asyncHandler(async (req, res) => {
@@ -111,5 +109,5 @@ export const deleteChat = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Chat not found");
   }
 
-  res.status(200).json(ApiResponse(200, chat, "Chat deleted successfully"));
+  res.status(200).json(new ApiResponse(200, chat, "Chat deleted successfully"));
 });
