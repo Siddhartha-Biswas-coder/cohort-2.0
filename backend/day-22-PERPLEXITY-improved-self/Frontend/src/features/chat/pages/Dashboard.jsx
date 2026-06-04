@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useChat } from "../hooks/useChat";
 
 import Sidebar from "../components/sidebar/Sidebar";
-import ChatMessages from "../components/ChatMessages";
-import ChatInput from "../components/ChatInput";
-import ChatHeader from "../components/ChatHeader";
+import ChatMessages from "../components/messages/ChatMessages";
+import ChatInput from "../components/input/ChatInput";
+import ChatHeader from "../components/header/ChatHeader";
+ChatHeader;
 import { setCurrentChatId } from "../chat.slice";
 
 const Dashboard = () => {

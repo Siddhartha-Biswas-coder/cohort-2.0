@@ -5,6 +5,7 @@ import { Globe } from "lucide-react";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import SourceCard from "./SourceCard";
 
 const MessageBubble = ({ message }) => {
   const [copied, setCopied] = useState(false);
@@ -25,7 +26,7 @@ const MessageBubble = ({ message }) => {
 
   return (
     <div
-      className={`group relative max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${
+      className={`group relative max-w-[90%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${
         message.role === "user"
           ? "ml-auto rounded-br-none bg-white/12 text-white"
           : "mr-auto border-none text-white/90"
@@ -46,7 +47,7 @@ const MessageBubble = ({ message }) => {
             <ReactMarkdown
               components={{
                 p: ({ children }) => (
-                  <p className="mb-2 last:mb-0">{children}</p>
+                  <p className="mb-4 leading-7 last:mb-0">{children}</p>
                 ),
                 ul: ({ children }) => (
                   <ul className="mb-2 list-disc pl-5">{children}</ul>
@@ -66,7 +67,7 @@ const MessageBubble = ({ message }) => {
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
                   ) : (
-                    <code className="rounded bg-white/10 px-1 py-0.5">
+                    <code className="rounded-2xl overflow-hidden bg-white/10 px-1 py-0.5">
                       {children}
                     </code>
                   );
@@ -79,38 +80,15 @@ const MessageBubble = ({ message }) => {
           </div>
 
           {message.sources?.length > 0 && (
-            <div className="mt-4 border-t border-white/10 pt-3">
-              <p className="mb-2 text-xs font-semibold text-white/50">
+            <div className="mt-6">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
                 Sources
               </p>
 
               <div className="grid gap-3 md:grid-cols-2">
-                {message.sources.map((source) => {
-                  const domain = new URL(source.url).hostname.replace(
-                    "www.",
-                    "",
-                  );
-                  return (
-                    <a
-                      href={source.url}
-                      key={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex flex-col rounded-xl border border-white/10 bg-white/2 p-3 transition-all duration-200 hover:border-white/20 hover:bg-white/4"
-                    >
-                      <div className="flex items-start gap-3">
-                        <Globe size={16} className="mt-1 text-white/60" />
-
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-medium text-white">
-                            {source.title}
-                          </p>
-                          <p className="mt-1 text-xs text-shite/50">{domain}</p>
-                        </div>
-                      </div>
-                    </a>
-                  );
-                })}
+                {message.sources.map((source) => (
+                  <SourceCard key={source.url} source={source} />
+                ))}
               </div>
             </div>
           )}

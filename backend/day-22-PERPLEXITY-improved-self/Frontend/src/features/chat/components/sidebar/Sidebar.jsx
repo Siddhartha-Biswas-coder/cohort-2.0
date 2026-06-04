@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ChatList from "./ChatList.jsx";
 import ChatSearch from "./ChatSearch.jsx";
+import SidebarLogo from "./SidebarLogo.jsx";
+import NewChatButton from "./NewChatButton.jsx";
+import SidebarFooter from "./SidebarFooter.jsx";
 
 const Sidebar = ({
   chats,
@@ -13,15 +16,10 @@ const Sidebar = ({
   const [searchItem, setSearchItem] = useState("");
 
   return (
-    <aside className="hidden h-full w-64 shrink-0 rounded-3xl border bg-[#080b12] p-4 md:flex md:flex-col">
-      <h1 className="mb-5 text-3xl font-semibold tracking-tight">Perplexity</h1>
+    <aside className="hidden h-full w-72 shrink-0 rounded-3xl border border-white/10 bg-[#0b0f17] shadow-2xl p-5 md:flex md:flex-col">
+      <SidebarLogo />
 
-      <button
-        onClick={handleNewChat}
-        className="mb-4 rounded-xl border border-white/20 px-4 py-3"
-      >
-        + New Chat
-      </button>
+      <NewChatButton onClick={handleNewChat} />
 
       <ChatSearch searchItem={searchItem} setSearchItem={setSearchItem} />
 
@@ -35,6 +33,8 @@ const Sidebar = ({
           onDelete={onDelete}
         />
       </div>
+
+      <SidebarFooter />
     </aside>
   );
 };

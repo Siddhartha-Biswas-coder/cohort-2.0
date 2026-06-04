@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
-import EmptyState from "./EmptyState";
+import EmptyState from "../EmptyState";
 import { useSelector } from "react-redux";
 import TypingIndicator from "./TypingIndicator";
 

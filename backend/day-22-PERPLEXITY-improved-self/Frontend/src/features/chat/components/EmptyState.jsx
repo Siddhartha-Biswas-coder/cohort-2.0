@@ -5,7 +5,7 @@ import SuggestionCard from "./SuggestionCard";
 
 const EmptyState = ({ onSuggestionClick }) => {
   return (
-    <div className="flex h-full flex-col items-center justify-center text-center">
+    <div className="mx-auto mt-20 flex max-w-4xl flex-col items-center text-center">
       <h1 className="mb-3 text-4xl font-bold">Ask Anything</h1>
 
       <p className="max-w-md text-white/60">
