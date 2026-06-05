@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 const httpServer = http.createServer(app);
 
-initSocket(httpServer)
+initSocket(httpServer);
 
 connectToDB().catch((err) => {
   console.error("MongoDB connection failed: ", err);

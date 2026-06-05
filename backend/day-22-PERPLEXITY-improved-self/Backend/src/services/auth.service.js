@@ -57,6 +57,14 @@ export async function registerUser({ username, email, password }) {
   return user;
 }
 
+export function verifyAccessToken(token) {
+  if (!token) {
+    throw new ApiError(401, "Unauthorized");
+  }
+
+  return jwt.verify(token, process.env.JWT_SECRET);
+}
+
 /**
  * Login controller services
  */

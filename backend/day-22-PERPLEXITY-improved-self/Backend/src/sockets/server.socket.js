@@ -1,4 +1,6 @@
 import { Server } from "socket.io";
+import { socketAuth } from "../middlewares/socketAuth.middleware.js";
+import { addUserSocket, removeUserSocket } from "./socketRegistry.js";
 
 let io;
 
@@ -10,10 +12,14 @@ export function initSocket(httpServer) {
     },
   });
 
+  io.use(socketAuth);
+
   console.log("Socket.io server is running");
 
   io.on("connection", (socket) => {
-    console.log("A user connected: " + socket.id);
+    console.log(`User ${socket.user.username} connected`);
+
+    addUserSocket(socket.user.id, socket.id);
 
     socket.on("test-stream", () => {
       socket.emit("ai-stream-start");
@@ -35,6 +41,13 @@ export function initSocket(httpServer) {
 
         index++;
       }, 500);
+    });
+
+    socket.on("disconnect", () => {
+      removeUserSocket(socket.user.id);
+
+      console.log(`
+      User ${socket.user.username} disconnected`);
     });
   });
 }
