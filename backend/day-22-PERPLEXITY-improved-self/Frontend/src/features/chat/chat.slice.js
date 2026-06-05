@@ -67,11 +67,24 @@ const chatSlice = createSlice({
 
       if (!currentChat) return;
 
+      if (!currentChat.messages.length) return;
+
       const lastMessage = currentChat.messages[currentChat.messages.length - 1];
 
       if (!lastMessage) return;
 
       lastMessage.content += action.payload;
+    },
+    createStreamingMessage: (state, action) => {
+      const chatId = action.payload;
+
+      if (!state.chats[chatId]) return;
+
+      state.chats[chatId].messages.push({
+        role: "ai",
+        content: "",
+        sources: [],
+      });
     },
   },
 });
@@ -88,6 +101,7 @@ export const {
   updateChatTitle,
   deleteChat,
   appendToLastMessage,
+  createStreamingMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

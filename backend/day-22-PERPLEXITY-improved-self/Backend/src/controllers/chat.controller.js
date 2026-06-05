@@ -1,10 +1,18 @@
-import { generateResponse, generateChatTitle } from "../services/ai.service.js";
+import {
+  generateResponse,
+  generateChatTitle,
+  SEARCH_PROMPT,
+  RESEARCH_PROMPT,
+} from "../services/ai.service.js";
 import { renameChatById } from "../services/chat.service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
 import ApiError from "../errors/ApiError.js";
+import { getIo } from "../sockets/server.socket.js";
+import { getUserSocket } from "../sockets/socketRegistry.js";
+import { streamResponse } from "../services/ai.stream.service.js";
 
 export const sendMessage = asyncHandler(async (req, res) => {
   const { message, chat: chatId, mode } = req.body;
@@ -31,22 +39,43 @@ export const sendMessage = asyncHandler(async (req, res) => {
     role: "user",
   });
 
+  const io = getIo();
+  const socketId = getUserSocket(req.user.id);
+
+  if (!socketId) {
+    throw new ApiError(404, "No socket found for user");
+  }
+
   const messages = await messageModel.find({ chat: chatId || chat._id });
 
-  const result = await generateResponse(messages, mode);
+  let finalContent = "";
+
+  io.to(socketId).emit("ai-stream-start");
+
+  finalContent = await streamResponse({
+    messages,
+    systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
+    onChunk: (chunk) => {
+      io.to(socketId).emit("ai-stream-chunk", chunk);
+    },
+  });
+
+  io.to(socketId).emit("ai-stream-end");
+
+  // const result = await generateResponse(messages, mode);
 
   const aiMessage = await messageModel.create({
     chat: chatId || chat._id,
-    content: result.content,
+    content: finalContent,
     role: "ai",
-    sources: result.sources,
+    sources: [],
   });
 
   res.status(201).json({
     chat,
     userMessage,
     aiMessage,
-    sources: result.sources,
+    sources: [],
   });
 });
 

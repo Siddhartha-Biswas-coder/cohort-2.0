@@ -83,12 +83,6 @@ const Dashboard = () => {
         />
 
         <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">
-          <button
-            onClick={() => chat.emitTestStream()}
-            className="fixed top-4 right-4 z-50 bg-red-500 px-4 py-2"
-          >
-            Test Stream
-          </button>
           <ChatHeader currentChat={currentChat} />
 
           <ChatMessages

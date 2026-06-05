@@ -9,12 +9,12 @@ import {
 import * as z from "zod";
 import { searchInternet } from "./internet.service.js";
 
-const mistralModel = new ChatMistralAI({
+export const mistralModel = new ChatMistralAI({
   model: "mistral-small-latest",
   apiKey: process.env.MISTRAL_API_KEY,
 });
 
-const SEARCH_PROMPT = `
+export const SEARCH_PROMPT = `
 You are a helpful AI search assistant.
 
 When answering:
@@ -27,7 +27,7 @@ When answering:
 - Sources are shown separately by the application.
 `;
 
-const RESEARCH_PROMPT = `
+export const RESEARCH_PROMPT = `
 You are an advanced AI research assistant.
 
 When answering:
@@ -54,7 +54,7 @@ const searchInternetTool = tool(searchInternet, {
   }),
 });
 
-const agent = createAgent({
+export const agent = createAgent({
   model: mistralModel,
   tools: [searchInternetTool],
 });

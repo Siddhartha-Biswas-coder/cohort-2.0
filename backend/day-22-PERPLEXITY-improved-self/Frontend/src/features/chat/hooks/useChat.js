@@ -19,6 +19,7 @@ import {
   addNewMessage,
   addMessages,
   appendToLastMessage,
+  createStreamingMessage,
   updateChatTitle as renameChatReducer,
   deleteChat as deleteChatReducer,
 } from "../chat.slice.js";
@@ -37,6 +38,16 @@ export const useChat = () => {
 
       const { chat, aiMessage, sources } = data;
 
+      const activeChatId = chatId || chat._id;
+
+      dispatch(
+        addNewMessage({
+          chatId: activeChatId,
+          content: message,
+          role: "user",
+        }),
+      );
+
       if (!chatId) {
         dispatch(
           createNewChat({
@@ -49,23 +60,6 @@ export const useChat = () => {
 
         localStorage.setItem("currentChatId", chat._id);
       }
-
-      dispatch(
-        addNewMessage({
-          chatId: chatId || chat._id,
-          content: message,
-          role: "user",
-        }),
-      );
-
-      dispatch(
-        addNewMessage({
-          chatId: chatId || chat._id,
-          content: aiMessage.content,
-          role: aiMessage.role,
-          sources: aiMessage.sources || [],
-        }),
-      );
     } catch (error) {
       dispatch(setError(error.message));
     } finally {
@@ -172,13 +166,7 @@ export const useChat = () => {
     registerSocketEvents({
       onStreamStart: () => {
         console.log("Stream Started");
-        dispatch(
-          addNewMessage({
-            chatId: currentChatId,
-            content: "",
-            role: "ai",
-          }),
-        );
+        dispatch(createStreamingMessage(currentChatId));
       },
 
       onStreamChunk: (chunk) => {
