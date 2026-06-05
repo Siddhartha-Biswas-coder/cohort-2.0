@@ -14,16 +14,36 @@ const mistralModel = new ChatMistralAI({
   apiKey: process.env.MISTRAL_API_KEY,
 });
 
-const SYSTEM_PROMPT = `
+const SEARCH_PROMPT = `
 You are a helpful AI search assistant.
 
 When answering:
-- Give accurate and concise answers.
-- Use information from tools when available.
-- Do NOT include a "Sources" section.
-- Do NOT list URLs.
-- Do NOT cite websites in the response.
-- Sources are displayed separately by the application.
+
+- Give concise answers.
+- Be direct.
+- Use bullet points when helpful.
+- Keep responses relatively short.
+- Do NOT include a Sources section.
+- Sources are shown separately by the application.
+`;
+
+const RESEARCH_PROMPT = `
+You are an advanced AI research assistant.
+
+When answering:
+
+- Produce a structured report.
+- Use markdown headings.
+- Explain topics in depth.
+- Include:
+  Overview
+  Key Findings
+  Analysis
+  Conclusion
+
+- Use information from tools whenever possible.
+- Do NOT include a Sources section.
+- Sources are shown separately by the application.
 `;
 
 const searchInternetTool = tool(searchInternet, {
@@ -39,7 +59,7 @@ const agent = createAgent({
   tools: [searchInternetTool],
 });
 
-export async function generateResponse(messages) {
+export async function generateResponse(messages, mode = "search") {
   const formattedMessages = messages
     .map((msg) => {
       if (msg.role === "user") {
@@ -51,6 +71,8 @@ export async function generateResponse(messages) {
       return null;
     })
     .filter(Boolean);
+
+  const SYSTEM_PROMPT = mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT;
 
   const response = await agent.invoke({
     messages: [new SystemMessage(SYSTEM_PROMPT), ...formattedMessages],

@@ -22,11 +22,11 @@ import { useDispatch } from "react-redux";
 export const useChat = () => {
   const dispatch = useDispatch();
 
-  async function handleSendMessage({ message, chatId }) {
+  async function handleSendMessage({ message, chatId, mode }) {
     try {
       dispatch(setLoading(true));
 
-      const data = await sendMessage({ message, chatId });
+      const data = await sendMessage({ message, chatId, mode });
 
       const { chat, aiMessage, sources } = data;
 

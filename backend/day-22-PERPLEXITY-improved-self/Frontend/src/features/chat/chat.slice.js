@@ -4,6 +4,7 @@ const chatSlice = createSlice({
   name: "chat",
   initialState: {
     chats: {},
+    mode: "search",
     currentChatId: null,
     isLoading: false,
     error: null,
@@ -56,6 +57,9 @@ const chatSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setMode: (state, action) => {
+      state.mode = action.payload;
+    },
   },
 });
 
@@ -64,6 +68,7 @@ export const {
   setCurrentChatId,
   setLoading,
   setError,
+  setMode,
   createNewChat,
   addNewMessage,
   addMessages,

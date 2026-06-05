@@ -15,7 +15,7 @@ const Dashboard = () => {
   const chat = useChat();
   const [chatInput, setChatInput] = useState("");
   const chats = useSelector((state) => state.chat.chats);
-
+  const mode = useSelector((state) => state.chat.mode);
   const currentChatId = useSelector((state) => state.chat.currentChatId);
 
   const handleRenameChat = async (chatId, title) => {
@@ -55,7 +55,11 @@ const Dashboard = () => {
       return;
     }
 
-    chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId });
+    chat.handleSendMessage({
+      message: trimmedMessage,
+      chatId: currentChatId,
+      mode,
+    });
     setChatInput("");
   };
 

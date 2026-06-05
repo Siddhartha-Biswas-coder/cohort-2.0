@@ -6,6 +6,7 @@ import { Globe } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import SourceCard from "./SourceCard";
+import MessageActions from "./MessageActions";
 
 const MessageBubble = ({ message }) => {
   const [copied, setCopied] = useState(false);
@@ -36,14 +37,9 @@ const MessageBubble = ({ message }) => {
         <p>{message.content}</p>
       ) : (
         <>
-          <button
-            className="absolute top-2 right-2 text-xs rounded-md px-2 py-1 cursor-pointer text-white/70 hover:text-white hover:bg-white/10 transition-all opacity-0 group-hover:opacity-100 "
-            onClick={handleCopy}
-          >
-            {copied ? "✓ Copied" : "📋 Copy"}
-          </button>
+          <MessageActions copied={copied} onCopy={handleCopy} />
 
-          <div className="pr-16">
+          <div className="pr-32">
             <ReactMarkdown
               components={{
                 p: ({ children }) => (
@@ -63,6 +59,11 @@ const MessageBubble = ({ message }) => {
                       style={oneDark}
                       language={match[1]}
                       PreTag="div"
+                      customStyle={{
+                        borderRadius: "16px",
+                        marginTop: "1rem",
+                        marginBottom: "1rem",
+                      }}
                     >
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>

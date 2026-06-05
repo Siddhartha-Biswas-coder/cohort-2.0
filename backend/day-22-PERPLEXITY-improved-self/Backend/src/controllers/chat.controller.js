@@ -7,7 +7,7 @@ import messageModel from "../models/message.model.js";
 import ApiError from "../errors/ApiError.js";
 
 export const sendMessage = asyncHandler(async (req, res) => {
-  const { message, chat: chatId } = req.body;
+  const { message, chat: chatId, mode } = req.body;
 
   let title = null,
     chat = await chatModel.findOne({ _id: chatId, user: req.user.id });
@@ -33,7 +33,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
 
   const messages = await messageModel.find({ chat: chatId || chat._id });
 
-  const result = await generateResponse(messages);
+  const result = await generateResponse(messages, mode);
 
   const aiMessage = await messageModel.create({
     chat: chatId || chat._id,
@@ -55,7 +55,9 @@ export const getChats = asyncHandler(async (req, res) => {
 
   const chats = await chatModel.find({ user: user.id });
 
-  res.status(200).json(new ApiResponse(200, chats, "Chats retrived successfully"));
+  res
+    .status(200)
+    .json(new ApiResponse(200, chats, "Chats retrived successfully"));
 });
 
 export const getMessages = asyncHandler(async (req, res) => {
@@ -74,7 +76,9 @@ export const getMessages = asyncHandler(async (req, res) => {
     chat: chatId,
   });
 
-  res.status(200).json(new ApiResponse(200, messages, "message retrived successfully"));
+  res
+    .status(200)
+    .json(new ApiResponse(200, messages, "message retrived successfully"));
 });
 
 export const renameChat = asyncHandler(async (req, res) => {
