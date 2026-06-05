@@ -1,4 +1,8 @@
-import { intitailizeSocketConnection } from "../service/chat.socket.js";
+import {
+  emitTestStream,
+  intitalizeSocketConnection,
+  registerSocketEvents,
+} from "../service/chat.socket.js";
 import {
   sendMessage,
   getChats,
@@ -14,13 +18,16 @@ import {
   createNewChat,
   addNewMessage,
   addMessages,
+  appendToLastMessage,
   updateChatTitle as renameChatReducer,
   deleteChat as deleteChatReducer,
 } from "../chat.slice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const useChat = () => {
   const dispatch = useDispatch();
+
+  const currentChatId = useSelector((state) => state.chat.currentChatId);
 
   async function handleSendMessage({ message, chatId, mode }) {
     try {
@@ -161,12 +168,39 @@ export const useChat = () => {
     }
   }
 
+  function intitalizeStreamingListeners() {
+    registerSocketEvents({
+      onStreamStart: () => {
+        console.log("Stream Started");
+        dispatch(
+          addNewMessage({
+            chatId: currentChatId,
+            content: "",
+            role: "ai",
+          }),
+        );
+      },
+
+      onStreamChunk: (chunk) => {
+        dispatch(appendToLastMessage(chunk));
+      },
+
+      onStreamEnd: () => {
+        console.log("Stream Ended");
+      },
+    });
+
+    // emitTestStream();
+  }
+
   return {
-    intitailizeSocketConnection,
+    intitalizeSocketConnection,
+    intitalizeStreamingListeners,
     handleSendMessage,
     handleGetChats,
     handleOpenChat,
     handleRenameChat,
     handleDeleteChat,
+    emitTestStream,
   };
 };

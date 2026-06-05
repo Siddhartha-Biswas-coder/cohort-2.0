@@ -14,6 +14,28 @@ export function initSocket(httpServer) {
 
   io.on("connection", (socket) => {
     console.log("A user connected: " + socket.id);
+
+    socket.on("test-stream", () => {
+      socket.emit("ai-stream-start");
+
+      const words = ["Redis ", "is ", "an ", "in-memory ", "database."];
+
+      let index = 0;
+
+      const interval = setInterval(() => {
+        if (index >= words.length) {
+          clearInterval(interval);
+
+          socket.emit("ai-stream-end");
+
+          return;
+        }
+
+        socket.emit("ai-stream-chunk", words[index]);
+
+        index++;
+      }, 500);
+    });
   });
 }
 
