@@ -46,7 +46,9 @@ export const sendMessage = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No socket found for user");
   }
 
-  const messages = await messageModel.find({ chat: chatId || chat._id });
+  const messages = (await messageModel.find({ chat: chatId || chat._id })).sort(
+    { createdAt: 1 },
+  );
 
   let finalContent = "";
 
@@ -61,9 +63,6 @@ export const sendMessage = asyncHandler(async (req, res) => {
   });
 
   io.to(socketId).emit("ai-stream-end");
-
-  // const result = await generateResponse(messages, mode);
-
   const aiMessage = await messageModel.create({
     chat: chatId || chat._id,
     content: finalContent,

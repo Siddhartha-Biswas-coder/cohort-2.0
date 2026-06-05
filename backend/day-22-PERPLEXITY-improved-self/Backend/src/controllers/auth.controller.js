@@ -51,7 +51,11 @@ export const login = asyncHandler(async (req, res) => {
 
   const token = generateAccessToken(user);
 
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
 
   return res.status(200).json(
     new ApiResponse(

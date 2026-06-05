@@ -2,7 +2,8 @@ import { ExternalLink, Globe } from "lucide-react";
 import React from "react";
 
 const SourceCard = ({ source }) => {
-  const domain = new URL(source.url).hostname.replace("www.", "");
+  let domain = "";
+  domain = new URL(source.url).hostname.replace("www.", "");
   return (
     <a
       href={source.url}
@@ -12,7 +13,7 @@ const SourceCard = ({ source }) => {
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Globe size={16} className="text-xyan-400" />
+          <Globe size={16} className="text-cyan-400" />
           <span className="text-sm font-medium text-white">{source.title}</span>
         </div>
         <ExternalLink

@@ -62,7 +62,7 @@ const InputModes = () => {
         <span
           className={`relative z-10 ${mode === "research" ? "text-cyan-300" : "text-white/60"}`}
         >
-          Reseach
+          Research
         </span>
       </button>
     </div>

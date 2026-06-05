@@ -23,10 +23,12 @@ export function useAuth() {
       dispatch(setLoading(true));
       const data = await login({ email, password });
       dispatch(setUser(data.user));
+      return true;
     } catch (error) {
       dispatch(
         setError(error.response?.data?.message || "Login process failed"),
       );
+      return false;
     } finally {
       dispatch(setLoading(false));
     }
@@ -38,7 +40,9 @@ export function useAuth() {
       const data = await getMe();
       dispatch(setUser(data.user));
     } catch (error) {
-      setError(error.message?.data?.message || "Failed to fetch user data");
+      dispatch(
+        setError(error.message?.data?.message || "Failed to fetch user data"),
+      );
     } finally {
       dispatch(setLoading(false));
     }

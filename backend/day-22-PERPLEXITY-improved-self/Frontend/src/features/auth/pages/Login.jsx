@@ -23,14 +23,16 @@ const Login = () => {
       password,
     };
 
-    await handleLogin(payload);
-    navigate("/");
+    const success = await handleLogin(payload);
+    if (success) {
+      navigate("/");
+    }
   };
 
   if (!loading && user) {
     return <Navigate to="/" replace />;
   }
-  
+
   return (
     <section className="min-h-screen bg-zinc-950 px-4 py-10 text-zinc-100 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl items-center justify-center">
@@ -73,7 +75,7 @@ const Login = () => {
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:borer-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
               />
             </div>
 
@@ -89,7 +91,7 @@ const Login = () => {
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="font-semibold text-[#31b8cb] transition hovr:text-[#45c7d4]"
+              className="font-semibold text-[#31b8cb] transition hover:text-[#45c7d4]"
             >
               Register
             </Link>
