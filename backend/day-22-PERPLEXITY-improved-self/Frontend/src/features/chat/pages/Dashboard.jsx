@@ -1,3 +1,8 @@
+/**
+ * Dashboard page for the AI assistant application
+ * Contains the chat interface with sidebar, messages, and input components
+ */
+
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";

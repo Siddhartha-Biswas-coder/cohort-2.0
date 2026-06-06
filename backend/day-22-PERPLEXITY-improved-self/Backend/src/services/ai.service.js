@@ -59,6 +59,12 @@ export const agent = createAgent({
   tools: [searchInternetTool],
 });
 
+/**
+ * Generates a full AI response along with retrieved search sources
+ * @param {Object[]} messages - Array of messages representing chat history
+ * @param {string} [mode="search"] - Search mode ("search" or "research")
+ * @returns {Promise<{ content: string, sources: Object[] }>} - The generated AI message content and search sources
+ */
 export async function generateResponse(messages, mode = "search") {
   const formattedMessages = messages
     .map((msg) => {
@@ -99,6 +105,11 @@ export async function generateResponse(messages, mode = "search") {
   };
 }
 
+/**
+ * Generates a concise title for a chat conversation based on the first message
+ * @param {string} message - The first user message in the chat
+ * @returns {Promise<string>} - The generated 2-4 word chat title
+ */
 export async function generateChatTitle(message) {
   const response = await mistralModel.invoke([
     new SystemMessage(

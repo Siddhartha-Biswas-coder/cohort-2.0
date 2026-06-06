@@ -1,9 +1,19 @@
+/**
+ * Manages the Socket.io server instance and handles real-time events like user connections,
+ * disconnections, and AI response streaming.
+ */
+
 import { Server } from "socket.io";
 import { socketAuth } from "../middlewares/socketAuth.middleware.js";
 import { addUserSocket, removeUserSocket } from "./socketRegistry.js";
 
 let io;
 
+/**
+ * Initializes the Socket.io server and defines event handlers for connections/disconnections
+ * @param {Object} httpServer - The Node.js HTTP server instance to attach socket server to
+ * @returns {void}
+ */
 export function initSocket(httpServer) {
   io = new Server(httpServer, {
     cors: {
@@ -52,6 +62,11 @@ export function initSocket(httpServer) {
   });
 }
 
+/**
+ * Returns the initialized Socket.io server instance
+ * @returns {Object} - The active Socket.io Server instance
+ * @throws {Error} - Throws an error if Socket.io server has not been initialized
+ */
 export function getIo() {
   if (!io) {
     throw new Error("Socket.io not initialized");

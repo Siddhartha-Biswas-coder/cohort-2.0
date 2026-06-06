@@ -20,6 +20,15 @@ transporter
     console.log("Email transporter verification failed");
   });
 
+/**
+ * Sends an email using the configured OAuth2 transporter
+ * @param {Object} params - The parameters object
+ * @param {string} params.to - Recipient email address
+ * @param {string} params.subject - Subject of the email
+ * @param {string} [params.html] - HTML body content
+ * @param {string} [params.text] - Plain text body content
+ * @returns {Promise<void>}
+ */
 export async function sendEmail({ to, subject, html, text }) {
   const mailOptions = {
     from: process.env.GOOGLE_USER,

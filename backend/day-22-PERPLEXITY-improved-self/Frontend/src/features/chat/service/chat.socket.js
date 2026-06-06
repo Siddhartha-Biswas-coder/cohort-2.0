@@ -1,3 +1,6 @@
+/**
+ * Configures the client-side socket connection to the server and handles low-level event listeners for ai-stream-* events.
+ */
 import { io } from "socket.io-client";
 
 let socket;
@@ -24,6 +27,10 @@ export const registerSocketEvents = ({
   onStreamEnd,
 }) => {
   if (!socket) return;
+
+  socket.off("ai-stream-start");
+  socket.off("ai-stream-chunk");
+  socket.off("ai-stream-end");
 
   socket.on("ai-stream-start", onStreamStart);
 

@@ -1,3 +1,7 @@
+/**
+ * Entry point that creates the HTTP server and initializes Socket.io by running initSocket.
+ */
+
 import "dotenv/config";
 import app from "./src/app.js";
 import http from "http";

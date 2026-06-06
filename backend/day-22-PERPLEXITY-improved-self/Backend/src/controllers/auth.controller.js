@@ -54,7 +54,8 @@ export const login = asyncHandler(async (req, res) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
   });
 
   return res.status(200).json(
@@ -78,7 +79,7 @@ export const login = asyncHandler(async (req, res) => {
  *  @access Private
  */
 
-export async function getMe(req, res) {
+export const getMe = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   const user = await userModel.findById(userId).select("-password");
@@ -96,7 +97,7 @@ export async function getMe(req, res) {
     success: true,
     user,
   });
-}
+});
 
 /**
  *  @route GET /api/auth/verify-email
@@ -105,7 +106,7 @@ export async function getMe(req, res) {
  *  @query {token}
  */
 
-export async function verifyEmail(req, res) {
+export const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
 
   try {
@@ -128,7 +129,7 @@ export async function verifyEmail(req, res) {
     const html = `
     <h1>Email Verified Successfully</h1>
     <p>Your email has been verified. You can log in to your Account</p>
-    <a href="http://localhost:3000/login">Go to login</a>
+    <a href="http://localhost:5173/login">Go to login</a>
 
     `;
 
@@ -140,4 +141,4 @@ export async function verifyEmail(req, res) {
       err: err.message,
     });
   }
-}
+});

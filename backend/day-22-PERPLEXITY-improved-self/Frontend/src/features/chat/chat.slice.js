@@ -1,3 +1,9 @@
+/**
+ * Contains the Redux state slices that handle streaming updates:
+  createStreamingMessage: Pushes a blank AI response object onto the active chat's message list.
+  appendToLastMessage: Appends new text chunks to that AI response object.
+ */
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const chatSlice = createSlice({
@@ -63,17 +69,22 @@ const chatSlice = createSlice({
       state.mode = action.payload;
     },
     appendToLastMessage: (state, action) => {
-      const currentChat = state.chats[state.currentChatId];
+      const { chatId, chunk } = action.payload;
+      const chat = state.chats[chatId];
 
-      if (!currentChat) return;
+      if (!chat) return;
 
-      if (!currentChat.messages.length) return;
+      if (!chat.messages.length) return;
 
-      const lastMessage = currentChat.messages[currentChat.messages.length - 1];
+      const lastMessage = chat.messages[chat.messages.length - 1];
 
       if (!lastMessage) return;
 
-      lastMessage.content += action.payload;
+      if (lastMessage.role !== "ai") {
+        return;
+      }
+
+      lastMessage.content += chunk;
     },
     createStreamingMessage: (state, action) => {
       const chatId = action.payload;

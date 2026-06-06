@@ -1,3 +1,7 @@
+/**
+ * Binds socket events to Redux dispatchers (passing the payload containing the specific chatId and chunk).
+ */
+
 import {
   emitTestStream,
   intitalizeSocketConnection,
@@ -36,17 +40,9 @@ export const useChat = () => {
 
       const data = await sendMessage({ message, chatId, mode });
 
-      const { chat, aiMessage, sources } = data;
+      const { chat, userMessage } = data;
 
       const activeChatId = chatId || chat._id;
-
-      dispatch(
-        addNewMessage({
-          chatId: activeChatId,
-          content: message,
-          role: "user",
-        }),
-      );
 
       if (!chatId) {
         dispatch(
@@ -60,6 +56,14 @@ export const useChat = () => {
 
         localStorage.setItem("currentChatId", chat._id);
       }
+
+      dispatch(
+        addNewMessage({
+          chatId: activeChatId,
+          content: message,
+          role: "user",
+        }),
+      );
     } catch (error) {
       dispatch(setError(error.message));
     } finally {
@@ -164,17 +168,24 @@ export const useChat = () => {
 
   function intitalizeStreamingListeners() {
     registerSocketEvents({
-      onStreamStart: () => {
-        console.log("Stream Started");
-        dispatch(createStreamingMessage(currentChatId));
+      onStreamStart: (data) => {
+        console.log("Stream Started:", data);
+        const chatId = data?.chatId;
+        if (chatId) {
+          dispatch(createStreamingMessage(chatId));
+        }
       },
 
-      onStreamChunk: (chunk) => {
-        dispatch(appendToLastMessage(chunk));
+      onStreamChunk: (data) => {
+        const chatId = data?.chatId;
+        const chunk = data?.chunk;
+        if (chatId && chunk !== undefined) {
+          dispatch(appendToLastMessage({ chatId, chunk }));
+        }
       },
 
-      onStreamEnd: () => {
-        console.log("Stream Ended");
+      onStreamEnd: (data) => {
+        console.log("Stream Ended:", data);
       },
     });
 

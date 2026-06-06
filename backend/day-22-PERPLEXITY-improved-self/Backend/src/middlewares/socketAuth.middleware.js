@@ -1,5 +1,11 @@
 import { verifyAccessToken } from "../services/auth.service.js";
 
+/**
+ * Socket.io middleware to authenticate connections using cookie JWT
+ * @param {Object} socket - Socket.io socket connection object
+ * @param {function} next - Callback function to transition to connection handler or fail
+ * @returns {void}
+ */
 export function socketAuth(socket, next) {
   try {
     const cookieHeader = socket.handshake.headers.cookie;

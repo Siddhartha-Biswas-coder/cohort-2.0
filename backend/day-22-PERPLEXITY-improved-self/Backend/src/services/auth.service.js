@@ -7,6 +7,12 @@ import { sendEmail } from "./mail.service.js";
  * Register controller services
  */
 
+/**
+ * Checks if a user already exists with the given email or username
+ * @param {string} email - The email to check
+ * @param {string} username - The username to check
+ * @throws {ApiError} - Throws a 400 Bad Request error if a user exists
+ */
 export async function validateUserDoesNotExist(email, username) {
   const existingUser = await userModel.findOne({
     $or: [{ email }, { username }],
@@ -17,12 +23,25 @@ export async function validateUserDoesNotExist(email, username) {
   }
 }
 
+/**
+ * Creates a new user document in the database
+ * @param {Object} params - The user parameters object
+ * @param {string} params.username - The user's username
+ * @param {string} params.email - The user's email
+ * @param {string} params.password - The user's password (unhashed; hashed in pre-save hook)
+ * @returns {Promise<Object>} - The created user document
+ */
 export async function createUser({ username, email, password }) {
   const user = await userModel.create({ username, email, password });
 
   return user;
 }
 
+/**
+ * Generates an email verification token containing the user's email
+ * @param {Object} user - The user document
+ * @returns {string} - The signed JWT token string
+ */
 export function generateEmailVerificationToken(user) {
   return jwt.sign(
     {
@@ -32,6 +51,13 @@ export function generateEmailVerificationToken(user) {
   );
 }
 
+/**
+ * Sends a welcome/verification email to the user
+ * @param {Object} params - The parameters object
+ * @param {Object} params.user - The user document
+ * @param {string} params.token - The verification token
+ * @returns {Promise<void>}
+ */
 export async function sendVerificationEmail({ user, token }) {
   await sendEmail({
     to: user.email,
@@ -45,6 +71,14 @@ export async function sendVerificationEmail({ user, token }) {
   });
 }
 
+/**
+ * Registers a new user, generating verification token and sending the verification email
+ * @param {Object} params - The registration parameters
+ * @param {string} params.username - The user's username
+ * @param {string} params.email - The user's email
+ * @param {string} params.password - The user's password
+ * @returns {Promise<Object>} - The registered user document
+ */
 export async function registerUser({ username, email, password }) {
   await validateUserDoesNotExist(email, username);
 
@@ -57,6 +91,12 @@ export async function registerUser({ username, email, password }) {
   return user;
 }
 
+/**
+ * Verifies an access token and returns the decoded payload
+ * @param {string} token - The access token JWT string
+ * @returns {Object} - The decoded JWT payload
+ * @throws {ApiError} - Throws 401 Unauthorized if token is missing or invalid
+ */
 export function verifyAccessToken(token) {
   if (!token) {
     throw new ApiError(401, "Unauthorized");
@@ -69,6 +109,12 @@ export function verifyAccessToken(token) {
  * Login controller services
  */
 
+/**
+ * Finds a user by their email address
+ * @param {string} email - The email to search for
+ * @returns {Promise<Object>} - The user document
+ * @throws {ApiError} - Throws 400 Bad Request if user is not found
+ */
 export async function findUserByEmail(email) {
   const user = await userModel.findOne({ email });
 
@@ -79,6 +125,13 @@ export async function findUserByEmail(email) {
   return user;
 }
 
+/**
+ * Validates if the provided password matches the user's password
+ * @param {Object} user - The user document
+ * @param {string} password - The password candidate string
+ * @returns {Promise<void>}
+ * @throws {ApiError} - Throws 400 Bad Request if passwords do not match
+ */
 export async function validatePassword(user, password) {
   const isPasswordMatch = await user.comparePassword(password);
 
@@ -87,12 +140,22 @@ export async function validatePassword(user, password) {
   }
 }
 
+/**
+ * Validates if the user's email has been verified
+ * @param {Object} user - The user document
+ * @throws {ApiError} - Throws 400 Bad Request if user is not verified
+ */
 export function validateUserVerification(user) {
   if (!user.verified) {
     throw new ApiError(400, "Please verify your email before logging in");
   }
 }
 
+/**
+ * Generates an access token JWT for the user session
+ * @param {Object} user - The user document
+ * @returns {string} - The signed JWT token string
+ */
 export function generateAccessToken(user) {
   return jwt.sign(
     {
@@ -105,6 +168,12 @@ export function generateAccessToken(user) {
   );
 }
 
+/**
+ * Validates login credentials and returns the verified user
+ * @param {string} email - The email to log in with
+ * @param {string} password - The password string
+ * @returns {Promise<Object>} - The logged in user document
+ */
 export async function loginUser(email, password) {
   const user = await findUserByEmail(email);
 

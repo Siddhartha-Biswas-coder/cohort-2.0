@@ -11,7 +11,11 @@ export function useAuth() {
       const data = await register({ email, username, password });
     } catch (error) {
       dispatch(
-        setError(error.response?.data?.message || "Registration failed"),
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Registration failed",
+        ),
       );
     } finally {
       dispatch(setLoading(false));
@@ -22,11 +26,15 @@ export function useAuth() {
     try {
       dispatch(setLoading(true));
       const data = await login({ email, password });
-      dispatch(setUser(data.user));
+      dispatch(setUser(data.data.user));
       return true;
     } catch (error) {
       dispatch(
-        setError(error.response?.data?.message || "Login process failed"),
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Login process failed",
+        ),
       );
       return false;
     } finally {
@@ -41,7 +49,11 @@ export function useAuth() {
       dispatch(setUser(data.user));
     } catch (error) {
       dispatch(
-        setError(error.message?.data?.message || "Failed to fetch user data"),
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to fetch user data",
+        ),
       );
     } finally {
       dispatch(setLoading(false));

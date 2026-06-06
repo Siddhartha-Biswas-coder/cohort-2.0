@@ -87,8 +87,11 @@ const MessageBubble = ({ message }) => {
               </p>
 
               <div className="grid gap-3 md:grid-cols-2">
-                {message.sources.map((source) => (
-                  <SourceCard key={source.url} source={source} />
+                {message.sources.map((source, index) => (
+                  <SourceCard
+                    key={`${source.url} - ${index}`}
+                    source={source}
+                  />
                 ))}
               </div>
             </div>

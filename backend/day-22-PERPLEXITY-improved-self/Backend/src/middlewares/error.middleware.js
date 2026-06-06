@@ -1,3 +1,11 @@
+/**
+ * Global Express error handling middleware
+ * @param {Error|Object} err - Error object thrown in controllers
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {function} next - Express next middleware function callback
+ * @returns {Object} - Express response containing the error details
+ */
 const errorHandler = (err, req, res, next) => {
   console.error(err);
   const statusCode = err.statusCode || 500;

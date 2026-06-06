@@ -1,7 +1,20 @@
+/**
+ * AI stream service for streaming AI responses to the client.
+ *
+ * Uses LangChain's model.stream() to stream tokens and sends each chunk to the client via the onChunk callback.
+ */
+
 import { AIMessage, HumanMessage, SystemMessage } from "langchain";
 
 import { agent, mistralModel } from "./ai.service.js";
 
+/**
+ * Streams AI responses chunk by chunk to the client
+ * @param {Object[]} messages - Array of messages
+ * @param {string} systemPrompt - System prompt
+ * @param {function} onChunk - Callback to send each chunk to the client
+ * @returns {Promise<string>} - Full response from AI
+ */
 export async function streamResponse({ messages, systemPrompt, onChunk }) {
   const formattedMessages = messages
     .map((msg) => {

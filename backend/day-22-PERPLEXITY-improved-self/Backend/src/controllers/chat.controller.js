@@ -1,3 +1,10 @@
+/**
+ * Chat controller for handling chat-related operations including sending messages,
+ * retrieving chats, getting messages, renaming chats, and deleting chats.
+ *
+ * Looks up the user's socketId and kicks off the background async task that triggers ai-stream-start, ai-stream-chunk (for each chunk returned by the model), and ai-stream-end events.
+ */
+
 import {
   generateResponse,
   generateChatTitle,
@@ -14,6 +21,12 @@ import { getIo } from "../sockets/server.socket.js";
 import { getUserSocket } from "../sockets/socketRegistry.js";
 import { streamResponse } from "../services/ai.stream.service.js";
 
+/**
+ * Sends a message, immediately returning the chat details, and streams the AI response via sockets
+ * @param {Object} req - Express request object containing body (message, chat, mode) and authenticated user
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const sendMessage = asyncHandler(async (req, res) => {
   const { message, chat: chatId, mode } = req.body;
 
@@ -46,38 +59,54 @@ export const sendMessage = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No socket found for user");
   }
 
-  const messages = (await messageModel.find({ chat: chatId || chat._id })).sort(
-    { createdAt: 1 },
-  );
-
-  let finalContent = "";
-
-  io.to(socketId).emit("ai-stream-start");
-
-  finalContent = await streamResponse({
-    messages,
-    systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
-    onChunk: (chunk) => {
-      io.to(socketId).emit("ai-stream-chunk", chunk);
-    },
-  });
-
-  io.to(socketId).emit("ai-stream-end");
-  const aiMessage = await messageModel.create({
-    chat: chatId || chat._id,
-    content: finalContent,
-    role: "ai",
-    sources: [],
-  });
-
+  // Respond immediately with the chat and userMessage details
   res.status(201).json({
     chat,
     userMessage,
-    aiMessage,
-    sources: [],
   });
+
+  // Run the AI streaming and AI message persistence asynchronously
+  (async () => {
+    try {
+      const messages = await messageModel
+        .find({ chat: chatId || chat._id })
+        .sort({ createdAt: 1 });
+
+      let finalContent = "";
+
+      io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
+
+      finalContent = await streamResponse({
+        messages,
+        systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
+        onChunk: (chunk) => {
+          io.to(socketId).emit("ai-stream-chunk", {
+            chatId: chat._id,
+            chunk,
+          });
+        },
+      });
+
+      io.to(socketId).emit("ai-stream-end", { chatId: chat._id });
+
+      await messageModel.create({
+        chat: chatId || chat._id,
+        content: finalContent,
+        role: "ai",
+        sources: [],
+      });
+    } catch (error) {
+      console.error("Error generating and streaming AI response:", error);
+    }
+  })();
 });
 
+/**
+ * Retrieves all chats created by the authenticated user
+ * @param {Object} req - Express request object containing authenticated user info
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const getChats = asyncHandler(async (req, res) => {
   const user = req.user;
 
@@ -88,6 +117,12 @@ export const getChats = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, chats, "Chats retrived successfully"));
 });
 
+/**
+ * Retrieves all messages in a specific chat, validating user ownership of the chat
+ * @param {Object} req - Express request object containing params.chatId and authenticated user info
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const getMessages = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
 
@@ -109,6 +144,12 @@ export const getMessages = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, messages, "message retrived successfully"));
 });
 
+/**
+ * Renames a specific chat's title after validating user ownership
+ * @param {Object} req - Express request object containing params.chatId, body.title, and authenticated user info
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} - Express response containing updated chat info
+ */
 export const renameChat = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
   const { title } = req.body;
@@ -124,6 +165,12 @@ export const renameChat = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, chat, "Chat renamed successfully"));
 });
 
+/**
+ * Deletes a specific chat and all its associated messages
+ * @param {Object} req - Express request object containing params.chatId and authenticated user info
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ */
 export const deleteChat = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { chatId } = req.params;
@@ -132,6 +179,10 @@ export const deleteChat = asyncHandler(async (req, res) => {
     _id: chatId,
     user: userId,
   });
+
+  if (!chat) {
+    throw new ApiError(404, "Chat not found");
+  }
 
   await messageModel.deleteMany({
     chat: chatId,
