@@ -3,3 +3,7 @@
 .messages::-webkit-scrollbar{
     display: none;
 }
+
+.last-p-inline-cursor p:last-of-type {
+    display: inline;
+}

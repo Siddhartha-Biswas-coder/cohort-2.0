@@ -8,6 +8,7 @@ const ChatList = ({
   currentChatId,
   openChat,
   searchTerm,
+  collapsed,
   onRename,
   onDelete,
 }) => {
@@ -59,6 +60,7 @@ const ChatList = ({
           openChat={openChat}
           openMenuId={openMenuId}
           setOpenMenuId={setOpenMenuId}
+          collapsed={collapsed}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -71,6 +73,7 @@ const ChatList = ({
           openChat={openChat}
           openMenuId={openMenuId}
           setOpenMenuId={setOpenMenuId}
+          collapsed={collapsed}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -83,6 +86,7 @@ const ChatList = ({
           openChat={openChat}
           openMenuId={openMenuId}
           setOpenMenuId={setOpenMenuId}
+          collapsed={collapsed}
           onRename={onRename}
           onDelete={onDelete}
         />
@@ -95,6 +99,7 @@ const ChatList = ({
           openChat={openChat}
           openMenuId={openMenuId}
           setOpenMenuId={setOpenMenuId}
+          collapsed={collapsed}
           onRename={onRename}
           onDelete={onDelete}
         />

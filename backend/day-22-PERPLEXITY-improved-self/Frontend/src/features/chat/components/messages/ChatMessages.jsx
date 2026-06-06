@@ -7,7 +7,7 @@ import TypingIndicator from "./TypingIndicator";
 const ChatMessages = ({ chats, currentChatId, onSuggestionClick }) => {
   const messages = chats[currentChatId]?.messages || [];
 
-  const isLoading = useSelector((state) => state.chat.isLoading);
+  const isThinking = useSelector((state) => state.chat.isThinking);
 
   const messagesEndRef = useRef(null);
 
@@ -15,19 +15,19 @@ const ChatMessages = ({ chats, currentChatId, onSuggestionClick }) => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [messages, isLoading]);
+  }, [messages, isThinking]);
 
-  if (!messages.length) {
+  if (!messages.length && !isThinking) {
     return <EmptyState onSuggestionClick={onSuggestionClick} />;
   }
 
   return (
     <div className="messages flex-1 space-y-3 overflow-y-auto pr-1 pb-30">
-      {messages.map((message) => (
-        <MessageBubble key={message.id} message={message} />
+      {messages.map((message, index) => (
+        <MessageBubble key={message.id || `${message.role}-${index}`} message={message} />
       ))}
 
-      {isLoading && <TypingIndicator />}
+      {isThinking && <TypingIndicator />}
 
       <div ref={messagesEndRef} />
     </div>

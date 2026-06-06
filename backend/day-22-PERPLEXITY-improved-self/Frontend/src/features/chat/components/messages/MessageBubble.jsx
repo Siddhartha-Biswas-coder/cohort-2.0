@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
-import { Globe } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -26,7 +26,20 @@ const MessageBubble = ({ message }) => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 20,
+        scale: 0.95,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      }}
+      transition={{
+        duration: 0.25,
+      }}
       className={`group relative max-w-[90%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${
         message.role === "user"
           ? "ml-auto rounded-br-none bg-white/12 text-white"
@@ -39,7 +52,7 @@ const MessageBubble = ({ message }) => {
         <>
           <MessageActions copied={copied} onCopy={handleCopy} />
 
-          <div className="pr-32">
+          <div className="pr-12 md:pr-32 last-p-inline-cursor ">
             <ReactMarkdown
               components={{
                 p: ({ children }) => (
@@ -68,7 +81,7 @@ const MessageBubble = ({ message }) => {
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
                   ) : (
-                    <code className="rounded-2xl overflow-hidden bg-white/10 px-1 py-0.5">
+                    <code className="rounded-md bg-white/5 border border-white/10 px-1.5 py-0.5 font-mono text-cyan-300 text-sm">
                       {children}
                     </code>
                   );
@@ -76,8 +89,14 @@ const MessageBubble = ({ message }) => {
               }}
               remarkPlugins={[remarkGfm]}
             >
-              {message.content}
+              {message.content.replace(/\n+$/, "")}
             </ReactMarkdown>
+
+            {message.isStreaming && (
+              <span className="ml-1 animate-pulse text-cyan-400 inline-block align-middle">
+                ▌
+              </span>
+            )}
           </div>
 
           {message.sources?.length > 0 && (
@@ -98,7 +117,7 @@ const MessageBubble = ({ message }) => {
           )}
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 

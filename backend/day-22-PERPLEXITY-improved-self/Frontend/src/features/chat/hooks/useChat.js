@@ -24,23 +24,24 @@ import {
   addMessages,
   appendToLastMessage,
   createStreamingMessage,
+  finishStreamingMessage,
   updateChatTitle as renameChatReducer,
   deleteChat as deleteChatReducer,
+  setThinking,
 } from "../chat.slice.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export const useChat = () => {
   const dispatch = useDispatch();
 
-  const currentChatId = useSelector((state) => state.chat.currentChatId);
-
   async function handleSendMessage({ message, chatId, mode }) {
     try {
       dispatch(setLoading(true));
+      dispatch(setThinking(true));
 
       const data = await sendMessage({ message, chatId, mode });
 
-      const { chat, userMessage } = data;
+      const { chat} = data;
 
       const activeChatId = chatId || chat._id;
 
@@ -65,6 +66,7 @@ export const useChat = () => {
         }),
       );
     } catch (error) {
+      dispatch(setThinking(false))
       dispatch(setError(error.message));
     } finally {
       dispatch(setLoading(false));
@@ -169,6 +171,7 @@ export const useChat = () => {
   function intitalizeStreamingListeners() {
     registerSocketEvents({
       onStreamStart: (data) => {
+        dispatch(setThinking(false));
         console.log("Stream Started:", data);
         const chatId = data?.chatId;
         if (chatId) {
@@ -186,6 +189,12 @@ export const useChat = () => {
 
       onStreamEnd: (data) => {
         console.log("Stream Ended:", data);
+
+        const chatId = data?.chatId;
+
+        if (chatId) {
+          dispatch(finishStreamingMessage(chatId));
+        }
       },
     });
 

@@ -13,6 +13,7 @@ const chatSlice = createSlice({
     mode: "search",
     currentChatId: null,
     isLoading: false,
+    isThinking: false,
     error: null,
   },
 
@@ -68,6 +69,9 @@ const chatSlice = createSlice({
     setMode: (state, action) => {
       state.mode = action.payload;
     },
+    setThinking: (state, action) => {
+      state.isThinking = action.payload;
+    },
     appendToLastMessage: (state, action) => {
       const { chatId, chunk } = action.payload;
       const chat = state.chats[chatId];
@@ -95,7 +99,22 @@ const chatSlice = createSlice({
         role: "ai",
         content: "",
         sources: [],
+        isStreaming: true,
       });
+    },
+    finishStreamingMessage: (state, action) => {
+      const chatId = action.payload;
+
+      const chat = state.chats[chatId];
+
+      if (!chat) return;
+
+      const lastMessage = chat.messages[chat.messages.length - 1];
+
+      if (!lastMessage) return;
+      if (lastMessage.role !== "ai") return;
+
+      lastMessage.isStreaming = false;
     },
   },
 });
@@ -106,6 +125,7 @@ export const {
   setLoading,
   setError,
   setMode,
+  setThinking,
   createNewChat,
   addNewMessage,
   addMessages,
@@ -113,6 +133,7 @@ export const {
   deleteChat,
   appendToLastMessage,
   createStreamingMessage,
+  finishStreamingMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;
