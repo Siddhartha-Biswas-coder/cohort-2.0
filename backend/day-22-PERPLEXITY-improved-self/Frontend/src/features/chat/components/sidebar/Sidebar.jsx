@@ -37,7 +37,7 @@ const Sidebar = ({
         </button>
       </div>
 
-      {!collapsed && <SidebarLogo collapsed={collapsed} />}
+      <SidebarLogo collapsed={collapsed} />
 
       <NewChatButton onClick={handleNewChat} collapsed={collapsed} />
 
