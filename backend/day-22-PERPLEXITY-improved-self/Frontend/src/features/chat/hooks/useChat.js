@@ -4,6 +4,7 @@
 
 import {
   emitTestStream,
+  getSocket,
   intitalizeSocketConnection,
   registerSocketEvents,
 } from "../service/chat.socket.js";
@@ -13,21 +14,29 @@ import {
   getMessages,
   renameChat as renameChatApi,
   deleteChat as deleteChatApi,
+  regenerateChat,
+  pinChat,
+  shareChat,
+  getShareChat,
 } from "../service/chat.api.js";
 import {
   setChats,
   setCurrentChatId,
-  setError,
   setLoading,
+  setError,
+  setMode,
+  setThinking,
   createNewChat,
   addNewMessage,
   addMessages,
+  updateChatTitle as renameChatReducer,
+  deleteChat as deleteChatReducer,
   appendToLastMessage,
   createStreamingMessage,
   finishStreamingMessage,
-  updateChatTitle as renameChatReducer,
-  deleteChat as deleteChatReducer,
-  setThinking,
+  togglePinChatLocal,
+  deleteLastAiMessage,
+  stopStreaming,
 } from "../chat.slice.js";
 import { useDispatch } from "react-redux";
 
@@ -85,6 +94,9 @@ export const useChat = () => {
           title: chat.title,
           messages: [],
           lastUpdated: chat.updatedAt,
+          isPinned: chat.isPinned || false,
+          isShared : chat.isShared || false,
+          shareToken : chat.shareToken || null
         };
         return acc;
       }, {});
@@ -168,6 +180,35 @@ export const useChat = () => {
     }
   }
 
+  async function handleRegenerateResponse(chatId, mode) {
+    try {
+      dispatch(setThinking(true));
+      dispatch(deleteLastAiMessage(chatId));
+
+      await regenerateChat(chatId, mode);
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setThinking(false));
+    }
+  }
+
+  function handleStopGenerating(chatId) {
+    const socket = getSocket();
+    if (socket) {
+      socket.emit("ai-stream-abort");
+      dispatch(stopStreaming(chatId));
+    }
+  }
+
+  async function handleTogglePinChat(chatId) {
+    try {
+      await pinChat(chatId);
+      dispatch(togglePinChatLocal(chatId));
+    } catch (error) {
+      dispatch(setError(error.message));
+    }
+  }
+
   function intitalizeStreamingListeners() {
     registerSocketEvents({
       onStreamStart: (data) => {
@@ -211,5 +252,8 @@ export const useChat = () => {
     handleRenameChat,
     handleDeleteChat,
     emitTestStream,
+    handleRegenerateResponse,
+    handleStopGenerating,
+    handleTogglePinChat,
   };
 };

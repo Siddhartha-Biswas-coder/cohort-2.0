@@ -52,6 +52,18 @@ const Dashboard = () => {
     }
   }, [currentChatId]);
 
+  const handleRegenerateResponse = async () => {
+    await chat.handleRegenerateResponse(currentChatId, mode);
+  };
+
+  const handleStopGenerating = () => {
+    chat.handleStopGenerating(currentChatId);
+  };
+
+  const handlePinChat = async (chatId) => {
+    await chat.handleTogglePinChat(chatId);
+  };
+
   const handleSubmitMessage = (event) => {
     event.preventDefault();
 
@@ -85,6 +97,7 @@ const Dashboard = () => {
           currentChatId={currentChatId}
           onRename={handleRenameChat}
           onDelete={handleDeleteChat}
+          onPin={handlePinChat}
         />
 
         <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">
@@ -94,12 +107,14 @@ const Dashboard = () => {
             chats={chats}
             currentChatId={currentChatId}
             onSuggestionClick={(text) => setChatInput(text)}
+            onRegenerateResponse={handleRegenerateResponse}
           />
 
           <ChatInput
             chatInput={chatInput}
             setChatInput={setChatInput}
             handleSubmitMessage={handleSubmitMessage}
+            onStopGenerating={handleStopGenerating}
           />
         </section>
       </section>

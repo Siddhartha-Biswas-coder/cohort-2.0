@@ -4,7 +4,12 @@ import EmptyState from "../EmptyState";
 import { useSelector } from "react-redux";
 import TypingIndicator from "./TypingIndicator";
 
-const ChatMessages = ({ chats, currentChatId, onSuggestionClick }) => {
+const ChatMessages = ({
+  chats,
+  currentChatId,
+  onSuggestionClick,
+  onRegenerateResponse,
+}) => {
   const messages = chats[currentChatId]?.messages || [];
 
   const isThinking = useSelector((state) => state.chat.isThinking);
@@ -22,9 +27,13 @@ const ChatMessages = ({ chats, currentChatId, onSuggestionClick }) => {
   }
 
   return (
-    <div className="messages flex-1 space-y-3 overflow-y-auto pr-1 pb-30">
+    <div className="messages flex-1 space-y-3 overflow-y-auto pr-1 pb-44">
       {messages.map((message, index) => (
-        <MessageBubble key={message.id || `${message.role}-${index}`} message={message} />
+        <MessageBubble
+          key={message.id || `${message.role}-${index}`}
+          message={message}
+          onRegenerateResponse={onRegenerateResponse}
+        />
       ))}
 
       {isThinking && <TypingIndicator />}

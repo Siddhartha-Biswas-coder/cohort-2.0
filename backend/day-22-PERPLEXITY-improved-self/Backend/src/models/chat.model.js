@@ -12,6 +12,22 @@ const chatSchema = new mongoose.Schema(
       default: "New Chat",
       trim: true,
     },
+    // Track if user pinned the conversation to the top
+    isPinned: {
+      type: Boolean,
+      default: false,
+    },
+    // Track if user generated a share link for this chat
+    isShared: {
+      type: Boolean,
+      default: false,
+    },
+    // Unique sharing key for public views (sparse lets users leave it empty)
+    shareToken: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
   },
   {
     timestamps: true,

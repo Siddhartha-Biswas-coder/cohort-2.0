@@ -1,6 +1,6 @@
 import React from "react";
 import ChatItem from "./ChatItem";
-import { AnimatePresence, easeInOut, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ChatGroup = ({
   title,
@@ -9,24 +9,25 @@ const ChatGroup = ({
   openChat,
   openMenuId,
   setOpenMenuId,
-  collapsed,
   onRename,
   onDelete,
+  onPin,
 }) => {
   return (
     <div className="mb-4">
       <AnimatePresence>
-        {!collapsed && (
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="mb-2 px-2 text-xs font-medium uppercase text-white/40"
-          >
-            {title}
-          </motion.h3>
-        )}
+        <motion.h3
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="mb-2 px-2 text-xs font-medium uppercase text-white/40"
+        >
+          {title}
+          {title === "pinned" && (
+            <span className="ml-1 text-xs text-cyan-400">📌</span>
+          )}
+        </motion.h3>
       </AnimatePresence>
 
       <div className="space-y-2">
@@ -38,9 +39,9 @@ const ChatGroup = ({
             openChat={openChat}
             openMenuId={openMenuId}
             setOpenMenuId={setOpenMenuId}
-            collapsed={collapsed}
             onRename={onRename}
             onDelete={onDelete}
+            onPin={onPin}
           />
         ))}
       </div>

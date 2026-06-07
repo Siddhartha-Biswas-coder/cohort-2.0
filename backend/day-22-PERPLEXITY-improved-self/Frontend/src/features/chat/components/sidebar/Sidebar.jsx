@@ -14,6 +14,7 @@ const Sidebar = ({
   currentChatId,
   onRename,
   onDelete,
+  onPin,
 }) => {
   const [searchItem, setSearchItem] = useState("");
   const [collapsed, setCollapsed] = useState(false);
@@ -54,6 +55,7 @@ const Sidebar = ({
             searchTerm={searchItem}
             onRename={onRename}
             onDelete={onDelete}
+            onPin={onPin}
           />
         </div>
       )}

@@ -34,3 +34,24 @@ export async function deleteChat(chatId) {
   const response = await api.delete(`api/chats/delete/${chatId}`);
   return response.data;
 }
+
+export async function regenerateChat(chatId, mode) {
+  const response = await api.post(`/api/chats/${chatId}/regenerate`, { mode });
+  return response.data;
+}
+
+export async function pinChat(chatId) {
+  const response = await api.patch(`/api/chats/${chatId}/pin`);
+
+  return response.data;
+}
+
+export async function shareChat(chatId) {
+  const response = await api.post(`/api/chats/${chatId}/share`);
+  return response.data;
+}
+
+export async function getShareChat(token) {
+  const response = await api.get(`/api/chats/share/${token}`);
+  return response.data;
+}

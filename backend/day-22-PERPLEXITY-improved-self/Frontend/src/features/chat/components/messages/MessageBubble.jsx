@@ -7,8 +7,9 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import SourceCard from "./SourceCard";
 import MessageActions from "./MessageActions";
+import { RefreshCcw } from "lucide-react";
 
-const MessageBubble = ({ message }) => {
+const MessageBubble = ({ message, onRegenerateResponse }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -98,6 +99,16 @@ const MessageBubble = ({ message }) => {
               </span>
             )}
           </div>
+
+          {message.role === "ai" && !message.isStreaming && (
+            <button
+              onClick={() => onRegenerateResponse()}
+              className="mt-3 flex items-center gap-1.5 text-xs text-white/40 hover:text-cyan-400 transition"
+            >
+              <RefreshCcw size={12} />
+              Regenerate
+            </button>
+          )}
 
           {message.sources?.length > 0 && (
             <div className="mt-6">

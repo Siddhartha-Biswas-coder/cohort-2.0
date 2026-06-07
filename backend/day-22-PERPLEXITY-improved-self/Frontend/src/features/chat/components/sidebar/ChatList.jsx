@@ -10,6 +10,7 @@ const ChatList = ({
   searchTerm,
   onRename,
   onDelete,
+  onPin,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -21,7 +22,10 @@ const ChatList = ({
     return <EmptySearch searchTerm={searchTerm} />;
   }
 
-  const groupChats = filteredChats.reduce(
+  const pinnedChats = filteredChats.filter((chat) => chat.isPinned);
+  const unpinnedChats = filteredChats.filter((chat) => !chat.isPinned);
+
+  const groupChats = unpinnedChats.reduce(
     (groups, chat) => {
       const chatDate = new Date(chat.lastUpdated);
 
@@ -51,6 +55,20 @@ const ChatList = ({
 
   return (
     <div>
+      {pinnedChats.length > 0 && (
+        <ChatGroup
+          title="pinned"
+          chats={pinnedChats}
+          currentChatId={currentChatId}
+          openChat={openChat}
+          openMenuId={openMenuId}
+          setOpenMenuId={setOpenMenuId}
+          onRename={onRename}
+          onDelete={onDelete}
+          onPin={onPin}
+        />
+      )}
+
       {groupChats.today.length > 0 && (
         <ChatGroup
           title="today"
@@ -61,6 +79,7 @@ const ChatList = ({
           setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
+          onPin={onPin}
         />
       )}
       {groupChats.yesterday.length > 0 && (
@@ -73,6 +92,7 @@ const ChatList = ({
           setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
+          onPin={onPin}
         />
       )}
       {groupChats.previous7days.length > 0 && (
@@ -85,6 +105,7 @@ const ChatList = ({
           setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
+          onPin={onPin}
         />
       )}
       {groupChats.older.length > 0 && (
@@ -97,6 +118,7 @@ const ChatList = ({
           setOpenMenuId={setOpenMenuId}
           onRename={onRename}
           onDelete={onDelete}
+          onPin={onPin}
         />
       )}
     </div>

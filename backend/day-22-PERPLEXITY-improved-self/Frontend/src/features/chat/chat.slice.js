@@ -119,6 +119,37 @@ const chatSlice = createSlice({
       lastMessage.isStreaming = false;
       lastMessage.sources = sources;
     },
+    togglePinChatLocal: (state, action) => {
+      const chatId = action.payload;
+
+      if (state.chats[chatId]) {
+        state.chats[chatId].isPinned = !state.chats[chatId].isPinned;
+      }
+    },
+    deleteLastAiMessage: (state, action) => {
+      const chatId = action.payload;
+      const chat = state.chats[chatId];
+
+      if (chat && chat.messages.length > 0) {
+        const lastMsg = chat.messages[chat.messages.length - 1];
+
+        if (lastMsg.role === "ai") {
+          chat.messages.pop();
+        }
+      }
+    },
+    stopStreaming: (state, action) => {
+      const chatId = action.payload;
+      const chat = state.chats[chatId];
+      if (chat) {
+        const lastMsg = chat.messages[chat.messages.length - 1];
+        if (lastMsg && lastMsg.role === "ai") {
+          lastMsg.isStreaming = false;
+        }
+      }
+      state.isThinking = false;
+      state.isLoading = false;
+    },
   },
 });
 
@@ -137,6 +168,9 @@ export const {
   appendToLastMessage,
   createStreamingMessage,
   finishStreamingMessage,
+  togglePinChatLocal,
+  deleteLastAiMessage,
+  stopStreaming,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

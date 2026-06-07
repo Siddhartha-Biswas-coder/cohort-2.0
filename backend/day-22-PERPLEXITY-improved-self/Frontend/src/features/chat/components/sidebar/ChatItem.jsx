@@ -10,6 +10,7 @@ const ChatItem = ({
   onDelete,
   openMenuId,
   setOpenMenuId,
+  onPin,
 }) => {
   const menuRef = useRef(null);
 
@@ -114,6 +115,11 @@ const ChatItem = ({
 
         {showMenu && !isEditing && (
           <ChatMenu
+            isPinned={chat.isPinned}
+            onPinClick={() => {
+              setOpenMenuId(null);
+              onPin(chat.id);
+            }}
             onRenameClick={() => {
               setOpenMenuId(null);
 

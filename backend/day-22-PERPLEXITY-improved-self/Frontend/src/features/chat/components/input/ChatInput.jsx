@@ -1,10 +1,24 @@
 import React, { useRef } from "react";
-import { Brain, Search } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "../../chat.slice";
+import { Square } from "lucide-react";
 import InputModes from "./InputModes";
+import { useDispatch, useSelector } from "react-redux";
 
-const ChatInput = ({ chatInput, setChatInput, handleSubmitMessage }) => {
+const ChatInput = ({
+  chatInput,
+  setChatInput,
+  handleSubmitMessage,
+  onStopGenerating,
+}) => {
+  const dispatch = useDispatch();
+  const isThinking = useSelector((state) => state.chat.isThinking);
+
+  const currentChatId = useSelector((state) => state.chat.currentChatId);
+  const chats = useSelector((state) => state.chat.chats);
+
+  const isStreaming =
+    chats[currentChatId]?.messages.some((message) => message.isStreaming) ||
+    false;
+
   const textareaRef = useRef(null);
 
   const handleChange = (event) => {
@@ -17,9 +31,6 @@ const ChatInput = ({ chatInput, setChatInput, handleSubmitMessage }) => {
     textarea.style.height = "auto";
     textarea.style.height = `${Math.min(textarea.scrollHeight, 180)}px`;
   };
-  const dispatch = useDispatch();
-
-  const mode = useSelector((state) => state.chat.mode);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -55,14 +66,24 @@ const ChatInput = ({ chatInput, setChatInput, handleSubmitMessage }) => {
         <div className="flex items-center justify-between border-t border-white/5 px-5 py-4">
           <InputModes />
 
-          <button
-            type="submit"
-            disabled={!chatInput.trim()}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black font-bold transition-all hover:scale-105 
+          {isThinking || isStreaming ? (
+            <button
+              type="button"
+              onClick={() => onStopGenerating()}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 transition-all"
+            >
+              <Square size={16} fill="currentColor" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={!chatInput.trim()}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black font-bold transition-all hover:scale-105 
             active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            →
-          </button>
+            >
+              →
+            </button>
+          )}
         </div>
       </form>
     </footer>
@@ -70,4 +91,3 @@ const ChatInput = ({ chatInput, setChatInput, handleSubmitMessage }) => {
 };
 
 export default ChatInput;
-
