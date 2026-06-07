@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import UserMenu from "./UserMenu.jsx";
 
-const UserDropDown = ({ user }) => {
+const UserDropDown = ({ user, collapsed }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -20,7 +20,7 @@ const UserDropDown = ({ user }) => {
   }, []);
   return (
     <div ref={dropdownRef} className="relative">
-      {isOpen && <UserMenu />}
+      {isOpen && <UserMenu collapsed={collapsed} />}
 
       <button
         onClick={() => setIsOpen((prev) => !prev)}
@@ -34,13 +34,15 @@ const UserDropDown = ({ user }) => {
             {user?.username?.charAt(0)?.toUpperCase() || "U"}
           </div>
 
-          <div className="min-w-0 text-left">
-            <p className="truncate text-sm font-medium">
-              {user?.username || "User"}
-            </p>
+          {!collapsed && (
+            <div className="min-w-0 text-left">
+              <p className="truncate text-sm font-medium">
+                {user?.username || "User"}
+              </p>
 
-            <p className="truncate text-xs text-white/40">{user?.email}</p>
-          </div>
+              <p className="truncate text-xs text-white/40">{user?.email}</p>
+            </div>
+          )}
         </div>
       </button>
     </div>

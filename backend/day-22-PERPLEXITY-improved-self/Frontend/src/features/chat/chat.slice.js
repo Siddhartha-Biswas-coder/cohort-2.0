@@ -103,7 +103,10 @@ const chatSlice = createSlice({
       });
     },
     finishStreamingMessage: (state, action) => {
-      const chatId = action.payload;
+      const { chatId, sources = [] } =
+        typeof action.payload === "string"
+          ? { chatId: action.payload }
+          : action.payload;
 
       const chat = state.chats[chatId];
 
@@ -111,10 +114,10 @@ const chatSlice = createSlice({
 
       const lastMessage = chat.messages[chat.messages.length - 1];
 
-      if (!lastMessage) return;
-      if (lastMessage.role !== "ai") return;
+      if (!lastMessage || lastMessage.role !== "ai") return;
 
       lastMessage.isStreaming = false;
+      lastMessage.sources = sources;
     },
   },
 });

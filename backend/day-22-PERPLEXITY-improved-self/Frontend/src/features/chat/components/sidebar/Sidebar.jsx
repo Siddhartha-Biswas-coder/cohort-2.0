@@ -20,7 +20,7 @@ const Sidebar = ({
 
   return (
     <motion.aside
-      animate={{ width: collapsed ? 88 : 288 }}
+      animate={{ width: collapsed ? 100 : 288 }}
       transition={{ duration: 0.25 }}
       className="hidden h-full shrink-0 rounded-3xl border border-white/10 bg-[#0b0f17] shadow-2xl p-5 md:flex md:flex-col"
     >
@@ -45,19 +45,20 @@ const Sidebar = ({
         <ChatSearch searchItem={searchItem} setSearchItem={setSearchItem} />
       )}
 
-      <div className="flex-1 overflow-y-auto">
-        <ChatList
-          chats={chats}
-          currentChatId={currentChatId}
-          openChat={openChat}
-          searchTerm={searchItem}
-          collapsed={collapsed}
-          onRename={onRename}
-          onDelete={onDelete}
-        />
-      </div>
+      {!collapsed && (
+        <div className="flex-1 overflow-y-auto">
+          <ChatList
+            chats={chats}
+            currentChatId={currentChatId}
+            openChat={openChat}
+            searchTerm={searchItem}
+            onRename={onRename}
+            onDelete={onDelete}
+          />
+        </div>
+      )}
 
-      {!collapsed && <SidebarFooter />}
+      <SidebarFooter collapsed={collapsed} />
     </motion.aside>
   );
 };

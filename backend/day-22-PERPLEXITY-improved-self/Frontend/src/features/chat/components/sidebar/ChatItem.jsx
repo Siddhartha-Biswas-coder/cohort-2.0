@@ -9,7 +9,6 @@ const ChatItem = ({
   onRename,
   onDelete,
   openMenuId,
-  collapsed,
   setOpenMenuId,
 }) => {
   const menuRef = useRef(null);
@@ -89,12 +88,7 @@ const ChatItem = ({
             className="min-w-0 flex-1 bg-transparent outline-none"
           />
         ) : (
-          <>
-            <span className="mr-2">💬</span>
-            {!collapsed && (
-              <p className="min-w-0 flex-1 truncate">{chat.title}</p>
-            )}
-          </>
+          <p className="min-w-0 flex-1 truncate">{chat.title}</p>
         )}
 
         {!isEditing && (

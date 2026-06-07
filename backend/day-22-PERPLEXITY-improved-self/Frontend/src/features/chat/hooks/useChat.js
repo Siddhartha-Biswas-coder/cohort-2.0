@@ -41,7 +41,7 @@ export const useChat = () => {
 
       const data = await sendMessage({ message, chatId, mode });
 
-      const { chat} = data;
+      const { chat } = data;
 
       const activeChatId = chatId || chat._id;
 
@@ -66,7 +66,7 @@ export const useChat = () => {
         }),
       );
     } catch (error) {
-      dispatch(setThinking(false))
+      dispatch(setThinking(false));
       dispatch(setError(error.message));
     } finally {
       dispatch(setLoading(false));
@@ -191,9 +191,10 @@ export const useChat = () => {
         console.log("Stream Ended:", data);
 
         const chatId = data?.chatId;
+        const sources = data?.sources;
 
         if (chatId) {
-          dispatch(finishStreamingMessage(chatId));
+          dispatch(finishStreamingMessage({ chatId, sources }));
         }
       },
     });

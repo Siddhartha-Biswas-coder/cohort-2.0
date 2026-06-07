@@ -73,6 +73,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
         .sort({ createdAt: 1 });
 
       let finalContent = "";
+      let streamedSources = [];
 
       io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
 
@@ -85,18 +86,29 @@ export const sendMessage = asyncHandler(async (req, res) => {
             chunk,
           });
         },
+        onSources: (sources) => {
+          streamedSources = sources;
+          // Option: you could also emit a separate event "ai-stream-sources" here if desired
+        },
       });
+      finalContent = result.content;
+      streamedSources = result.sources;
 
-      io.to(socketId).emit("ai-stream-end", { chatId: chat._id });
+      // Send sources to the client at the end of the stream
+      io.to(socketId).emit("ai-stream-end", {
+        chatId: chat._id,
+        sources: streamedSources,
+      });
 
       await messageModel.create({
         chat: chatId || chat._id,
         content: finalContent,
         role: "ai",
-        sources: [],
+        sources: streamedSources,
+        // Save the actual search sources!
       });
     } catch (error) {
-      console.error("Error generating and streaming AI response:", error);
+        console.error("Error generating and streaming AI response:", error);
     }
   })();
 });

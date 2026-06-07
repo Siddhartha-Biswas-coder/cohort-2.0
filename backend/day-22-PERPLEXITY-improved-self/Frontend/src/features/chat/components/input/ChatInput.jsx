@@ -70,3 +70,4 @@ const ChatInput = ({ chatInput, setChatInput, handleSubmitMessage }) => {
 };
 
 export default ChatInput;
+
