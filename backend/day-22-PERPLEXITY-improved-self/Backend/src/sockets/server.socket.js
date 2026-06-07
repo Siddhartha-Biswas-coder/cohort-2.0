@@ -6,6 +6,7 @@
 import { Server } from "socket.io";
 import { socketAuth } from "../middlewares/socketAuth.middleware.js";
 import { addUserSocket, removeUserSocket } from "./socketRegistry.js";
+import { activeStreams } from "../services/streamRegistry.service.js";
 
 let io;
 
@@ -51,6 +52,22 @@ export function initSocket(httpServer) {
 
         index++;
       }, 500);
+    });
+
+    // --- SPRINT 1: LISTEN FOR USER CANCEL REQUESTS ---
+    socket.on("ai-stream-abort", () => {
+      // 1. Fetch the active abort controller for the socket session
+      const controller = activeStreams.get(socket.id);
+
+      // 2. If a controller exists, call .abort() to signal LangChain to stop token streaming
+      if (controller) {
+        controller.abort();
+
+        // 3. Clean up the registry
+        activeStreams.delete(socket.id);
+
+        console.log(`Stream aborted for socket ${socket.id}`);
+      }
     });
 
     socket.on("disconnect", () => {

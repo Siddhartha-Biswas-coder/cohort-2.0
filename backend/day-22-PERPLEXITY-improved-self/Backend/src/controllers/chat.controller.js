@@ -20,6 +20,7 @@ import ApiError from "../errors/ApiError.js";
 import { getIo } from "../sockets/server.socket.js";
 import { getUserSocket } from "../sockets/socketRegistry.js";
 import { streamResponse } from "../services/ai.stream.service.js";
+import { activeStreams } from "../services/streamRegistry.service.js";
 
 /**
  * Sends a message, immediately returning the chat details, and streams the AI response via sockets
@@ -108,7 +109,54 @@ export const sendMessage = asyncHandler(async (req, res) => {
         // Save the actual search sources!
       });
     } catch (error) {
-        console.error("Error generating and streaming AI response:", error);
+      console.error("Error generating and streaming AI response:", error);
+    }
+  })();
+
+  // Run streaming asynchronously
+  (async () => {
+    // Instantiate an AbortController for this streaming task
+    const controller = new AbortController();
+    activeStreams.set(socketId, controller);
+
+    try {
+      const messages = await messageModel
+        .find({ chat: chatId || chat._id })
+        .sort({ createdAt: 1 });
+      let finalContent = "";
+      let sourcesList = [];
+
+      io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
+
+      const streamResult = await streamResponse({
+        message,
+        systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
+        signal: controller.signal,
+        onChunk: (chunk) => {
+          io.to(socketId).emit("ai-stream-chunk", { chatId: chat._id, chunk });
+        },
+        onSources: (sources) => {
+          sourcesList = sources;
+          io.to(socketId, "ai-stream-sources", { chatId: chat._id, sources });
+        },
+      });
+
+      io.to(socketId).emit("ai-stream-end", { chatId: chat._id });
+
+      await messageModel.create({
+        chat: chatId || chat._id,
+        content: streamResult.content,
+        role: "ai",
+        sources: sourcesList,
+      });
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.log("STream absorted successfully");
+      } else {
+        console.log("Stream generation failed: ", error.message);
+      }
+    } finally {
+      activeStreams.delete(socketId);
     }
   })();
 });
@@ -206,3 +254,21 @@ export const deleteChat = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, chat, "Chat deleted successfully"));
 });
+
+export const regenerateResponse = asyncHandler(async(req,res) => {
+  const {chatId} =req.params;
+  // 1. Verify ownership of the target chat
+
+  const chat = await chatModel.findOne({_id: chatId,user:req.user.id})
+
+  if(!chat){
+    throw ApiError(404,"Chat not found")
+  }
+
+   // 2. Locate and delete the last AI message in this conversation
+   const lastMessage = await messageModel.findOne({chatId : chatId}).sort({createdAt : -1})
+
+   if(lastMessage && lastMessage.role === "ai"){
+    messageModel.findByIdAndDelete(lastMessage._id)
+   }
+})
