@@ -15,6 +15,7 @@ const Sidebar = ({
   onRename,
   onDelete,
   onPin,
+  onShare,
 }) => {
   const [searchItem, setSearchItem] = useState("");
   const [collapsed, setCollapsed] = useState(false);
@@ -56,6 +57,7 @@ const Sidebar = ({
             onRename={onRename}
             onDelete={onDelete}
             onPin={onPin}
+            onShare={onShare}
           />
         </div>
       )}

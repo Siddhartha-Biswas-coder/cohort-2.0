@@ -12,6 +12,7 @@ const ChatGroup = ({
   onRename,
   onDelete,
   onPin,
+  onShare,
 }) => {
   return (
     <div className="mb-4">
@@ -42,6 +43,7 @@ const ChatGroup = ({
             onRename={onRename}
             onDelete={onDelete}
             onPin={onPin}
+            onShare={onShare}
           />
         ))}
       </div>

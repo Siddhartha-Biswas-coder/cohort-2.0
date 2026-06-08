@@ -14,11 +14,16 @@ import ChatInput from "../components/input/ChatInput";
 import ChatHeader from "../components/header/ChatHeader";
 ChatHeader;
 import { setCurrentChatId } from "../chat.slice";
+import ShareModal from "../components/messages/ShareModal";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const chat = useChat();
   const [chatInput, setChatInput] = useState("");
+
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareTargetChatId, setShareTargetChatId] = useState(null);
+
   const chats = useSelector((state) => state.chat.chats);
   const mode = useSelector((state) => state.chat.mode);
   const currentChatId = useSelector((state) => state.chat.currentChatId);
@@ -64,6 +69,11 @@ const Dashboard = () => {
     await chat.handleTogglePinChat(chatId);
   };
 
+  const handleOpenShareModal = (chatId) => {
+    setShareTargetChatId(chatId);
+    setIsShareModalOpen(true);
+  };
+
   const handleSubmitMessage = (event) => {
     event.preventDefault();
 
@@ -101,7 +111,10 @@ const Dashboard = () => {
         />
 
         <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">
-          <ChatHeader currentChat={currentChat} />
+          <ChatHeader
+            currentChat={currentChat}
+            onShare={() => handleOpenShareModal(currentChatId)}
+          />
 
           <ChatMessages
             chats={chats}
@@ -118,6 +131,15 @@ const Dashboard = () => {
           />
         </section>
       </section>
+
+      <ShareModal
+        chatId={shareTargetChatId}
+        isOpen={isShareModalOpen}
+        onClose={() => {
+          setIsShareModalOpen(false);
+          setShareTargetChatId(null);
+        }}
+      />
     </main>
   );
 };

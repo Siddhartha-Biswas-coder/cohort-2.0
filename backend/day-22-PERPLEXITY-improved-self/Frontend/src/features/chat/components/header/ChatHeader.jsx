@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import HeaderModes from "./HeaderModes";
 import HeaderActions from "./HeaderActions";
 
-const ChatHeader = ({ currentChat }) => {
+const ChatHeader = ({ currentChat, onShare }) => {
   return (
     <header className="border-b border-white/10 pb-4">
       <div className="flex items-start justify-between">
@@ -12,7 +11,7 @@ const ChatHeader = ({ currentChat }) => {
           </h2>
         </div>
 
-        <HeaderActions />
+        <HeaderActions onShare={onShare} />
       </div>
     </header>
   );

@@ -11,6 +11,7 @@ const ChatItem = ({
   openMenuId,
   setOpenMenuId,
   onPin,
+  onShare,
 }) => {
   const menuRef = useRef(null);
 
@@ -119,6 +120,10 @@ const ChatItem = ({
             onPinClick={() => {
               setOpenMenuId(null);
               onPin(chat.id);
+            }}
+            onShareClick={() => {
+              setOpenMenuId(null);
+              onShare(chat.id);
             }}
             onRenameClick={() => {
               setOpenMenuId(null);

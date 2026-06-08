@@ -1,10 +1,13 @@
 import React from "react";
 import { Share2, MoreHorizontal } from "lucide-react";
 
-const HeaderActions = () => {
+const HeaderActions = ({ onShare }) => {
   return (
     <div className="flex items-center gap-2">
-      <button className="flex items-center gap-2 rounded-xl border border-whte/10 px-3 py-2 text-sm text-white/70 transition-all hover:bg-white/5 hover:text-white">
+      <button
+        onClick={onShare}
+        className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm text-white/70 transition-all hover:bg-white/5 hover:text-white"
+      >
         <Share2 size={16} />
         Share
       </button>

@@ -16,8 +16,8 @@ const ShareModal = ({ isOpen, onClose, chatId }) => {
         try {
           const res = await shareChat(chatId);
           if (res.success && res.data?.shareToken) {
-            const Link = `${window.location.origin}/share/${res.data?.shareToken}`;
-            setShareLink(Link);
+            const link = `${window.location.origin}/share/${res.data?.shareToken}`;
+            setShareLink(link);
           } else {
             setError("Failed to retrieve share token");
           }
@@ -36,6 +36,16 @@ const ShareModal = ({ isOpen, onClose, chatId }) => {
 
   if (!isOpen) return null;
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link", err);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0c0f17] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
@@ -47,9 +57,9 @@ const ShareModal = ({ isOpen, onClose, chatId }) => {
           <X size={20} />
         </button>
 
-        {/* Title*/}
+        {/* Title */}
         <h3 className="mb-2 text-lg font-bold text-white">Share Chat</h3>
-        <p className="mb-4 text-xs text-white/50 leading-relaxed ">
+        <p className="mb-4 text-xs text-white/50 leading-relaxed">
           Anyone with this link will be able to view this conversation in a
           read-only format. No account or login required.
         </p>
@@ -74,15 +84,21 @@ const ShareModal = ({ isOpen, onClose, chatId }) => {
             />
             <button
               onClick={handleCopy}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${copied ? "bg-emerald-500/20 text-emerald-400" : "bg-cyan-500 text-black hover:bg-cyan-400"}`}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
+                copied
+                  ? "bg-emerald-500/20 text-emerald-400"
+                  : "bg-cyan-500 text-black hover:bg-cyan-400"
+              }`}
             >
               {copied ? (
                 <>
                   <Check size={12} />
+                  Copied
                 </>
               ) : (
                 <>
                   <Copy size={12} />
+                  Copy Link
                 </>
               )}
             </button>

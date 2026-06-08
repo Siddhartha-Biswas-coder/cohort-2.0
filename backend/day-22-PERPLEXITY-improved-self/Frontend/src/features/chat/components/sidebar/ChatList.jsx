@@ -11,6 +11,7 @@ const ChatList = ({
   onRename,
   onDelete,
   onPin,
+  onShare,
 }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -66,6 +67,7 @@ const ChatList = ({
           onRename={onRename}
           onDelete={onDelete}
           onPin={onPin}
+          onShare={onShare}
         />
       )}
 
@@ -80,6 +82,7 @@ const ChatList = ({
           onRename={onRename}
           onDelete={onDelete}
           onPin={onPin}
+          onShare={onShare}
         />
       )}
       {groupChats.yesterday.length > 0 && (
@@ -93,6 +96,7 @@ const ChatList = ({
           onRename={onRename}
           onDelete={onDelete}
           onPin={onPin}
+          onShare={onShare}
         />
       )}
       {groupChats.previous7days.length > 0 && (
@@ -106,6 +110,7 @@ const ChatList = ({
           onRename={onRename}
           onDelete={onDelete}
           onPin={onPin}
+          onShare={onShare}
         />
       )}
       {groupChats.older.length > 0 && (
@@ -119,6 +124,7 @@ const ChatList = ({
           onRename={onRename}
           onDelete={onDelete}
           onPin={onPin}
+          onShare={onShare}
         />
       )}
     </div>
