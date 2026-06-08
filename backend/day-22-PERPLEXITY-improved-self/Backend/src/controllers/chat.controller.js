@@ -138,11 +138,17 @@ export const sendMessage = asyncHandler(async (req, res) => {
         },
         onSources: (sources) => {
           sourcesList = sources;
-          io.to(socketId, "ai-stream-sources", { chatId: chat._id, sources });
+          io.to(socketId).emit("ai-stream-sources", {
+            chatId: chat._id,
+            sources,
+          });
         },
       });
 
-      io.to(socketId).emit("ai-stream-end", { chatId: chat._id });
+      io.to(socketId).emit("ai-stream-end", {
+        chatId: chat._id,
+        sources: sourcesList,
+      });
 
       await messageModel.create({
         chat: chatId || chat._id,
