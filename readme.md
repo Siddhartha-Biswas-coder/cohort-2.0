@@ -52,10 +52,20 @@ Mini projects and full-stack applications built while learning new technologies,
 cohort-2.0
 │
 ├── backend
+│   ├── day-1 (server creation and running)
+│   ├── ...
+│   ├── day-20-PERPLEXITY (Conversational Search first iteration)
+│   ├── day-21-gen-ai (AI agent tools practice)
+│   └── day-22-PERPLEXITY-improved-self (Advanced AI search with Socket.IO streaming & stream control)
 ├── frontend
-├── full-stack-projects
-├── mini-projects
-└── notes
+│   ├── advance-css
+│   ├── advance-javascript(OOPs)
+│   ├── basic-css-javascript
+│   └── react
+└── projects
+    ├── Productivity-Dashboard
+    ├── apple-website
+    └── [other mini projects]
 ```
 
 ---
@@ -222,23 +232,21 @@ Building complete frontend + backend applications while understanding:
 - Build conversational AI applications ✅
 - Manage chat history & memory ✅
 
-## Currently Learning
+## Core Concepts Mastered
 
-- Prompt Engineering 🔄
-- Structured Output Generation 🔄
-- System Prompts 🔄
-- Streaming Responses 🔄
+- Prompt Engineering ✅ (System instruction design for search vs research modes)
+- Structured Output Generation ✅ (Parsing JSON structures from tools and model outputs)
+- System Prompts ✅ (Steering agent behavior dynamically)
+- Streaming Responses ✅ (Real-time token and event streaming via Socket.IO)
+- Retrieval Augmented Generation (RAG) ✅ (Search engine integrations using Tavily Search API)
+- Tool Calling ✅ (Binding custom tools like searchInternet and emailTool to LLM)
+- AI Agents ✅ (Using LangChain agents to dynamically decide actions and invoke tools)
 
-## Upcoming
+## Upcoming / In Progress
 
-- Retrieval Augmented Generation (RAG)
-- Vector Databases
-- Embeddings
-- Tool Calling
-- AI Agents
-- Multi-Agent Systems
-- Agentic AI Applications
-- 
+- Vector Databases & Embeddings 🔄
+- Multi-Agent Systems & Agentic AI frameworks ⏳
+
 ---
 
 # 🔒 Goal 5 — Agentic AI
@@ -499,16 +507,65 @@ I continuously update this repository while learning new technologies, concepts,
 - Build conversational AI applications ✅
 - Understand message-based architectures ✅
 - Manage conversational memory ✅
-- Learn prompt engineering fundamentals 🔄
-- Learn structured outputs 🔄
-- Learn streaming responses 🔄
-- Build RAG applications ⏳
+- Learn prompt engineering fundamentals ✅
+- Learn structured outputs ✅
+- Learn streaming responses ✅
+- Build RAG applications ✅
 - Learn vector databases ⏳
-- Build AI agents ⏳
+- Build AI agents ✅
 
 ---
 
 # 🚀 Current Major Project
+
+# 🔍 Perplexity Clone — Real-Time AI Search Engine
+
+An AI-powered conversational search engine inspired by Perplexity AI. It combines ChatMistralAI (via LangChain) and Tavily Search API to perform real-time internet search and deliver formatted, structured responses with source citations and real-time streaming.
+
+---
+
+## 🚀 Key Features
+
+- **Dual Modes**: 
+  - **Search Mode**: Provides direct, concise, and bulleted responses.
+  - **Research Mode**: Generates in-depth, structured markdown reports featuring Overview, Key Findings, Analysis, and Conclusion.
+- **Real-Time Token Streaming**: Streams generated tokens chunk-by-chunk using Socket.IO events (`ai-stream-start`, `ai-stream-chunk`, `ai-stream-end`).
+- **Interactive Search Sources**: Detects tool execution events (`on_tool_end` for `searchInternet`) to extract search results (titles and URLs) and streams them dynamically as citation blocks.
+- **Stream Control & Interruption**: Allows clients to stop generation in progress using an abort signal (`ai-stream-abort`) linked to a backend `AbortController` that cancels LangChain streams.
+- **Secure Public Chat Sharing**: Allows users to generate a secure, unique share token to make conversations public. Public shares bypass standard authentication checks via a dedicated public route.
+- **Chat Retention & Custom Titles**: Automatically generates 2-4 word chat titles based on the user's initial query using Mistral AI. Supports pinning, renaming, and deleting conversations.
+- **Redux State Management**: Uses Redux Toolkit to cleanly separate chat, authentication, and layout states on the frontend.
+- **Premium UI / UX**: A modern dark-theme user interface built with Tailwind CSS v4, Framer Motion animations, Lucide React icons, and Markdown tables/syntax highlighting.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: React 19 + Vite
+- **State Management**: Redux Toolkit & React Redux
+- **Styling**: Tailwind CSS v4 & SCSS
+- **Animations**: Framer Motion
+- **Libraries**: Socket.io-client, React Router v7, React Markdown & Remark GFM (for rich search reports)
+
+### Backend & AI
+- **Framework**: Node.js & Express.js (v5.2)
+- **Database**: MongoDB & Mongoose
+- **Real-Time**: Socket.IO
+- **Caching & Authentication**: Redis (for token blacklisting & secure logout) and JWT (secured in HTTP-only cookies)
+- **Orchestration**: LangChain agent framework with Tool Calling
+- **AI Model**: ChatMistralAI (`mistral-small-latest`)
+- **Search Tool**: Tavily Core SDK (retrieves top web search matches)
+
+---
+
+## 📂 Repository Link
+
+- Day 22 (Self-Improved Version): [day-22-PERPLEXITY-improved-self](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-22-PERPLEXITY-improved-self)
+- Day 20 (First Iteration): [day-20-PERPLEXITY](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-20-PERPLEXITY)
+
+---
+
 
 # 🎵 Moodify — AI Powered Emotion Based Music Player
 
@@ -727,8 +784,6 @@ The project uses Google's MediaPipe Face Landmarker to detect facial expressions
 
 # 🛠 Tech Stack Badges
 
-# 🛠 Tech Stack Badges
-
 ![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![SCSS](https://img.shields.io/badge/SCSS-CD6799?style=for-the-badge&logo=sass&logoColor=white)
@@ -755,6 +810,9 @@ The project uses Google's MediaPipe Face Landmarker to detect facial expressions
 ![ImageKit](https://img.shields.io/badge/ImageKit-1C1C1C?style=for-the-badge&logo=imagekit&logoColor=white)
 
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-0097A7?style=for-the-badge&logo=google&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3A?style=for-the-badge&logo=chainlink&logoColor=white)
+![Mistral AI](https://img.shields.io/badge/Mistral_AI-FD5722?style=for-the-badge&logo=mistral&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
