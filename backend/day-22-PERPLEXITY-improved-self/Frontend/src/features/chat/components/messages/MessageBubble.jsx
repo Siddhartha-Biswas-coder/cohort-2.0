@@ -9,7 +9,7 @@ import SourceCard from "./SourceCard";
 import MessageActions from "./MessageActions";
 import { RefreshCcw } from "lucide-react";
 
-const MessageBubble = ({ message, onRegenerateResponse }) => {
+const MessageBubble = ({ message, onRegenerateResponse}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {

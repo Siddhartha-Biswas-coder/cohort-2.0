@@ -108,6 +108,7 @@ const Dashboard = () => {
           onRename={handleRenameChat}
           onDelete={handleDeleteChat}
           onPin={handlePinChat}
+          onShare={handleOpenShareModal}
         />
 
         <section className="relative mx-auto flex h-full max-w-4xl min-w-0 flex-1 flex-col gap-4">

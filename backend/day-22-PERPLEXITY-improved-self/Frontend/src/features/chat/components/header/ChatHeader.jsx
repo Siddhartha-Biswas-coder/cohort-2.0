@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+
 import HeaderActions from "./HeaderActions";
 
 const ChatHeader = ({ currentChat, onShare }) => {

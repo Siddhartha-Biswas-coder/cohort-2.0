@@ -9,6 +9,7 @@ import {
   generateAccessToken,
   registerUser,
 } from "../services/auth.service.js";
+import { blackListToken } from "../services/redis.service.js";
 
 /**
  *  @route POST /api/auth/register
@@ -85,18 +86,12 @@ export const getMe = asyncHandler(async (req, res) => {
   const user = await userModel.findById(userId).select("-password");
 
   if (!user) {
-    return res.status(404).json({
-      message: "User not found",
-      success: false,
-      err: "User not found",
-    });
+    return res.status(404).json(new ApiError(404, "User not found"));
   }
 
-  res.status(200).json({
-    message: "User details fetched successfully",
-    success: true,
-    user,
-  });
+  res
+    .status(200)
+    .json(new ApiResponse(200, user, "User details fetched successfully"));
 });
 
 /**
@@ -141,4 +136,42 @@ export const verifyEmail = asyncHandler(async (req, res) => {
       err: err.message,
     });
   }
+});
+
+/**
+ *  @route POST /api/auth/logout
+ *  @desc Logout current user by clearing token cookie
+ *  @access Public
+ */
+
+export const logout = asyncHandler(async (req, res) => {
+  const token = req.cookies?.token;
+
+  if (token) {
+    try {
+      const decoded = jwt.decode(token);
+      if (decoded && decoded.exp) {
+        const now = Math.floor(Date.now() / 1000);
+        const ttl = decoded.exp - now;
+
+        // If the token is still active, blacklist it for its remaining lifetime
+        if (ttl > 0) {
+          await blackListToken(token, ttl);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to decode token for blacklist: ", error.message);
+    }
+  }
+
+  // Clear cookie from the client
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Logout successfully"));
 });
