@@ -4,6 +4,7 @@ import Register from "../features/auth/pages/Register";
 import Dashboard from "../features/chat/pages/Dashboard";
 import Protected from "../features/auth/components/Protected";
 import { Navigate } from "react-router";
+import SharedChatView from "../features/chat/pages/SharedChatView";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
         <Dashboard />
       </Protected>
     ),
+  },
+  {
+    path: "/share/:token",
+    element: <SharedChatView />,
   },
   {
     path: "/dashboard",

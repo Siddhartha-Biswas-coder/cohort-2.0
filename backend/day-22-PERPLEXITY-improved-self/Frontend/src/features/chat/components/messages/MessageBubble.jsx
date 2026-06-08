@@ -100,15 +100,17 @@ const MessageBubble = ({ message, onRegenerateResponse }) => {
             )}
           </div>
 
-          {message.role === "ai" && !message.isStreaming && (
-            <button
-              onClick={() => onRegenerateResponse()}
-              className="mt-3 flex items-center gap-1.5 text-xs text-white/40 hover:text-cyan-400 transition"
-            >
-              <RefreshCcw size={12} />
-              Regenerate
-            </button>
-          )}
+          {message.role === "ai" &&
+            !message.isStreaming &&
+            onRegenerateResponse && (
+              <button
+                onClick={() => onRegenerateResponse()}
+                className="mt-3 flex items-center gap-1.5 text-xs text-white/40 hover:text-cyan-400 transition"
+              >
+                <RefreshCcw size={12} />
+                Regenerate
+              </button>
+            )}
 
           {message.sources?.length > 0 && (
             <div className="mt-6">
