@@ -121,7 +121,7 @@ export function verifyAccessToken(token) {
  * @throws {ApiError} - Throws 400 Bad Request if user is not found
  */
 export async function findUserByEmail(email) {
-  const user = await userModel.findOne({ email });
+  const user = await findUserByEmailRepo(email);
 
   if (!user) {
     throw new ApiError(400, "Invalid credentials");
@@ -180,7 +180,7 @@ export function generateAccessToken(user) {
  * @returns {Promise<Object>} - The logged in user document
  */
 export async function loginUser(email, password) {
-  const user = await findUserByEmail(email);
+  const user = await findUserByEmailRepo(email);
 
   await validatePassword(user, password);
 
