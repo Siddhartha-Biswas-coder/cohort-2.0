@@ -5,23 +5,11 @@
  * Looks up the user's socketId and kicks off the background async task that triggers ai-stream-start, ai-stream-chunk (for each chunk returned by the model), and ai-stream-end events.
  */
 
-import {
-  generateResponse,
-  generateChatTitle,
-  SEARCH_PROMPT,
-  RESEARCH_PROMPT,
-} from "../services/ai.service.js";
-import { renameChatById } from "../services/chat.service.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import chatModel from "../models/chat.model.js";
-import messageModel from "../models/message.model.js";
 import ApiError from "../errors/ApiError.js";
-import { getIo } from "../sockets/server.socket.js";
 import { getUserSocket } from "../sockets/socketRegistry.js";
-import { streamResponse } from "../services/ai.stream.service.js";
-import { activeStreams } from "../services/streamRegistry.service.js";
-import crypto from "crypto";
+import * as chatService from "../services/chat.service.js";
 
 /**
  * Sends a message, immediately returning the chat details, and streams the AI response via sockets
@@ -31,141 +19,29 @@ import crypto from "crypto";
  */
 export const sendMessage = asyncHandler(async (req, res) => {
   const { message, chat: chatId, mode } = req.body;
-
-  let title = null,
-    chat = await chatModel.findOne({ _id: chatId, user: req.user.id });
-
-  if (chatId && !chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  if (!chatId) {
-    title = await generateChatTitle(message);
-
-    chat = await chatModel.create({
-      user: req.user.id,
-      title: title,
-    });
-  }
-
-  const userMessage = await messageModel.create({
-    chat: chatId || chat._id,
-    content: message,
-    role: "user",
-  });
-
-  const io = getIo();
   const socketId = getUserSocket(req.user.id);
 
   if (!socketId) {
     throw new ApiError(404, "No socket found for user");
   }
 
-  // Respond immediately with the chat and userMessage details
-  res.status(201).json({
-    chat,
-    userMessage,
+  const { chat, userMessage } = await chatService.sendMessageService({
+    userId: req.user.id,
+    message,
+    chatId,
+    mode,
+    socketId,
   });
 
-  // Run the AI streaming and AI message persistence asynchronously
-  // (async () => {
-  //   try {
-  //     const messages = await messageModel
-  //       .find({ chat: chatId || chat._id })
-  //       .sort({ createdAt: 1 });
-
-  //     let finalContent = "";
-  //     let streamedSources = [];
-
-  //     io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
-
-  //     const finalResult = await streamResponse({
-  //       messages,
-  //       systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
-  //       onChunk: (chunk) => {
-  //         io.to(socketId).emit("ai-stream-chunk", {
-  //           chatId: chat._id,
-  //           chunk,
-  //         });
-  //       },
-  //       onSources: (sources) => {
-  //         streamedSources = sources;
-  //         // Option: you could also emit a separate event "ai-stream-sources" here if desired
-  //       },
-  //     });
-  //     finalContent = finalResult.content;
-  //     streamedSources = finalResult.sources;
-
-  //     // Send sources to the client at the end of the stream
-  //     io.to(socketId).emit("ai-stream-end", {
-  //       chatId: chat._id,
-  //       sources: streamedSources,
-  //     });
-
-  //     await messageModel.create({
-  //       chat: chatId || chat._id,
-  //       content: finalContent,
-  //       role: "ai",
-  //       sources: streamedSources,
-  //       // Save the actual search sources!
-  //     });
-  //   } catch (error) {
-  //     console.error("Error generating and streaming AI response:", error);
-  //   }
-  // })();
-
-  // Run streaming asynchronously
-  (async () => {
-    // Instantiate an AbortController for this streaming task
-    const controller = new AbortController();
-    activeStreams.set(socketId, controller);
-
-    try {
-      const messages = await messageModel
-        .find({ chat: chatId || chat._id })
-        .sort({ createdAt: 1 });
-
-      let sourcesList = [];
-
-      io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
-
-      const finalResult = await streamResponse({
-        messages,
-        systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
-        signal: controller.signal,
-        onChunk: (chunk) => {
-          io.to(socketId).emit("ai-stream-chunk", { chatId: chat._id, chunk });
-        },
-        onSources: (sources) => {
-          sourcesList = sources;
-          io.to(socketId).emit("ai-stream-sources", {
-            chatId: chat._id,
-            sources,
-          });
-        },
-      });
-
-      io.to(socketId).emit("ai-stream-end", {
-        chatId: chat._id,
-        sources: sourcesList,
-      });
-
-      await messageModel.create({
-        chat: chatId || chat._id,
-        content: finalResult.content,
-        role: "ai",
-        sources: sourcesList,
-      });
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("STream absorted successfully");
-      } else {
-        console.log("Stream generation failed: ", error.message);
-      }
-    } finally {
-      activeStreams.delete(socketId);
-    }
-  })();
+  res
+    .status(201)
+    .json(
+      new ApiResponse(
+        201,
+        { chat, userMessage },
+        "Message send and streaming initialized",
+      ),
+    );
 });
 
 /**
@@ -175,10 +51,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
  * @returns {Promise<void>}
  */
 export const getChats = asyncHandler(async (req, res) => {
-  const user = req.user;
-
-  const chats = await chatModel.find({ user: user.id });
-
+  const chats = await chatService.getChatService(req.user.id);
   res
     .status(200)
     .json(new ApiResponse(200, chats, "Chats retrived successfully"));
@@ -192,18 +65,9 @@ export const getChats = asyncHandler(async (req, res) => {
  */
 export const getMessages = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
-
-  const chat = await chatModel.findOne({
-    _id: chatId,
-    user: req.user.id,
-  });
-
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  const messages = await messageModel.find({
-    chat: chatId,
+  const messages = await chatService.getMessagesService({
+    chatId,
+    userId: req.user.id,
   });
 
   res
@@ -220,8 +84,7 @@ export const getMessages = asyncHandler(async (req, res) => {
 export const renameChat = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
   const { title } = req.body;
-
-  const chat = await renameChatById({
+  const chat = await chatService.renameChatById({
     chatId,
     title,
     userId: req.user.id,
@@ -242,22 +105,10 @@ export const deleteChat = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { chatId } = req.params;
 
-  const chat = await chatModel.findOneAndDelete({
-    _id: chatId,
-    user: userId,
+  const chat = await chatService.deleteChatService({
+    chatId,
+    userId,
   });
-
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  await messageModel.deleteMany({
-    chat: chatId,
-  });
-
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
 
   res.status(200).json(new ApiResponse(200, chat, "Chat deleted successfully"));
 });
@@ -265,96 +116,31 @@ export const deleteChat = asyncHandler(async (req, res) => {
 export const regenerateResponse = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
   const { mode } = req.body;
-  // 1. Verify ownership of the ta// 2. Locate and delete the last AI message in this conversationrget chat
-
-  const chat = await chatModel.findOne({ _id: chatId, user: req.user.id });
-
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  // 2. Locate and delete the last AI message in this conversation
-  const lastMessage = await messageModel
-    .findOne({ chat: chatId })
-    .sort({ createdAt: -1 });
-
-  if (lastMessage && lastMessage.role === "ai") {
-    await messageModel.findByIdAndDelete(lastMessage._id);
-  }
-
   const socketId = getUserSocket(req.user.id);
+
   if (!socketId) {
     throw new ApiError(404, "No socket connection active");
   }
 
-  const io = getIo();
+  await chatService.regenerateResponseService({
+    userId: req.user.id,
+    chatId,
+    mode,
+    socketId,
+  });
 
-  // 3. Immediately return status to allow frontend state updates
-  res.status(200).json(new ApiResponse(200, null, "Regeneration started"));
-
-  // 4. Start streaming replacement message
-  (async () => {
-    const controller = new AbortController();
-    activeStreams.set(socketId, controller);
-
-    try {
-      const messages = await messageModel.find({ chat: chatId }).sort({
-        createdAt: 1,
-      });
-
-      let sourcesList = [];
-
-      io.to(socketId).emit("ai-stream-start", { chatId: chat._id });
-
-      const streamResult = await streamResponse({
-        messages,
-        systemPrompt: mode === "search" ? SEARCH_PROMPT : RESEARCH_PROMPT,
-        signal: controller.signal,
-        onChunk: (chunk) => {
-          io.to(socketId).emit("ai-stream-chunk", { chatId: chat._id, chunk });
-        },
-        onSources: (sources) => {
-          sourcesList = sources;
-          io.to(socketId).emit("ai-stream-sources", {
-            chatId: chat._id,
-            sources,
-          });
-        },
-      });
-
-      io.to(socketId).emit("ai-stream-end", {
-        chatId: chat._id,
-        sources: sourcesList,
-      });
-
-      // Save the newly generated message to DB
-      await messageModel.create({
-        chat: chatId,
-        content: streamResult.content,
-        role: "ai",
-        sources: sourcesList,
-      });
-    } catch (error) {
-      console.error("Regeneration stream failed: ", error);
-    } finally {
-      activeStreams.delete(socketId);
-    }
-  })();
+  res
+    .status(200)
+    .json(new ApiResponse(200, null, "Regeneration started successfully"));
 });
 
 export const togglePinChat = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
 
-  // Retrieve the chat, verifying ownership
-
-  const chat = await chatModel.findOne({ _id: chatId, user: req.user.id });
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  // Toggle the isPinned boolean field
-  chat.isPinned = !chat.isPinned;
-  await chat.save();
+  const chat = await chatService.togglePinChatService({
+    chatId,
+    userId: req.user.id,
+  });
 
   res
     .status(200)
@@ -372,29 +158,17 @@ export const togglePinChat = asyncHandler(async (req, res) => {
 export const generateShareLink = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
 
-  // 1. Verify ownership of the target chat
-  const chat = await chatModel.findOne({
-    _id: chatId,
-    user: req.user.id,
+  const shareToken = await chatService.generateShareLinkService({
+    chatId,
+    userId: req.user.id,
   });
-
-  if (!chat) {
-    throw new ApiError(404, "Chat not found");
-  }
-
-  // If token doesn't exist yet, generate a random 16-byte hex token
-  if (!chat.shareToken) {
-    chat.shareToken = crypto.randomBytes(16).toString("hex");
-    chat.isShared = true;
-    await chat.save();
-  }
 
   res
     .status(200)
     .json(
       new ApiResponse(
         200,
-        { shareToken: chat.shareToken },
+        { shareToken },
         "Share token generated successfully",
       ),
     );
@@ -403,17 +177,7 @@ export const generateShareLink = asyncHandler(async (req, res) => {
 export const getSharedChat = asyncHandler(async (req, res) => {
   const { token } = req.params;
 
-  // Look up shared chat by matching the unique shareToken key
-
-  const chat = await chatModel.findOne({ shareToken: token, isShared: true });
-  if (!chat) {
-    throw new ApiError(404, "Shared chat not found or link has expired");
-  }
-
-  // Fetch all associated messages in chronological order
-  const messages = await messageModel
-    .find({ chat: chat._id })
-    .sort({ createdAt: 1 });
+  const { chat, messages } = await chatService.getSharedChatService(token);
 
   res
     .status(200)

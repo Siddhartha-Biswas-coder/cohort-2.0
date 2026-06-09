@@ -1,7 +1,14 @@
-import userModel from "../models/user.model.js";
+import {
+  findUserById,
+  findUserByEmail as findUserByEmailRepo,
+  findUserByUsernameOrEmail,
+  createUser as createUserRepo,
+} from "../repositories/user.repository.js";
 import ApiError from "../errors/ApiError.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "./mail.service.js";
+import env from "../config/env.js";
+import { blackListToken } from "./redis.service.js";
 
 /**
  * Register controller services
@@ -14,9 +21,7 @@ import { sendEmail } from "./mail.service.js";
  * @throws {ApiError} - Throws a 400 Bad Request error if a user exists
  */
 export async function validateUserDoesNotExist(email, username) {
-  const existingUser = await userModel.findOne({
-    $or: [{ email }, { username }],
-  });
+  const existingUser = await findUserByUsernameOrEmail(username, email);
 
   if (existingUser) {
     throw new ApiError(400, "User with email or username already exists");
@@ -32,7 +37,7 @@ export async function validateUserDoesNotExist(email, username) {
  * @returns {Promise<Object>} - The created user document
  */
 export async function createUser({ username, email, password }) {
-  const user = await userModel.create({ username, email, password });
+  const user = await createUserRepo({ username, email, password });
 
   return user;
 }
@@ -47,7 +52,7 @@ export function generateEmailVerificationToken(user) {
     {
       email: user.email,
     },
-    process.env.JWT_SECRET,
+    env.JWT_SECRET,
   );
 }
 
@@ -102,7 +107,7 @@ export function verifyAccessToken(token) {
     throw new ApiError(401, "Unauthorized");
   }
 
-  return jwt.verify(token, process.env.JWT_SECRET);
+  return jwt.verify(token, env.JWT_SECRET);
 }
 
 /**
@@ -163,7 +168,7 @@ export function generateAccessToken(user) {
       username: user.username,
       email: user.email,
     },
-    process.env.JWT_SECRET,
+    env.JWT_SECRET,
     { expiresIn: "7d" },
   );
 }
@@ -182,4 +187,56 @@ export async function loginUser(email, password) {
   validateUserVerification(user);
 
   return user;
+}
+/**
+ * Retrieves user details by ID, excluding password
+ * @param {string} userId - The user ID
+ * @returns {Promise<Object>} - The user document
+ */
+export async function getUserByIdService(userId) {
+  const user = await findUserById(userId);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  return user;
+}
+
+/**
+ * Verifies email verification token and marks user as verified
+ * @param {string} token - The email verification token
+ * @returns {Promise<Object>} - The verified user document
+ */
+export async function verifyEmailService(token) {
+  if (!token) {
+    throw new ApiError(400, "Token is required");
+  }
+  const decoded = jwt.verify(token, env.JWT_SECRET);
+  const user = await findUserByEmailRepo(decoded.email);
+  if (!user) {
+    throw new ApiError(400, "No user found with the provided email");
+  }
+  user.verified = true;
+  await user.save();
+  return user;
+}
+
+/**
+ * Decodes the user JWT and blacklists it if active
+ * @param {string} token - The session JWT
+ * @returns {Promise<void>}
+ */
+export async function logoutUser(token) {
+  if (!token) return;
+  try {
+    const decoded = jwt.decode(token);
+    if (decoded && decoded.exp) {
+      const now = Math.floor(Date.now() / 1000);
+      const ttl = decoded.exp - now;
+      if (ttl > 0) {
+        await blackListToken(token, ttl);
+      }
+    }
+  } catch (error) {
+    console.error("Failed to decode token for blacklist : ", error.message);
+  }
 }

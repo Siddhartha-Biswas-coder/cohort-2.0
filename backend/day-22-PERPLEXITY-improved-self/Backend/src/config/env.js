@@ -11,7 +11,7 @@ const envSchema = z.object({
   GOOGLE_REFRESH_TOKEN: z.string().min(1, "GOOGLE_REFRESH_TOKEN is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
   MISTRAL_API_KEY: z.string().optional(),
-  GOOGLE_API_KEY: z.string().optional,
+  GOOGLE_API_KEY: z.string().optional(),
   TAVILY_API_KEY: z.string().min(1, "TAVILY_API_KEY is required"),
   NODE_ENV: z
     .enum(["development", "production", "test"])

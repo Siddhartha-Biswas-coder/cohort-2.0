@@ -11,24 +11,50 @@ import {
   getSharedChat,
 } from "../controllers/chat.controller.js";
 import { authUser } from "../middlewares/auth.middleware.js";
+import {
+  sendMessageValidator,
+  renameChatValidator,
+  chatIdParamValidator,
+  regenerateValidator,
+} from "../validators/chat.validator.js";
 
 const chatRouter = Router();
 
-chatRouter.post("/message", authUser, sendMessage);
+chatRouter.post("/message", authUser, sendMessageValidator, sendMessage);
 
 chatRouter.get("/", authUser, getChats);
 
-chatRouter.get("/:chatId/messages", authUser, getMessages);
+chatRouter.get(
+  "/:chatId/messages",
+  authUser,
+  chatIdParamValidator,
+  getMessages,
+);
 
-chatRouter.patch("/:chatId", authUser, renameChat);
+chatRouter.patch("/:chatId", authUser, renameChatValidator, renameChat);
 
-chatRouter.delete("/delete/:chatId/", authUser, deleteChat);
+chatRouter.delete(
+  "/delete/:chatId/",
+  authUser,
+  chatIdParamValidator,
+  deleteChat,
+);
 
-chatRouter.post("/:chatId/regenerate", authUser, regenerateResponse);
+chatRouter.post(
+  "/:chatId/regenerate",
+  authUser,
+  regenerateValidator,
+  regenerateResponse,
+);
 
-chatRouter.patch("/:chatId/pin", authUser, togglePinChat);
+chatRouter.patch("/:chatId/pin", authUser, chatIdParamValidator, togglePinChat);
 
-chatRouter.post("/:chatId/share", authUser, generateShareLink);
+chatRouter.post(
+  "/:chatId/share",
+  authUser,
+  chatIdParamValidator,
+  generateShareLink,
+);
 
 chatRouter.get("/share/:token", getSharedChat); //Bypasses authUser middleware to remain public
 

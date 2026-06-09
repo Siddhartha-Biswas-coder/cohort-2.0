@@ -1,10 +1,11 @@
 import { createClient } from "redis";
+import env from "../config/env.js";
 
 let isRedisConnected = false;
 const localBlacklist = new Set(); // Fallback in-memory blacklist for dev mode
 
 const redisClient = createClient({
-  url: process.env.REDIS_URL || "redis://127.0.0.1:6379",
+  url: env.REDIS_URL,
 });
 
 redisClient.on("error", (err) => {

@@ -7,11 +7,12 @@ import {
   tool,
 } from "langchain";
 import * as z from "zod";
+import env from "../config/env.js";
 import { searchInternet } from "./internet.service.js";
 
 export const mistralModel = new ChatMistralAI({
   model: "mistral-small-latest",
-  apiKey: process.env.MISTRAL_API_KEY,
+  apiKey: env.MISTRAL_API_KEY,
 });
 
 export const SEARCH_PROMPT = `
