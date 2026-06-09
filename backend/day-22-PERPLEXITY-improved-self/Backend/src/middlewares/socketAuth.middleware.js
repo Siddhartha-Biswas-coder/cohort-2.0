@@ -15,9 +15,9 @@ export function socketAuth(socket, next) {
     }
 
     const cookies = Object.fromEntries(
-      cookieHeader.split("; ").map((cookie) => {
-        const [key, value] = cookie.split("=");
-        return [key, value];
+      cookieHeader.split(";").map((cookie) => {
+        const [key, value] = cookie.trim().split("=");
+        return [key, decodeURIComponent(value || "")];
       }),
     );
 

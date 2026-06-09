@@ -7,8 +7,8 @@ import {
   tool,
 } from "langchain";
 import * as z from "zod";
-import env from "../config/env.js";
 import { searchInternet } from "./internet.service.js";
+import env from "../config/env.js";
 
 export const mistralModel = new ChatMistralAI({
   model: "mistral-small-latest",
@@ -64,7 +64,7 @@ export const agent = createAgent({
  * Generates a full AI response along with retrieved search sources
  * @param {Object[]} messages - Array of messages representing chat history
  * @param {string} [mode="search"] - Search mode ("search" or "research")
- * @returns {Promise<{ content: string, sources: Object[] }>} - The generated AI message content and search sources
+ * @returns {Promise<{ content: string, sources: Object[] }>} - The generates AI message content and search sources
  */
 export async function generateResponse(messages, mode = "search") {
   const formattedMessages = messages
@@ -117,7 +117,7 @@ export async function generateChatTitle(message) {
       `You are a helpful assistant that generated concise and descriptive titles for chat conversations,
       
       
-      User will provide you with the first message of a chat conversation, and you will generate a title that csptures the essence of the conversation in 2-4 words. The title should be clear, relevant, and engaging, giving users a quick understanding of the chat's topic.
+      User will provide you with the first message of a chat conversation, and you will generate a title that captures the essence of the conversation in 2-4 words. The title should be clear, relevant, and engaging, giving users a quick understanding of the chat's topic.
       `,
     ),
 

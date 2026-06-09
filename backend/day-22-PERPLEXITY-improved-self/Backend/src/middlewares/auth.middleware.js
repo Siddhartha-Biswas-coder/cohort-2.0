@@ -11,7 +11,7 @@ import { isTokenBlackListed } from "../services/redis.service.js";
  * @returns {Promise<void>}
  */
 export const authUser = asyncHandler(async (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies?.token;
 
   if (!token) {
     throw new ApiError(401, "Unauthorized");

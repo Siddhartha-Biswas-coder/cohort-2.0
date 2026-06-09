@@ -22,7 +22,7 @@ export const sendMessageValidator = [
     .trim()
     .notEmpty()
     .isIn(["search", "research"])
-    .withMessage("mode must be either 'search' or 'research"),
+    .withMessage("mode must be either 'search' or 'research'"),
   validate,
 ];
 
@@ -48,6 +48,6 @@ export const regenerateValidator = [
 ];
 
 export const chatIdParamValidator = [
-  param("chatId").isMongoId().withMessage("Invalid chat ID format"),
+  param("chatId").isMongoId().withMessage("Invalid Chat ID format"),
   validate,
 ];

@@ -1,14 +1,14 @@
 /**
  * Entry point that creates the HTTP server and initializes Socket.io by running initSocket.
  */
-
+import env from "./src/config/env.js"
 import "dotenv/config";
 import app from "./src/app.js";
 import http from "http";
 import connectToDB from "./src/config/database.js";
 import { initSocket } from "./src/sockets/server.socket.js";
 
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT || 3000;
 
 const httpServer = http.createServer(app);
 

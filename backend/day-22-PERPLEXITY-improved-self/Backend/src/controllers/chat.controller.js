@@ -39,7 +39,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
       new ApiResponse(
         201,
         { chat, userMessage },
-        "Message send and streaming initialized",
+        "Message sent and streaming initialized",
       ),
     );
 });
@@ -54,7 +54,7 @@ export const getChats = asyncHandler(async (req, res) => {
   const chats = await chatService.getChatService(req.user.id);
   res
     .status(200)
-    .json(new ApiResponse(200, chats, "Chats retrived successfully"));
+    .json(new ApiResponse(200, chats, "Chats retrieved successfully"));
 });
 
 /**
@@ -185,7 +185,7 @@ export const getSharedChat = asyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         { chat, messages },
-        " Shared chat retrived successfully",
+        "Shared chat retrived successfully",
       ),
     );
 });
