@@ -36,20 +36,20 @@ const SharedChatView = () => {
   }, [token]);
 
   return (
-    <div className="min-h-screen w-full bg-[#07090f] text-white flex flex-col">
-      <header className="border-b border-white/10 bg-[#07090f]/80 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
+    <div className="min-h-screen w-full bg-zinc-50 dark:bg-[#030303] text-zinc-800 dark:text-white flex flex-col transition-colors duration-200">
+      <header className="border-b border-zinc-200 dark:border-white/10 bg-white/80 dark:bg-[#030303]/80 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-lg tracking-tight bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="font-semibold text-lg tracking-tight bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-450 bg-clip-text text-transparent">
               Perplexity Clone
             </span>
-            <span className="rounded-full bg-white/5 border border-white/10 px-2 py-0.5 text-[10px] font-medium text-white/50">
+            <span className="rounded-full bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 px-2 py-0.5 text-[10px] font-medium text-zinc-550 dark:text-white/50">
               Shared Thread
             </span>
           </div>
           <Link
             to="/"
-            className="flex items-center gap-1.5 rounded-xl bg-cyan-500 px-3 py-2 text-xs font-semibold text-black hover:bg-cyan-400 transition cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-500 dark:to-violet-500 px-3 py-2 text-xs font-semibold text-white transition hover:opacity-95 shadow-[0_4px_12px_rgba(99,102,241,0.15)] hover:shadow-[0_4px_20px_rgba(99,102,241,0.3)] cursor-pointer"
           >
             Start your own thread
           </Link>
@@ -60,15 +60,15 @@ const SharedChatView = () => {
       <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-8 flex flex-col">
         {loading ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
-            <p className="text-sm text-white/50">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-indigo-650 dark:border-indigo-400 border-t-transparent" />
+            <p className="text-sm text-zinc-400 dark:text-white/50">
               Loading shared conversation...
             </p>
           </div>
         ) : error ? (
           <div>
-            <p className="text-red-400 font-medium">{error}</p>
-            <Link to="/" className="text-xs text-cyan-400 hover:underline">
+            <p className="text-red-500 dark:text-red-400 font-medium">{error}</p>
+            <Link to="/" className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
               Go to Home Page
             </Link>
           </div>

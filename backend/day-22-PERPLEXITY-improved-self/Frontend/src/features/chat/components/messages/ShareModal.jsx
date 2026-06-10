@@ -48,46 +48,46 @@ const ShareModal = ({ isOpen, onClose, chatId }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0c0f17] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0c0c0e] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200 text-zinc-800 dark:text-white">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-white/40 transition hover:text-white"
+          className="absolute right-4 top-4 text-zinc-400 dark:text-white/40 transition hover:text-zinc-700 dark:hover:text-white cursor-pointer"
         >
           <X size={20} />
         </button>
 
         {/* Title */}
-        <h3 className="mb-2 text-lg font-bold text-white">Share Chat</h3>
-        <p className="mb-4 text-xs text-white/50 leading-relaxed">
+        <h3 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">Share Chat</h3>
+        <p className="mb-4 text-xs text-zinc-500 dark:text-white/55 leading-relaxed">
           Anyone with this link will be able to view this conversation in a
           read-only format. No account or login required.
         </p>
 
         {/* Content */}
         {loading ? (
-          <div className="flex h-12 items-center justify-center text-sm text-cyan-400">
+          <div className="flex h-12 items-center justify-center text-sm text-indigo-600 dark:text-indigo-400 font-medium">
             Generating share Link...
           </div>
         ) : error ? (
-          <div className="rounded-lg bg-red-500/10 p-3 text-xs text-red-400">
+          <div className="rounded-lg bg-red-500/10 p-3 text-xs text-red-500 dark:text-red-400">
             {error}
           </div>
         ) : (
-          <div className="flex items-center gap-2 rounded-xl bg-white/5 p-2 border border-white/10">
+          <div className="flex items-center gap-2 rounded-xl bg-zinc-50 dark:bg-white/5 p-2 border border-zinc-200 dark:border-white/10">
             <input
               type="text"
               readOnly
               value={shareLink}
-              className="min-w-0 flex-1 bg-transparent px-2 text-xs font-mono text-cyan-300 outline-none"
+              className="min-w-0 flex-1 bg-transparent px-2 text-xs font-mono text-indigo-600 dark:text-indigo-300 outline-none"
               onClick={(e) => e.target.select()}
             />
             <button
               onClick={handleCopy}
               className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
                 copied
-                  ? "bg-emerald-500/20 text-emerald-400"
-                  : "bg-cyan-500 text-black hover:bg-cyan-400"
+                  ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+                  : "bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-500 dark:to-violet-500 text-white"
               }`}
             >
               {copied ? (

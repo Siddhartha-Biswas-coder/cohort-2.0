@@ -22,11 +22,11 @@ const ChatGroup = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          className="mb-2 px-2 text-xs font-medium uppercase text-white/40"
+          className="mb-2 px-2 text-xs font-semibold uppercase text-zinc-400 dark:text-white/40 tracking-wider"
         >
           {title}
           {title === "pinned" && (
-            <span className="ml-1 text-xs text-cyan-400">📌</span>
+            <span className="ml-1 text-xs text-indigo-500 dark:text-indigo-400">📌</span>
           )}
         </motion.h3>
       </AnimatePresence>

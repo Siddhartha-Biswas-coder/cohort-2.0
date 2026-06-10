@@ -34,11 +34,11 @@ const Login = () => {
   }
 
   return (
-    <section className="min-h-screen bg-zinc-950 px-4 py-10 text-zinc-100 sm:px-6 lg:px-8">
+    <section className="min-h-screen bg-zinc-50 dark:bg-[#030303] px-4 py-10 text-zinc-800 dark:text-zinc-100 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl items-center justify-center">
-        <div className="w-full max-w-md rounded-2xl border border-[#31b8c6]/40 bg-zinc-900/70 p-8 shadow-2xl shadow-black/50 backdrop-blur">
-          <h1 className="text-3xl font-bold text-[#31b8c6]">Welcome Back</h1>
-          <p className="mt-2 text-sm text-zinc-300">
+        <div className="w-full max-w-md rounded-2xl border border-zinc-200 dark:border-indigo-500/10 bg-white dark:bg-[#09090b]/80 p-8 shadow-xl dark:shadow-[0_0_50px_rgba(99,102,241,0.06)] backdrop-blur">
+          <h1 className="text-3xl font-bold bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-450 bg-clip-text text-transparent">Welcome Back</h1>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Sign in with your email and password
           </p>
 
@@ -46,7 +46,7 @@ const Login = () => {
             <div>
               <label
                 htmlFor="email"
-                className="mb-2 block text-sm font-medium text-zinc-200"
+                className="mb-2 block text-sm font-medium text-zinc-650 dark:text-zinc-200"
               >
                 Email
               </label>
@@ -57,14 +57,14 @@ const Login = () => {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950/80 px-4 py-3 text-zinc-900 dark:text-zinc-100 outline-none ring-0 transition focus:border-indigo-500 dark:focus:border-indigo-500/50 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
               />
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="mb-2 block text-sm font-medium text-zinc-200"
+                className="mb-2 block text-sm font-medium text-zinc-650 dark:text-zinc-200"
               >
                 Password
               </label>
@@ -75,23 +75,23 @@ const Login = () => {
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950/80 px-4 py-3 text-zinc-900 dark:text-zinc-100 outline-none ring-0 transition focus:border-indigo-500 dark:focus:border-indigo-500/50 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-lg bg-[#31b8cb] px-4 py-3 font-semibold text-zinc-950 transition hover:bg-[#45c7d4] focus:outline-none focus:shadow-[0_0_0_3px_rgba(49,184,198,0.35)]"
+              className="w-full rounded-lg bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-500 dark:to-violet-500 px-4 py-3 font-semibold text-white transition hover:opacity-95 shadow-[0_4px_12px_rgba(99,102,241,0.15)] hover:shadow-[0_4px_20px_rgba(99,102,241,0.3)] focus:outline-none cursor-pointer"
             >
               Login
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-zinc-300">
+          <p className="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="font-semibold text-[#31b8cb] transition hover:text-[#45c7d4]"
+              className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition"
             >
               Register
             </Link>

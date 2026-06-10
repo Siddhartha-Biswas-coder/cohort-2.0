@@ -8,6 +8,14 @@ const App = () => {
 
   useEffect(() => {
     auth.handleGetMe();
+    
+    // Load and apply theme
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
 
   return <RouterProvider router={router} />;

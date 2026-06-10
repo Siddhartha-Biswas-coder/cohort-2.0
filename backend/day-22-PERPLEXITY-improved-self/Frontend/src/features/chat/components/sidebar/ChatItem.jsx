@@ -63,10 +63,10 @@ const ChatItem = ({
         if (isEditing) return;
         openChat(chat.id);
       }}
-      className={`w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium transition ${
+      className={`w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium transition duration-200 ${
         isActive
-          ? "border border-white bg-white/10 text-white"
-          : "border border-white/10 text-white/80 hover:border-white/20 hover:bg-white/5"
+          ? "border border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-900 dark:text-indigo-200 shadow-[0_0_15px_rgba(99,102,241,0.06)]"
+          : "border border-zinc-200/50 dark:border-white/10 text-zinc-600 dark:text-white/80 hover:border-zinc-300 dark:hover:border-white/20 hover:bg-zinc-100 dark:hover:bg-white/5"
       }`}
     >
       <div className="group relative flex items-center justify-between">

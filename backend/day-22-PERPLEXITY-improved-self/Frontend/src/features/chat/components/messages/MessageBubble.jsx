@@ -41,10 +41,10 @@ const MessageBubble = ({ message, onRegenerateResponse}) => {
       transition={{
         duration: 0.25,
       }}
-      className={`group relative max-w-[90%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${
+      className={`group relative max-w-[90%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base transition-colors duration-200 ${
         message.role === "user"
-          ? "ml-auto rounded-br-none bg-white/12 text-white"
-          : "mr-auto border-none text-white/90"
+          ? "ml-auto rounded-br-none bg-zinc-200 dark:bg-white/12 text-zinc-900 dark:text-white"
+          : "mr-auto border-none text-zinc-800 dark:text-white/90"
       }`}
     >
       {message.role === "user" ? (
@@ -82,7 +82,7 @@ const MessageBubble = ({ message, onRegenerateResponse}) => {
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
                   ) : (
-                    <code className="rounded-md bg-white/5 border border-white/10 px-1.5 py-0.5 font-mono text-cyan-300 text-sm">
+                    <code className="rounded-md bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 px-1.5 py-0.5 font-mono text-indigo-600 dark:text-indigo-300 text-sm">
                       {children}
                     </code>
                   );
@@ -94,7 +94,7 @@ const MessageBubble = ({ message, onRegenerateResponse}) => {
             </ReactMarkdown>
 
             {message.isStreaming && (
-              <span className="ml-1 animate-pulse text-cyan-400 inline-block align-middle">
+              <span className="ml-1 animate-pulse text-indigo-550 dark:text-indigo-400 inline-block align-middle">
                 ▌
               </span>
             )}
@@ -105,7 +105,7 @@ const MessageBubble = ({ message, onRegenerateResponse}) => {
             onRegenerateResponse && (
               <button
                 onClick={() => onRegenerateResponse()}
-                className="mt-3 flex items-center gap-1.5 text-xs text-white/40 hover:text-cyan-400 transition"
+                className="mt-3 flex items-center gap-1.5 text-xs text-zinc-400 dark:text-white/40 hover:text-indigo-600 dark:hover:text-indigo-400 transition cursor-pointer"
               >
                 <RefreshCcw size={12} />
                 Regenerate
@@ -114,7 +114,7 @@ const MessageBubble = ({ message, onRegenerateResponse}) => {
 
           {message.sources?.length > 0 && (
             <div className="mt-6">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-white/40">
                 Sources
               </p>
 

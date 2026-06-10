@@ -98,8 +98,9 @@ const Dashboard = () => {
   const currentChat = chats[currentChatId];
 
   return (
-    <main className="h-screen w-full flex bg-[#07090f] p-3 text-white md:p-5">
+    <main className="h-screen w-full flex bg-zinc-50 dark:bg-[#030303] p-3 text-zinc-900 dark:text-white md:p-5 transition-colors duration-200">
       <section className="mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none">
+
         <Sidebar
           chats={chats}
           openChat={openChat}

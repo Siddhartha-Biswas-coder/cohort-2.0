@@ -8,7 +8,7 @@ const ChatMenu = ({
   onShareClick, // <-- Unified casing
 }) => {
   return (
-    <div className="absolute right-0 top-full z-50 mt-2 w-40 rounded-xl border border-white/10 bg-[#11151d] p-1 shadow-xl">
+    <div className="absolute right-0 top-full z-50 mt-2 w-40 rounded-xl border border-white/5 bg-[#121215] p-1 shadow-2xl">
       <button
         onClick={onPinClick}
         type="button"
