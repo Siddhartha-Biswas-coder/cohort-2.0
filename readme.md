@@ -56,7 +56,10 @@ cohort-2.0
 │   ├── ...
 │   ├── day-20-PERPLEXITY (Conversational Search first iteration)
 │   ├── day-21-gen-ai (AI agent tools practice)
-│   └── day-22-PERPLEXITY-improved-self (Advanced AI search with Socket.IO streaming & stream control)
+│   ├── day-22-PERPLEXITY-improved-self (Advanced AI search with Socket.IO streaming & stream control)
+│   ├── day-23-Rag (Pinecone Vector DB RAG pipeline with Mistral Embeddings)
+│   ├── day-24-TypeScript (TypeScript compiler setup and workflow configuration)
+│   └── day-25-LangGraph-battle-ai-arena (Multi-LLM StateGraph orchestration with Gemini judge)
 ├── frontend
 │   ├── advance-css
 │   ├── advance-javascript(OOPs)
@@ -104,6 +107,9 @@ cohort-2.0
 - Token Blacklisting
 - Secure Logout Systems
 - Production CORS Handling
+- TypeScript Configuration & Execution
+- Vector Databases (Pinecone)
+- Agentic Workflows & Multi-Agent Graphs (LangGraph)
 
 ---
 
@@ -238,20 +244,21 @@ Building complete frontend + backend applications while understanding:
 - Structured Output Generation ✅ (Parsing JSON structures from tools and model outputs)
 - System Prompts ✅ (Steering agent behavior dynamically)
 - Streaming Responses ✅ (Real-time token and event streaming via Socket.IO)
-- Retrieval Augmented Generation (RAG) ✅ (Search engine integrations using Tavily Search API)
+- Retrieval Augmented Generation (RAG) ✅ (Search engine integrations and Pinecone vector search)
 - Tool Calling ✅ (Binding custom tools like searchInternet and emailTool to LLM)
 - AI Agents ✅ (Using LangChain agents to dynamically decide actions and invoke tools)
-
-## Upcoming / In Progress
-
-- Vector Databases & Embeddings 🔄
-- Multi-Agent Systems & Agentic AI frameworks ⏳
+- Vector Databases & Embeddings ✅ (Document parsing, RecursiveCharacterTextSplitter, Pinecone DB ingestion and querying)
 
 ---
 
-# 🔒 Goal 5 — Agentic AI
+# 🔓 Goal 5 — Agentic AI (In Progress)
 
-Learning how to build **AI agents and autonomous systems** capable of reasoning and task execution.
+Learning how to build **AI agents and autonomous systems** capable of reasoning and task execution using LangGraph:
+
+- StateGraph design and compilation ✅
+- Parallel node execution ✅
+- Structured output evaluation with judge agents ✅
+- Multi-model orchestration (Gemini, Mistral, Cohere) ✅
 
 ---
 
@@ -499,7 +506,7 @@ I continuously update this repository while learning new technologies, concepts,
 
 ---
 
-## 🤖 Generative AI
+## 🤖 Generative & Agentic AI
 
 - Learn LLM fundamentals ✅
 - Learn Mistral AI basics ✅
@@ -511,8 +518,20 @@ I continuously update this repository while learning new technologies, concepts,
 - Learn structured outputs ✅
 - Learn streaming responses ✅
 - Build RAG applications ✅
-- Learn vector databases ⏳
+- Learn vector databases & embeddings (Pinecone) ✅
 - Build AI agents ✅
+- Learn LangGraph state & schema-based workflows ✅
+- Implement parallel node execution in graphs ✅
+- Build automated multi-LLM battle arena judges ✅
+
+---
+
+## 📘 TypeScript
+
+- Learn TypeScript fundamentals ✅
+- Set up tsconfig.json & compiler settings ✅
+- Compile TypeScript to JavaScript ✅
+- Configure tsx for real-time development execution ✅
 
 ---
 
@@ -563,6 +582,37 @@ An AI-powered conversational search engine inspired by Perplexity AI. It combine
 
 - Day 22 (Self-Improved Version): [day-22-PERPLEXITY-improved-self](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-22-PERPLEXITY-improved-self)
 - Day 20 (First Iteration): [day-20-PERPLEXITY](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-20-PERPLEXITY)
+
+---
+
+# ⚔️ LangGraph Battle AI Arena — Multi-LLM Evaluation Graph
+
+An autonomous battle arena that evaluates two different LLMs on a given user prompt. It uses LangGraph to orchestrate state, run candidate models in parallel, and run a third model as a judge to grade the solutions.
+
+---
+
+## 🚀 Key Features
+
+- **LangGraph StateGraph Orchestration**: Uses a compiled StateGraph to transition between agent invocation (`solutionNode`) and output grading (`judgeNode`).
+- **Parallel Candidate Execution**: Invokes Mistral (`mistral-medium-latest`) and Cohere (`command-a-03-2025`) in parallel to produce two different solutions.
+- **Automated AI Judge**: Uses Google Gemini (`gemini-flash-latest`) via LangChain `createAgent` to grade each solution out of 10 and output detailed reasoning.
+- **Strict Structured Evaluation Schema**: Implements Zod validation and LangChain `providerStrategy` to enforce structured JSON output from the judge.
+- **Express API Endpoint**: Exposes a clean endpoint to run the arena graph dynamically.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Node.js & Express.js
+- **Orchestration**: LangGraph JS (`@langchain/langgraph`) & LangChain Core
+- **AI Models**: Google Gemini, Mistral AI, Cohere AI
+- **Language**: TypeScript (`tsx` watch/execution environment)
+
+---
+
+## 📂 Repository Link
+
+- Day 25: [day-25-LangGraph-battle-ai-arena](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-25-LangGraph-battle-ai-arena)
 
 ---
 
@@ -758,6 +808,34 @@ The project uses Google's MediaPipe Face Landmarker to detect facial expressions
 
 ---
 
+## 📂 Pinecone RAG Pipeline — PDF Search Engine
+
+A practice pipeline built to implement Retrieval-Augmented Generation (RAG) by parsing documents, computing embeddings, indexing them in a vector database, and querying for matching context.
+
+### Features
+
+- **Document Parsing**: Loads PDF documents using `@langchain/community/document_loaders/fs/pdf`.
+- **Text Chunking**: Splits content into semantic chunks using `RecursiveCharacterTextSplitter`.
+- **Vector Embeddings**: Generates query and chunk embeddings using `@langchain/mistralai` (`mistral-embed`).
+- **Vector Indexing**: Ingests and queries vectors in Pinecone Database (`cohort-2-rag`).
+- **Similarity Search**: Performs high-performance cosine similarity searches on Pinecone to retrieve relevant context.
+
+### Tech Used
+
+- LangChain & Mistral AI Embeddings
+- Pinecone DB Client
+- PDF-Parse
+- Node.js & Dotenv
+
+### What I Learned
+
+- Setting up Pinecone vector databases and indexes
+- Ingesting, upserting, and query indexing vectors
+- Managing chunk sizes and overlap for optimal context retrieval
+- Executing similarity search to enhance LLM context prior to answering
+
+---
+
 # 🚀 Currently Improving Towards
 
 - Distributed Session Management
@@ -769,15 +847,14 @@ The project uses Google's MediaPipe Face Landmarker to detect facial expressions
 - Protected Frontend Routes
 - Infinite Scrolling Feed
 - Comment System
-- Real-time Features
-- WebSockets & Socket.IO
+- Real-time Features ✅ (WebSockets & Socket.IO implemented)
 - Performance Optimization
 - System Design Concepts
-- TypeScript
+- TypeScript ✅ (Day 24-25 introduction & migration)
 - Docker & Containerization
 - CI/CD Concepts
-- Generative AI Concepts
-- Agentic AI
+- Generative AI Concepts ✅ (LangChain, Prompting, Structured Outputs, Streaming, RAG implemented)
+- Agentic AI ✅ (LangGraph StateGraphs implemented)
 - Advanced DSA & Interview Preparation
 
 ---
@@ -813,6 +890,9 @@ The project uses Google's MediaPipe Face Landmarker to detect facial expressions
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3A?style=for-the-badge&logo=chainlink&logoColor=white)
 ![Mistral AI](https://img.shields.io/badge/Mistral_AI-FD5722?style=for-the-badge&logo=mistral&logoColor=white)
 ![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Pinecone](https://img.shields.io/badge/Pinecone-1C1C1C?style=for-the-badge&logo=pinecone&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-000000?style=for-the-badge&logo=langchain&logoColor=white)
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
