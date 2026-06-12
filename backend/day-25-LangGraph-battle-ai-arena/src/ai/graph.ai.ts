@@ -23,8 +23,8 @@ const solutionNode: GraphNode<typeof state> = async (state) => {
     ])
 
     return {
-        solution_1: mistralResponse.content,
-        solution_2: cohereResponse.content
+        solution_1: mistralResponse.content?.toString() || "",
+        solution_2: cohereResponse.content?.toString() || ""
     }
 }
 
