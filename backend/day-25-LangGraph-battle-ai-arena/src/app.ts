@@ -8,7 +8,12 @@ app.get("/health", (req, res) => {
 });
 
 app.post("/use-graph", async (req, res) => {
-  await useGraph("What is the capital of France?");
+  try {
+    const result = await useGraph("Write a factorial function in Javascript.");
+    res.status(200).json({ success: true, result });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 export default app;
