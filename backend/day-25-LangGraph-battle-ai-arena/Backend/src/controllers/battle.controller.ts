@@ -15,10 +15,11 @@ export const runBattleController = async (req: Request, res: Response) => {
 
         const result = await runGraph(problem)
 
-        res.json(result)
-
-        console.log("Battle completed!")
-        console.log(result)
+        res.status(200).json({
+            success: true,
+            message: "Battle completed successfully",
+            results: result
+        })
 
     } catch (error) {
         console.error("Error in executing LangGraph:", error)

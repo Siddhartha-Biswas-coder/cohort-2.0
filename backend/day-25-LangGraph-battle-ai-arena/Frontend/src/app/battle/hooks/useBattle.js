@@ -13,7 +13,7 @@ const useBattle = () => {
 
     try {
       const response = await setAIBattle(question);
-      setData(response);
+      setData(response.results);
     } catch (err) {
       setError(`Failed to fetch the AI responses: ${err.message}`);
     } finally {
