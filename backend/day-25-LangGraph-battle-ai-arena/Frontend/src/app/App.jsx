@@ -64,7 +64,7 @@ const App = () => {
       <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       
       {/* Main Chat Area */}
-      <main className="flex-grow pt-20 pb-32 px-4 w-full max-w-[840px] mx-auto">
+      <main className="grow pt-20 pb-32 px-4 w-full max-w-210 mx-auto">
         <ChatFeed messages={messages} isLoading={isLoading} />
       </main>
 
