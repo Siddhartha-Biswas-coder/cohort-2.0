@@ -1,13 +1,27 @@
 import express from "express";
-import runGraph from "./ai/graph.ai.js"
+import cors from "cors"
+import aiRouter from "./routes/ai.routes.js";
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true
+}))
 
-app.get("/", async (req, res) => {
-    const result = await runGraph("Write a code for factorial function in js")
+app.use(express.json())
 
-    res.json(result)
+
+app.use("/api", aiRouter)
+
+
+app.get("/health", (req, res) => {
+
+    res.json({ status: "ok" })
 })
+
+
 
 export default app

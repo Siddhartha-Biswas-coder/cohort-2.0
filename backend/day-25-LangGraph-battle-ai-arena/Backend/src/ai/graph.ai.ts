@@ -2,6 +2,8 @@ import { START, StateGraph, StateSchema, type GraphNode, END, type CompiledState
 import z from "zod"
 import { mistralAIModel, cohereAIModel, geminiAIModel } from "./model.ai.js"
 import { createAgent, HumanMessage, providerStrategy } from "langchain"
+import { BaseMessage } from "@langchain/core/messages";
+
 
 const state = new StateSchema({
     problem: z.string().default(""),
@@ -22,9 +24,12 @@ const solutionNode: GraphNode<typeof state> = async (state) => {
         cohereAIModel.invoke(state.problem)
     ])
 
+    const mResponse = mistralResponse as unknown as BaseMessage
+    const cResponse = cohereResponse as unknown as BaseMessage
+
     return {
-        solution_1: mistralResponse.content?.toString() || "",
-        solution_2: cohereResponse.content?.toString() || ""
+        solution_1: mResponse.content?.toString() || "",
+        solution_2: cResponse.content?.toString() || ""
     }
 }
 
@@ -81,7 +86,7 @@ const graph = new StateGraph(state)
     .compile()
 
 export default async function runGraph(problem: string) {
-    const result = await graph.invoke({
+    const result = await (graph as any).invoke({
         problem: problem
     })
 
