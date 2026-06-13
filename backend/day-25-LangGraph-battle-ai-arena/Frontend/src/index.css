@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* 
+  Seamless Intelligence - Minimal Theme 
+*/
+
+:root {
+  --color-surface: #ffffff;
+  --color-on-surface: #111827; /* Deep Charcoal */
+  --color-on-surface-variant: #6b7280; /* Cool Gray */
+  --color-background: #fcf8fa;
+  
+  --color-border: #e5e7eb; /* Hairline strokes */
+  
+  --color-user-bubble: #f9fafb;
+  --color-code-bg: #f3f4f6;
+
+  --font-body: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+:root.dark {
+  --color-surface: #111827;
+  --color-on-surface: #f9fafb;
+  --color-on-surface-variant: #9ca3af;
+  --color-background: #030712;
+  
+  --color-border: #374151;
+  
+  --color-user-bubble: #1f2937;
+  --color-code-bg: #1f2937;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Minimal Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.2);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.4);
+}
+
+/* Base syntax highlight colors for light theme */
+.token-keyword { color: #9333ea; } /* purple-600 */
+.token-function { color: #3b82f6; } /* blue-500 */
+.token-string { color: #10b981; } /* emerald-500 */
+.token-comment { color: #9ca3af; font-style: italic; } /* gray-400 */
+.token-operator { color: #6b7280; } /* gray-500 */
+.token-number { color: #f59e0b; } /* amber-500 */
+.token-class-name { color: #ec4899; } /* pink-500 */
+
+/* Dark theme syntax highlight colors */
+.dark .token-keyword { color: #c084fc; } /* purple-400 */
+.dark .token-function { color: #60a5fa; } /* blue-400 */
+.dark .token-string { color: #34d399; } /* emerald-400 */
+.dark .token-comment { color: #6b7280; font-style: italic; } /* gray-500 */
+.dark .token-operator { color: #9ca3af; } /* gray-400 */
+.dark .token-number { color: #fbbf24; } /* amber-400 */
+.dark .token-class-name { color: #f472b6; } /* pink-400 */
