@@ -3,8 +3,15 @@ import React from "react";
 const RegisterNavbar = () => {
   return (
     <nav className="bg-charcoal-900 border-b border-charcoal-800 flex justify-between items-center w-full px-8 md:px-16 py-6 fixed top-0 left-0 z-50">
-      <div className="font-display text-base font-bold text-gold-500 tracking-[0.25em] cursor-pointer hover:opacity-95 transition-opacity">
-        LUMIÈRE
+      <div className="flex items-center gap-3 cursor-pointer hover:opacity-95 transition-opacity select-none">
+        <svg className="w-7 h-7 text-gold-400" fill="none" stroke="currentColor" strokeWidth="1.2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c0-2.2 1.8-3.5 3-3.5s2 1 2 2c0 1.5-1.5 2-3 3" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9.5L2.5 16.5c-.6.4-.3 1.2.4 1.2h18.2c.7 0 1-.8.4-1.2L12 9.5z" />
+        </svg>
+        <div className="flex flex-col">
+          <span className="font-display text-sm font-bold tracking-[0.25em] text-gold-400 leading-none">LUMIÈRE</span>
+          <span className="text-[7px] font-sans text-charcoal-500 uppercase tracking-widest mt-1">Premium Fashion, Made for You</span>
+        </div>
       </div>
       <div className="hidden md:flex gap-10 items-center">
         <a

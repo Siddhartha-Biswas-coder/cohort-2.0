@@ -178,19 +178,6 @@ const LoginForm = () => {
         </div>
       </div>
 
-      {/* Navigation Redirect */}
-      <div className="mt-6 text-center">
-        <p className="text-[10px] font-display tracking-[0.15em] text-charcoal-500 uppercase">
-          New to our marketplace?
-          <button
-            type="button"
-            onClick={() => navigate("/register")}
-            className="text-gold-400 hover:text-gold-500 hover:underline ml-2 transition-colors cursor-pointer focus:outline-none font-semibold"
-          >
-            Create an account
-          </button>
-        </p>
-      </div>
     </form>
   );
 };

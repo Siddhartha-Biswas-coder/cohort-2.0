@@ -1,43 +1,46 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import RegisterNavbar from "../components/shared/RegisterNavbar.jsx";
-import RegisterFooter from "../components/shared/RegisterFooter.jsx";
 import RegisterForm from "../components/register/RegisterForm.jsx";
 import FashionCampaignPanel from "../components/shared/FashionCampaignPanel.jsx";
+import RegisterNavbar from "../components/shared/RegisterNavbar.jsx";
 import fashionImage from "../assets/premium_fashion_editorial.png";
 
 const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen bg-charcoal-950 text-charcoal-400 select-none">
+    <div className="min-h-screen md:h-screen w-screen bg-charcoal-950 flex flex-col overflow-hidden text-charcoal-400 select-none">
       {/* Top Navbar */}
       <RegisterNavbar />
 
       {/* Main Registration Split-Screen Layout */}
-      <main className="grow flex flex-col md:flex-row pt-28 pb-12 w-full max-w-container-max mx-auto px-4 md:px-16 gap-8 md:gap-16 items-stretch">
+      <main className="grow flex flex-col md:flex-row pt-24 pb-8 w-full max-w-container-max mx-auto px-4 md:px-16 gap-8 md:gap-16 items-stretch h-full md:max-h-screen overflow-hidden">
         
-        {/* Left Side: Premium Fashion Image (editorial campaign) */}
+        {/* Left Side: Premium Campaign Visual */}
         <FashionCampaignPanel
           src={fashionImage}
-          tagline="LUMIÈRE STUDIO"
-          title="Curated Modern Apparel"
+          title="Join the ultimate destination for premium clothing."
         />
 
-        {/* Right Side: Registration Form */}
-        <div className="w-full md:w-1/2 flex items-center justify-center">
-          <div className="w-full max-w-115 bg-charcoal-900 p-8 md:p-12 border border-charcoal-800 rounded-none shadow-card-glow focus-within:shadow-gold-glow-strong focus-within:border-gold-400/50 transition-all duration-500">
-            <div className="mb-10 text-center">
-              <h1 className="font-display text-lg tracking-widest uppercase text-charcoal-200 mb-2 font-semibold">
-                Create Account
+        {/* Right Side: Form Container */}
+        <div className="w-full md:w-1/2 flex items-center justify-center h-full overflow-y-auto pr-2 py-4 scrollbar-thin scrollbar-thumb-charcoal-800 scrollbar-track-transparent">
+          <div className="w-full max-w-md bg-charcoal-900/30 p-8 md:p-10 border border-charcoal-800/80 rounded-xl shadow-card-glow focus-within:shadow-gold-glow-strong focus-within:border-gold-400/50 transition-all duration-500 my-auto">
+            
+            {/* Form Header */}
+            <div className="mb-8">
+              <h1 className="font-display text-xl tracking-widest uppercase text-charcoal-200 mb-2 font-semibold">
+                Create your account
               </h1>
               <p className="text-xs text-charcoal-500 font-sans tracking-wide">
-                Join our curated luxury clothing marketplace.
+                Join thousands of fashion lovers.
               </p>
+              <div className="w-12 h-px bg-gold-400 mt-4"></div>
             </div>
 
+            {/* Registration Form Component */}
             <RegisterForm />
 
+            {/* Switcher link restored to bottom of card */}
             <div className="mt-8 text-center border-t border-charcoal-800/50 pt-6">
               <p className="text-[10px] font-display tracking-[0.15em] text-charcoal-500 uppercase">
                 Already have an account?
@@ -53,9 +56,6 @@ const Register = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <RegisterFooter />
     </div>
   );
 };
