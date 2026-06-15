@@ -5,7 +5,7 @@ import userModel from "../models/user.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
-async function sendTokenResponse(user, res) {
+async function sendTokenResponse(user, res, message) {
   const token = jwt.sign(
     {
       id: user._id,
@@ -15,10 +15,28 @@ async function sendTokenResponse(user, res) {
       expiresIn: "7d",
     },
   );
+
+  res.cookie("token", token);
+
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        user: {
+          id: user._id,
+          email: user.email,
+          contact: user.contact,
+          fullname: user.fullname,
+          role: user.role,
+        },
+      },
+      message,
+    ),
+  );
 }
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { email, contact, password, fullname } = req.body;
+  const { email, contact, password, fullname, isSeller } = req.body;
 
   const existUser = await userModel.findOne({
     $or: [{ email }, { contact }],
@@ -33,5 +51,8 @@ export const registerUser = asyncHandler(async (req, res) => {
     contact,
     password,
     fullname,
+    role: isSeller ? "seller" : "buyer",
   });
+
+  await sendTokenResponse(user, res, "User registered successfully");
 });

@@ -27,5 +27,7 @@ export const validateRegisterUser = [
     .withMessage("Full name is required")
     .isLength({ min: 3 })
     .withMessage("Full name is equired"),
-  body("role").notEmpty().withMessage("Role is required"),
+  body("isSeller").isBoolean().withMessage("Seller must be a boolean value"),
+
+  validateRequest,
 ];
