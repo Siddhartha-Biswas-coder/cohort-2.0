@@ -59,7 +59,9 @@ cohort-2.0
 │   ├── day-22-PERPLEXITY-improved-self (Advanced AI search with Socket.IO streaming & stream control)
 │   ├── day-23-Rag (Pinecone Vector DB RAG pipeline with Mistral Embeddings)
 │   ├── day-24-TypeScript (TypeScript compiler setup and workflow configuration)
-│   └── day-25-LangGraph-battle-ai-arena (Multi-LLM StateGraph orchestration with Gemini judge)
+│   ├── day-25-LangGraph-battle-ai-arena (Multi-LLM StateGraph orchestration with Gemini judge)
+│   ├── day-26-google-auth (Google OAuth 2.0 Integration via Passport.js)
+│   └── day-27-snitch (Full-Stack Premium Authentication System with Redux and Tailwind CSS v4)
 ├── frontend
 │   ├── advance-css
 │   ├── advance-javascript(OOPs)
@@ -82,9 +84,10 @@ cohort-2.0
 - Context API
 - Custom Hooks
 - SCSS / SASS
-- Tailwind CSS
+- Tailwind CSS / Tailwind CSS v4
 - Axios
 - Vite
+- Redux Toolkit (State Management)
 - Frontend Architecture
 - State Management
 - Responsive Web Development
@@ -110,6 +113,8 @@ cohort-2.0
 - TypeScript Configuration & Execution
 - Vector Databases (Pinecone)
 - Agentic Workflows & Multi-Agent Graphs (LangGraph)
+- Google OAuth 2.0 Integration (Passport.js)
+- Schema Validation (Zod & Express Validator)
 
 ---
 
@@ -393,6 +398,9 @@ I continuously update this repository while learning new technologies, concepts,
 - Build real-time face detection systems ✅
 - Learn MediaPipe fundamentals ✅
 - Build real-time browser AI applications ✅
+- Learn Tailwind CSS v4 configurations ✅
+- Implement custom Redux slice states for asynchronous API interactions ✅
+- Build premium fashion campaign panels and responsive form components ✅
 
 ---
 
@@ -463,6 +471,9 @@ I continuously update this repository while learning new technologies, concepts,
 - Return meaningful API error responses ✅
 - Handle async errors in Express.js ✅
 - Build scalable middleware-based validation systems ✅
+- Learn Google OAuth 2.0 implementation with Passport.js ✅
+- Integrate authentication strategies in Express APIs ✅
+- Build structured validation schemas using Zod ✅
 
 ---
 
@@ -836,6 +847,55 @@ A practice pipeline built to implement Retrieval-Augmented Generation (RAG) by p
 
 ---
 
+## 🔑 Google OAuth 2.0 — Passport.js Authentication
+
+A backend project focused on integrating third-party authentication using Passport.js and the Google OAuth 2.0 strategy.
+
+### Features
+
+- **OAuth 2.0 Integration**: Implements the Passport.js middleware flow for Google authentication (`/auth/google`).
+- **Profile Data Processing**: Handles callback redirects (`/auth/google/callback`) and extracts user profiles seamlessly.
+- **Stateless Integration**: Designed to support scalable sessionless configurations.
+
+### Tech Used
+
+- Node.js & Express.js
+- Passport.js & `passport-google-oauth20`
+- Morgan & Dotenv
+
+### What I Learned
+
+- Setting up Client IDs and Secrets on the Google Cloud Console.
+- Defining callback URLs and redirect logic for OAuth flows.
+- Managing user profiles and passport strategy callbacks in backend services.
+
+---
+
+## 🕶️ Snitch — Premium Full-Stack Authentication System
+
+A luxury fashion-inspired authentication portal modeled after the Snitch aesthetic, built with a robust Express backend and a highly polished React frontend.
+
+### Features
+
+- **Role-Based Authentication**: Seamless onboarding with specialized roles for Buyers and Sellers.
+- **Tailwind CSS v4 styling**: Custom gradients, radial vignettes, and luxury grayscale-to-color hover states (`FashionCampaignPanel`).
+- **Redux Toolkit State Management**: Centralized slice for user authentication states, loading cues, and request-level error handling.
+- **Payload Verification**: Integrates both client-side and backend-side validations (using `express-validator` and `zod`).
+- **Axios API Layer**: Encapsulates login/register API service requests with cookie credentials.
+
+### Tech Used
+
+- **Frontend**: React 19, Vite, Redux Toolkit, Tailwind CSS v4, Axios, React Router v7
+- **Backend**: Node.js, Express.js (v5.2), MongoDB & Mongoose, Zod & Express Validator, JWT & Cookies
+
+### What I Learned
+
+- Designing and styling premium editorial UI layouts using Tailwind CSS v4 utility classes.
+- Standardizing backend JSON API responses (`ApiResponse`, `ApiError`, `asyncHandler`).
+- Synchronizing form input states with client-side validator structures and handling server-side arrays of field errors in Redux.
+
+---
+
 # 🚀 Currently Improving Towards
 
 - Distributed Session Management
@@ -843,7 +903,8 @@ A practice pipeline built to implement Retrieval-Augmented Generation (RAG) by p
 - Redis Caching
 - Advanced JWT Authentication
 - Refresh Tokens
-- Role-Based Authorization
+- Role-Based Authorization ✅ (Buyer and Seller roles implemented in Snitch)
+- Redux State Management ✅ (Redux Toolkit slices implemented in Snitch)
 - Protected Frontend Routes
 - Infinite Scrolling Feed
 - Comment System
@@ -893,6 +954,8 @@ A practice pipeline built to implement Retrieval-Augmented Generation (RAG) by p
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Pinecone](https://img.shields.io/badge/Pinecone-1C1C1C?style=for-the-badge&logo=pinecone&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/LangGraph-000000?style=for-the-badge&logo=langchain&logoColor=white)
+![Passport.js](https://img.shields.io/badge/Passport.js-34E27A?style=for-the-badge&logo=passport&logoColor=white)
+![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
