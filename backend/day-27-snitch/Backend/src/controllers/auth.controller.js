@@ -56,3 +56,21 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   await sendTokenResponse(user, res, "User registered successfully");
 });
+
+export const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(400, "Invalid email or Password");
+  }
+
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    throw new ApiError(400, "Invalid email or Password");
+  }
+
+  await sendTokenResponse(user, res, "User logged in successfully");
+});

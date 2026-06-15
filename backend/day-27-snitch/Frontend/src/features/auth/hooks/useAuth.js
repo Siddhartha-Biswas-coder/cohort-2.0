@@ -1,5 +1,5 @@
 import { setError, setUser, setLoading } from "../state/auth.slice.js";
-import { register } from "../services/auth.services.js";
+import { login, register } from "../services/auth.services.js";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useAuth = () => {
@@ -48,5 +48,35 @@ export const useAuth = () => {
     }
   }
 
-  return { handleRegister, loading, error };
+  async function handleLogin({ email, password }) {
+    try {
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+      const data = await login({ email, password });
+
+      console.log(data.data.user);
+      dispatch(setUser(data.data.user));
+      return data.data.user;
+    } catch (err) {
+      const errorsArray = err.response?.data?.errors;
+      let errMsg = err.response?.data?.message;
+
+      if (
+        !errMsg &&
+        errorsArray &&
+        Array.isArray(errorsArray) &&
+        errorsArray.length > 0
+      ) {
+        errMsg = errorsArray.map((e) => e.msg).join(",");
+      }
+
+      errMsg = errMsg || err.message || "Login Failed";
+      dispatch(setError(errMsg));
+      throw new Error(errMsg);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+
+  return { handleRegister, handleLogin, loading, error };
 };

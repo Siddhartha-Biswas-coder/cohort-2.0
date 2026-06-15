@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../hooks/useAuth.js";
-import FormInput from "./FormInput.jsx";
+import { useAuth } from "../../hooks/useAuth.js";
+import FormInput from "../shared/FormInput.jsx";
 import RoleToggle from "./RoleToggle.jsx";
 import PasswordStrength from "./PasswordStrength.jsx";
+import { useNavigate } from "react-router";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const { handleRegister, loading, error: apiError } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -143,6 +145,7 @@ const RegisterForm = () => {
     } catch (err) {
       console.error("Submit error:", err);
     }
+    navigate("/");
   };
 
   return (
