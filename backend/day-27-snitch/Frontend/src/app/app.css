@@ -48,3 +48,18 @@ input:-webkit-autofill:focus {
   background-color: var(--color-gold-400);
   color: var(--color-charcoal-950);
 }
+
+@keyframes errorFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-error-fade-in-up {
+  animation: errorFadeInUp 200ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}

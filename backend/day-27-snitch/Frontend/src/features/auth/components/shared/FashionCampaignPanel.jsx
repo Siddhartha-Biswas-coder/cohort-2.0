@@ -7,8 +7,11 @@ const FashionCampaignPanel = ({ src, tagline, title }) => {
       <img
         src={src}
         alt="LUMIÈRE Editorial Campaign"
-        className="w-full h-full object-cover filter grayscale-85 saturate-70 brightness-92 contrast-105 group-hover:grayscale-0 group-hover:saturate-100 group-hover:brightness-[1.03] transition-all duration-800 ease-[cubic-bezier(0.25,1,0.5,1)] transform scale-100 group-hover:scale-[1.03]"
+        className="w-full h-full object-cover filter grayscale-100 brightness-[0.9] group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1400 ease-in-out transform scale-100 group-hover:scale-[1.02]"
       />
+
+      {/* Soft dark gradient transition visual bridge */}
+      <div className="absolute inset-0 pointer-events-none z-15" style={{ background: "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.35), rgba(0,0,0,0.65))" }}></div>
 
       {/* Seamless edge blending overlays */}
       {/* Left side fade */}

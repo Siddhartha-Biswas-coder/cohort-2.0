@@ -24,7 +24,7 @@ const FormInput = ({
   const renderLeftIcon = () => {
     const iconClass = `w-4 h-4 transition-colors duration-300 ${
       hasError
-        ? "text-rose-500"
+        ? "text-[#C98B7A]"
         : isFocused
         ? "text-gold-400"
         : "text-charcoal-500 group-hover:text-charcoal-400"
@@ -68,7 +68,7 @@ const FormInput = ({
           htmlFor={id}
           className={`block text-[10px] font-display uppercase tracking-[0.15em] transition-colors duration-200 ${
             hasError
-              ? "text-rose-500"
+              ? "text-gold-400"
               : isFocused
               ? "text-gold-400"
               : "text-charcoal-500"
@@ -100,9 +100,9 @@ const FormInput = ({
           autoComplete={autoComplete}
           className={`w-full h-11 bg-charcoal-950/25 border rounded-lg pl-11 pr-11 text-charcoal-200 placeholder:text-charcoal-700/80 transition-all duration-300 font-sans text-xs tracking-wide focus:outline-none focus:ring-1 ${
             hasError
-              ? "border-rose-950 focus:border-rose-500 focus:ring-rose-500/25"
+              ? "border-[#A45F5F]/50 focus:border-[#A45F5F]/85 focus:ring-[rgba(164,95,95,0.15)]"
               : isFocused
-              ? "border-gold-500/50 focus:border-gold-500/50 focus:ring-gold-500/10 shadow-[0_0_10px_rgba(212,175,55,0.04)]"
+              ? "border-[#D4AF37] focus:border-[#D4AF37] focus:ring-[rgba(212,175,55,0.25)] shadow-[0_0_8px_rgba(212,175,55,0.06)]"
               : "border-charcoal-800 hover:border-charcoal-700/60"
           }`}
         />
@@ -129,7 +129,12 @@ const FormInput = ({
       </div>
 
       {hasError && (
-        <p className="mt-1.5 text-xs text-rose-500 transition-all duration-300">
+        <p className="mt-2 text-[11px] text-[#C98B7A] font-sans tracking-wide flex items-center gap-1.5 animate-error-fade-in-up">
+          <svg className="w-3.5 h-3.5 shrink-0 text-[#C98B7A]" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
           {error}
         </p>
       )}

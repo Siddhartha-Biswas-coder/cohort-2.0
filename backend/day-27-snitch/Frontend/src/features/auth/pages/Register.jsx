@@ -23,7 +23,8 @@ const Register = () => {
 
         {/* Right Side: Form Container */}
         <div className="w-full md:w-1/2 flex items-center justify-center h-full overflow-y-auto pr-2 py-4 scrollbar-thin scrollbar-thumb-charcoal-800 scrollbar-track-transparent">
-          <div className="w-full max-w-120 bg-linear-to-b from-charcoal-900/40 to-charcoal-950/40 backdrop-blur-md p-8 md:p-10 border border-charcoal-800/80 rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] transition-all duration-500 my-auto">
+          <div className="w-full max-w-120 bg-[rgba(7,8,10,0.95)] backdrop-blur-md p-8 md:p-10 border border-charcoal-800/80 focus-within:border-gold-500/45 rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] focus-within:shadow-[0_0_50px_rgba(212,175,55,0.11),0_25px_60px_-15px_rgba(0,0,0,0.85)] transition-all duration-500 my-auto">
+
 
 
             {/* Form Header */}
