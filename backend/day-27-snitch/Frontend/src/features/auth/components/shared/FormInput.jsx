@@ -80,7 +80,7 @@ const FormInput = ({
 
       <div className="relative flex items-center w-full">
         {/* Left Icon */}
-        <div className="absolute left-3.5 pointer-events-none flex items-center justify-center">
+        <div className="absolute left-4 pointer-events-none flex items-center justify-center">
           {renderLeftIcon()}
         </div>
 
@@ -98,12 +98,12 @@ const FormInput = ({
           }}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`w-full bg-charcoal-950/20 border rounded-lg py-3 pl-10 pr-10 text-charcoal-200 placeholder:text-charcoal-700 transition-all duration-300 font-sans text-sm focus:outline-none focus:ring-1 ${
+          className={`w-full h-11 bg-charcoal-950/25 border rounded-lg pl-11 pr-11 text-charcoal-200 placeholder:text-charcoal-700/80 transition-all duration-300 font-sans text-xs tracking-wide focus:outline-none focus:ring-1 ${
             hasError
-              ? "border-rose-900 focus:border-rose-500 focus:ring-rose-500/20"
+              ? "border-rose-950 focus:border-rose-500 focus:ring-rose-500/25"
               : isFocused
-              ? "border-gold-400 focus:border-gold-400 focus:ring-gold-400/25 shadow-gold-glow"
-              : "border-charcoal-800 hover:border-charcoal-700"
+              ? "border-gold-500/50 focus:border-gold-500/50 focus:ring-gold-500/10 shadow-[0_0_10px_rgba(212,175,55,0.04)]"
+              : "border-charcoal-800 hover:border-charcoal-700/60"
           }`}
         />
 
@@ -112,7 +112,7 @@ const FormInput = ({
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3.5 p-1 text-charcoal-500 hover:text-gold-400 transition-colors focus:outline-none cursor-pointer"
+            className="absolute right-4 p-1 text-charcoal-500 hover:text-gold-400 transition-colors focus:outline-none cursor-pointer"
           >
             {showPassword ? (
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">

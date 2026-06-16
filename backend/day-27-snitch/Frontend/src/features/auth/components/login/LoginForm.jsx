@@ -138,15 +138,17 @@ const LoginForm = () => {
       />
 
       {/* Submit Button */}
-      <SubmitButton loading={loading} disabled={isSubmitDisabled}>
-        Sign In
-      </SubmitButton>
+      <div className="space-y-3">
+        <SubmitButton loading={loading} disabled={isSubmitDisabled}>
+          Sign In
+        </SubmitButton>
+        <p className="text-center text-[9px] tracking-[0.2em] text-charcoal-500 uppercase">
+          Trusted by premium buyers and fashion sellers.
+        </p>
+      </div>
 
       {/* Google Sign-In & Divider */}
       <SocialAuthSection parentLoading={loading} />
-
-      {/* Trust Badges */}
-      <AuthTrustBadges />
     </form>
   );
 };
