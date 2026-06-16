@@ -24,7 +24,14 @@ const Login = () => {
 
         {/* Right Side: Form Container */}
         <div className="w-full md:w-1/2 flex items-center justify-center h-full overflow-y-auto pr-2 py-4 scrollbar-thin scrollbar-thumb-charcoal-800 scrollbar-track-transparent">
-          <div className="w-full max-w-md bg-charcoal-900/30 p-8 md:p-10 border border-charcoal-800/80 rounded-xl shadow-card-glow focus-within:shadow-gold-glow-strong focus-within:border-gold-400/50 transition-all duration-500 my-auto">
+          <div className="w-full max-w-md bg-charcoal-900/30 p-8 md:p-10 border border-gold-400/15 hover:border-gold-400/30 rounded-xl shadow-[0_0_35px_rgba(212,175,55,0.03)] hover:shadow-[0_0_35px_rgba(212,175,55,0.06)] focus-within:shadow-gold-glow-strong focus-within:border-gold-400/50 transition-all duration-500 my-auto relative">
+            
+            {/* Premium Gold Luxury Corner Brackets */}
+            <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-gold-400/40 rounded-tl-xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-gold-400/40 rounded-tr-xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-gold-400/40 rounded-bl-xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-gold-400/40 rounded-br-xl pointer-events-none" />
+
             
             {/* Form Header */}
             <div className="mb-8">
