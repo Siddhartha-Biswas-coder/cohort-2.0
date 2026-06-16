@@ -25,13 +25,16 @@ function sendResponse(statusCode, user, res, message) {
 
 export const registerUserController = asyncHandler(async (req, res) => {
   const { email, contact, fullname, password, isSeller } = req.body;
-  const user = await registerUserService({
-    email,
-    contact,
-    fullname,
-    password,
-    isSeller,
-  }, res);
+  const user = await registerUserService(
+    {
+      email,
+      contact,
+      fullname,
+      password,
+      isSeller,
+    },
+    res,
+  );
   sendResponse(201, user, res, "User Registered successfully");
 });
 
@@ -39,4 +42,10 @@ export const loginUserController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await loginUserService({ email, password }, res);
   sendResponse(202, user, res, "User Logged-in successfully");
+});
+
+export const googleCallback = asyncHandler(async (req, res) => {
+  console.log(req.user);
+
+  res.redirect("http://localhost:5173/dashboard");
 });

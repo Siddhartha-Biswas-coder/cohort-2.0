@@ -4,6 +4,9 @@ import FormInput from "../shared/FormInput.jsx";
 import RoleToggle from "./RoleToggle.jsx";
 import PasswordStrength from "./PasswordStrength.jsx";
 import { useNavigate } from "react-router";
+import AuthAlert from "../shared/AuthAlert.jsx";
+import SubmitButton from "../shared/SubmitButton.jsx";
+import SocialAuthSection from "../shared/SocialAuthSection.jsx";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -150,17 +153,8 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {successMsg && (
-        <div className="p-4 bg-gold-400/10 border border-gold-400 text-gold-400 text-xs tracking-wide uppercase rounded-none text-center">
-          {successMsg}
-        </div>
-      )}
-
-      {apiError && (
-        <div className="p-4 bg-rose-950/30 border border-rose-800 text-rose-400 text-xs rounded-none text-center">
-          {apiError}
-        </div>
-      )}
+      <AuthAlert type="success" message={successMsg} />
+      <AuthAlert type="error" message={apiError} />
 
       {/* Role Toggle */}
       <RoleToggle isSeller={formData.isSeller} onChange={handleRoleChange} />
@@ -243,49 +237,12 @@ const RegisterForm = () => {
       />
 
       {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isSubmitDisabled}
-        className={`w-full py-4 mt-4 font-display text-xs uppercase tracking-[0.15em] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-gold-500 cursor-pointer ${
-          isSubmitDisabled
-            ? "bg-charcoal-800 text-charcoal-500 cursor-not-allowed border border-transparent"
-            : "bg-gold-400 text-charcoal-950 font-semibold hover:bg-gold-500 hover:scale-[1.005] active:scale-[0.99] border border-gold-400 hover:shadow-gold-glow-strong"
-        }`}
-      >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg
-              className="animate-spin h-4 w-4 text-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Processing...
-          </span>
-        ) : (
-          "Create Account"
-        )}
-      </button>
+      <SubmitButton loading={loading} disabled={isSubmitDisabled}>
+        Create Account
+      </SubmitButton>
 
-      {/* Social Login Placeholder */}
-      <div className="mt-10 pt-8 border-t border-charcoal-800 text-center">
-        <p className="text-[9px] font-display tracking-[0.2em] text-charcoal-600 uppercase">
-          More sign-in options coming soon
-        </p>
-      </div>
+      {/* Google Sign-In & Divider */}
+      <SocialAuthSection parentLoading={loading} />
     </form>
   );
 };

@@ -15,7 +15,6 @@ const Register = () => {
 
       {/* Main Registration Split-Screen Layout */}
       <main className="grow flex flex-col md:flex-row pt-24 pb-8 w-full max-w-container-max mx-auto px-4 md:px-16 gap-8 md:gap-16 items-stretch h-full md:max-h-screen overflow-hidden">
-        
         {/* Left Side: Premium Campaign Visual */}
         <FashionCampaignPanel
           src={fashionImage}
@@ -25,7 +24,6 @@ const Register = () => {
         {/* Right Side: Form Container */}
         <div className="w-full md:w-1/2 flex items-center justify-center h-full overflow-y-auto pr-2 py-4 scrollbar-thin scrollbar-thumb-charcoal-800 scrollbar-track-transparent">
           <div className="w-full max-w-md bg-charcoal-900/30 p-8 md:p-10 border border-charcoal-800/80 rounded-xl shadow-card-glow focus-within:shadow-gold-glow-strong focus-within:border-gold-400/50 transition-all duration-500 my-auto">
-            
             {/* Form Header */}
             <div className="mb-8">
               <h1 className="font-display text-xl tracking-widest uppercase text-charcoal-200 mb-2 font-semibold">
