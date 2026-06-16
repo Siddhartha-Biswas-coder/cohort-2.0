@@ -7,12 +7,17 @@ const SubmitButton = ({ loading, disabled, children }) => {
     <button
       type="submit"
       disabled={isButtonDisabled}
-      className={`w-full py-4 mt-4 font-display text-xs uppercase tracking-[0.15em] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-gold-500 cursor-pointer ${
+      className={`w-full py-4 mt-4 font-display text-xs uppercase tracking-[0.15em] transition-all duration-500 focus:outline-none focus:ring-1 focus:ring-gold-500/30 cursor-pointer rounded-lg relative overflow-hidden group ${
         isButtonDisabled
           ? "bg-charcoal-800 text-charcoal-500 cursor-not-allowed border border-transparent"
-          : "bg-gold-400 text-charcoal-950 font-semibold hover:bg-gold-500 hover:scale-[1.005] active:scale-[0.99] border border-gold-400 hover:shadow-gold-glow-strong"
+          : "bg-charcoal-950/45 text-charcoal-200 border border-gold-400/20 hover:border-gold-400/50 hover:bg-charcoal-900/60 hover:shadow-[0_0_15px_rgba(212,175,55,0.06)] hover:scale-[1.002] active:scale-[0.99]"
       }`}
     >
+      {/* Subtle sliding gold overlay background effect (only when active) */}
+      {!isButtonDisabled && (
+        <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-gold-400/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+      )}
+
       {loading ? (
         <span className="flex items-center justify-center gap-2">
           <svg className="animate-spin h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
@@ -22,7 +27,9 @@ const SubmitButton = ({ loading, disabled, children }) => {
           Processing...
         </span>
       ) : (
-        children
+        <span className="font-semibold text-charcoal-200 group-hover:text-gold-400 transition-colors duration-300">
+          {children}
+        </span>
       )}
     </button>
   );

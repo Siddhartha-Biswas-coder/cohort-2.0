@@ -14,9 +14,9 @@ const envSchema = z.object({
   //   MISTRAL_API_KEY: z.string().optional(),
   //   GOOGLE_API_KEY: z.string().optional(),
   //   TAVILY_API_KEY: z.string().min(1, "TAVILY_API_KEY is required"),
-  //   NODE_ENV: z
-  //     .enum(["development", "production", "test"])
-  //     .default("development"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
   //   REDIS_URL: z.string().default("redis://127.0.0.1:6379"),
 });
 
@@ -26,6 +26,7 @@ const envData = {
   PORT: process.env.PORT || process.env.BACKEND_PORT || 3000,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  NODE_ENV: process.env.NODE_ENV,
 };
 
 const parsedEnv = envSchema.safeParse(envData);
