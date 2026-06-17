@@ -4,6 +4,7 @@ import {
   findUserByEmail,
   findUserByEmailOrContact,
   createUser,
+  createUserByGoogleAuth,
 } from "../repositories/user.repository.js";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
@@ -59,6 +60,17 @@ export async function loginUserService(userData, res) {
   const user = await validateUser(userData.email);
 
   await validatePassword(user, userData.password);
+
+  await sendTokenResponse(user, res);
+  return user;
+}
+
+export async function googleAuthService(userData, res) {
+  let user = await findUserByEmail(userData.email);
+
+  if (!user) {
+    user = await createUserByGoogleAuth(userData);
+  }
 
   await sendTokenResponse(user, res);
   return user;

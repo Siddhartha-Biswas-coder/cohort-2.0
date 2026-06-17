@@ -14,6 +14,7 @@ const envSchema = z.object({
   //   MISTRAL_API_KEY: z.string().optional(),
   //   GOOGLE_API_KEY: z.string().optional(),
   //   TAVILY_API_KEY: z.string().min(1, "TAVILY_API_KEY is required"),
+  IMAGEKIT_PRIVATE_KEY: z.string().min(1, "ImageKit priavate key is required"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
@@ -27,6 +28,7 @@ const envData = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NODE_ENV: process.env.NODE_ENV,
+  IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
 };
 
 const parsedEnv = envSchema.safeParse(envData);

@@ -23,3 +23,11 @@ export async function createUser(userData) {
     role: userData.isSeller ? "seller" : "buyer",
   });
 }
+
+export async function createUserByGoogleAuth(userData) {
+  return await userModel.create({
+    email: userData.email,
+    googleid: userData.id,
+    fullname: userData.displayName,
+  });
+}
