@@ -18,7 +18,7 @@ const ProductPreviewCard = ({ title, description, priceAmount, priceCurrency, im
       </div>
 
       {/* Main Luxury Product Image Card */}
-      <div className="aspect-[3/4] w-full bg-charcoal-950 relative overflow-hidden border border-charcoal-800/80 group">
+      <div className="aspect-3/4 w-full bg-charcoal-950 relative overflow-hidden border border-charcoal-800/80 group">
         {mainImageUrl ? (
           <>
             <img
@@ -27,7 +27,7 @@ const ProductPreviewCard = ({ title, description, priceAmount, priceCurrency, im
               className="w-full h-full object-cover filter grayscale contrast-[1.05] brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-in-out"
             />
             {/* Ambient vignette and overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 via-transparent to-transparent pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-charcoal-950/80 via-transparent to-transparent pointer-events-none"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(10,10,10,0.4)_100%)] pointer-events-none"></div>
           </>
         ) : (
@@ -54,7 +54,7 @@ const ProductPreviewCard = ({ title, description, priceAmount, priceCurrency, im
           <h4 className="font-display text-md font-light text-gold-50 tracking-tight leading-snug line-clamp-2 uppercase">
             {displayTitle}
           </h4>
-          <div className="text-right flex-shrink-0">
+          <div className="text-right shrink-0">
             <span className="font-sans text-[11px] text-gold-400 tracking-wider font-semibold">
               {currentCurrency.symbol}
             </span>

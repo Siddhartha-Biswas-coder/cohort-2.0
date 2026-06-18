@@ -65,7 +65,7 @@ const ProductImageUploader = ({ images, onAddImages, onRemoveImage, errors }) =>
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
-        className={`w-full aspect-[16/6] border border-dashed transition-all duration-500 flex flex-col items-center justify-center p-8 bg-charcoal-950/40 relative group cursor-pointer ${
+        className={`w-full aspect-16/6 border border-dashed transition-all duration-500 flex flex-col items-center justify-center p-8 bg-charcoal-950/40 relative group cursor-pointer ${
           isDragging
             ? "border-gold-400 bg-gold-400/5 shadow-gold-glow-strong"
             : totalImages >= 7
@@ -118,7 +118,7 @@ const ProductImageUploader = ({ images, onAddImages, onRemoveImage, errors }) =>
           {images.map((img, index) => (
             <div
               key={index}
-              className="aspect-[3/4] relative group overflow-hidden border border-charcoal-800 bg-charcoal-950"
+              className="aspect-3/4 relative group overflow-hidden border border-charcoal-800 bg-charcoal-950"
             >
               <img
                 src={img.previewUrl}
@@ -149,7 +149,7 @@ const ProductImageUploader = ({ images, onAddImages, onRemoveImage, errors }) =>
           {Array.from({ length: Math.max(0, 4 - totalImages) }).map((_, index) => (
             <div
               key={`placeholder-${index}`}
-              className="aspect-[3/4] border border-dashed border-charcoal-800/60 bg-charcoal-950/20 flex items-center justify-center opacity-40 hover:opacity-60 transition-opacity"
+              className="aspect-3/4 border border-dashed border-charcoal-800/60 bg-charcoal-950/20 flex items-center justify-center opacity-40 hover:opacity-60 transition-opacity"
             >
               <svg className="w-5 h-5 text-charcoal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
