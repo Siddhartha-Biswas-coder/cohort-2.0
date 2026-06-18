@@ -63,3 +63,14 @@ input:-webkit-autofill:focus {
 .animate-error-fade-in-up {
   animation: errorFadeInUp 200ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
+
+/* Custom premium input styling - Hide default numeric spin controls */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

@@ -1,17 +1,44 @@
 import express from "express";
 import { authenticateSeller } from "../middlewares/auth.middleware.js";
-import { createProduct } from "../controllers/product.controller.js";
+import {
+  createProduct,
+  getSellerProducts,
+} from "../controllers/product.controller.js";
 import { upload } from "../services/imageStorage.service.js";
 import { CreateProductValidator } from "../validators/product.validator.js";
 
 const productRouter = express.Router();
 
+/**
+ * Post request to create a product
+ *
+ * @route Post /api/products/
+ * @method POST
+ * @access private (Seller only)
+ * @middleware authenticateSeller
+ * @middleware upload.array("images", 7)
+ * @middleware CreateProductValidator
+ * @controller createProduct
+ */
+
 productRouter.post(
-  "/create",
+  "/",
   authenticateSeller,
   upload.array("images", 7),
   CreateProductValidator,
   createProduct,
 );
- 
+
+/**
+ * Get request to fetch the products of the authnticate seller
+ *
+ * @route Get /api/products/
+ * @method GET
+ * @access private (Seller only)
+ * @middleware authenticateSeller
+ * @controller getSellerProducts
+ */
+
+productRouter.get("/seller-products", authenticateSeller, getSellerProducts);
+
 export default productRouter;

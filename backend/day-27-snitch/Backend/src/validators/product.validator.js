@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
 
 function validateRequest(req, res, next) {
-  const errors = validateResult(req);
+  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -22,7 +22,10 @@ export const CreateProductValidator = [
     .withMessage("Price amount is required")
     .isNumeric()
     .withMessage("Price amount must be a number"),
-  body("priceCurrency").notEmpty().withMessage("Price currency is required"),
+  body("priceCurrency")
+    .optional()
+    .isIn(["USD", "EUR", "GBP", "JPY", "INR"])
+    .withMessage("Price currency must be one of USD, EUR, GBP, JPY, or INR"),
 
   validateRequest,
 ];

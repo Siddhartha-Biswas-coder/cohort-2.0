@@ -32,14 +32,38 @@ export const createProduct = asyncHandler(async (req, res) => {
       201,
       {
         product: {
+          productId: product._id,
+          seller: product.seller,
           title: product.title,
           description: product.description,
           price: product.price,
           images: product.images,
-          seller: product.seller,
         },
       },
       "Product created successfully",
+    ),
+  );
+});
+
+export const getSellerProducts = asyncHandler(async (req, res) => {
+  const seller = req.user;
+
+  const products = await productModel.find({ seller: seller._id });
+
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        products: products.map((product) => ({
+          productId: product._id,
+          seller: product.seller,
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          images: product.images,
+        })),
+      },
+      "Products fetched successfully",
     ),
   );
 });
