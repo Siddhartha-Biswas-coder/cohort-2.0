@@ -227,7 +227,7 @@ const CreateProduct = () => {
             type="button"
             onClick={handlePublish}
             disabled={isSubmitting}
-            className="flex-1 py-3 bg-gold-400 text-charcoal-950 font-display font-bold uppercase tracking-widest text-center"
+            className="flex-1 py-3 bg-gold-400 text-[#0a0a0a] font-display font-bold uppercase tracking-widest text-center hover:opacity-90 transition-opacity duration-300 cursor-pointer"
           >
             {isSubmitting ? "Publishing..." : "Publish"}
           </button>

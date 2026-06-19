@@ -24,7 +24,7 @@ const FormInput = ({
   const renderLeftIcon = () => {
     const iconClass = `w-4 h-4 transition-colors duration-300 ${
       hasError
-        ? "text-[#C98B7A]"
+        ? "text-red-400"
         : isFocused
         ? "text-gold-400"
         : "text-charcoal-500 group-hover:text-charcoal-400"
@@ -100,7 +100,7 @@ const FormInput = ({
           autoComplete={autoComplete}
           className={`w-full h-11 bg-charcoal-950/25 border rounded-lg pl-11 pr-11 text-charcoal-200 placeholder:text-charcoal-700/80 transition-all duration-300 font-sans text-xs tracking-wide focus:outline-none focus:ring-1 ${
             hasError
-              ? "border-[#A45F5F]/50 focus:border-[#A45F5F]/85 focus:ring-[rgba(164,95,95,0.15)]"
+              ? "border-red-400/50 focus:border-red-400/85 focus:ring-red-400/15"
               : isFocused
               ? "border-[#D4AF37] focus:border-[#D4AF37] focus:ring-[rgba(212,175,55,0.25)] shadow-[0_0_8px_rgba(212,175,55,0.06)]"
               : "border-charcoal-800 hover:border-charcoal-700/60"
@@ -129,8 +129,8 @@ const FormInput = ({
       </div>
 
       {hasError && (
-        <p className="mt-2 text-[11px] text-[#C98B7A] font-sans tracking-wide flex items-center gap-1.5 animate-error-fade-in-up">
-          <svg className="w-3.5 h-3.5 shrink-0 text-[#C98B7A]" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+        <p className="mt-2 text-[11px] text-red-400 font-sans tracking-wide flex items-center gap-1.5 animate-error-fade-in-up">
+          <svg className="w-3.5 h-3.5 shrink-0 text-red-400" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />

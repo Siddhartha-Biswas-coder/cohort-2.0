@@ -7,16 +7,12 @@ const SubmitButton = ({ loading, disabled, children }) => {
     <button
       type="submit"
       disabled={isButtonDisabled}
-      className={`w-full py-4 mt-4 font-display text-[10px] uppercase tracking-[0.2em] transition-all duration-500 focus:outline-none focus:ring-1 focus:ring-gold-500/30 cursor-pointer rounded-lg relative overflow-hidden group ${
+      className={`w-full py-4 mt-4 font-display text-[10px] uppercase tracking-[0.2em] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-gold-500/30 cursor-pointer rounded-lg relative overflow-hidden group ${
         isButtonDisabled
           ? "bg-charcoal-800 text-charcoal-500 cursor-not-allowed border border-transparent"
-          : "bg-linear-to-r from-gold-500 via-gold-400 to-gold-500 text-charcoal-950 hover:shadow-[0_0_25px_rgba(212,175,55,0.22)] hover:scale-[1.005] active:scale-[0.99] border border-gold-500/10"
+          : "bg-gold-400 text-[#0a0a0a] hover:opacity-90 active:scale-[0.99] border border-transparent"
       }`}
     >
-      {/* Subtle white/silver sliding reflection effect (only when active) */}
-      {!isButtonDisabled && (
-        <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-      )}
 
       {loading ? (
         <span className="flex items-center justify-center gap-2">
