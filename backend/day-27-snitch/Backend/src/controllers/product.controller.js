@@ -67,3 +67,24 @@ export const getSellerProducts = asyncHandler(async (req, res) => {
     ),
   );
 });
+
+export const getAllProductsController = asyncHandler(async(req,res) => {
+  const products = await productModel.find()
+
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        products: products.map((product) => ({
+          productId: product._id,
+          seller: product.seller,
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          images: product.images,
+        })),
+      },
+      "Products fetched successfully",
+    ),
+  )
+})

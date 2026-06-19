@@ -84,7 +84,7 @@ const LoginForm = () => {
 
     try {
       setSuccessMsg("");
-      await handleLogin({
+      const user = await handleLogin({
         email: formData.email,
         password: formData.password,
       });
@@ -95,7 +95,11 @@ const LoginForm = () => {
       });
       setTouched({});
       setTimeout(() => {
-        navigate("/");
+        if (user.role === "buyer") {
+          navigate("/");
+        } else if (user.role === "seller") {
+          navigate("/seller/dashboard");
+        }
       }, 1000);
     } catch (err) {
       console.error("Submit error:", err);

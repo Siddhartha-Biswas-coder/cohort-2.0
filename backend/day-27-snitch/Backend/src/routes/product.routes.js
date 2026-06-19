@@ -2,6 +2,7 @@ import express from "express";
 import { authenticateSeller } from "../middlewares/auth.middleware.js";
 import {
   createProduct,
+  getAllProductsController,
   getSellerProducts,
 } from "../controllers/product.controller.js";
 import { upload } from "../services/imageStorage.service.js";
@@ -40,5 +41,15 @@ productRouter.post(
  */
 
 productRouter.get("/seller-products", authenticateSeller, getSellerProducts);
+
+/**
+ * Get request to fetch all the products
+ * @route Get /api/products/all-products
+ * @method GET
+ * @access public
+ * @controller getAllProductsController
+ */
+
+productRouter.get("/all-products", getAllProductsController);
 
 export default productRouter;

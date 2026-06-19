@@ -1,5 +1,5 @@
 import { setError, setUser, setLoading } from "../state/auth.slice.js";
-import { login, register } from "../services/auth.api.js";
+import { getMe, login, register } from "../services/auth.api.js";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useAuth = () => {
@@ -78,5 +78,32 @@ export const useAuth = () => {
     }
   }
 
-  return { handleRegister, handleLogin, loading, error };
+  async function handleGetMe() {
+    try{
+      dispatch(setLoading(true));
+      dispatch(setError(null));
+      const data = await getMe();
+      dispatch(setUser(data.data.user));
+    }catch(err){
+      const errorsArray = err.response?.data?.errors;
+      let errMsg = err.response?.data?.message;
+
+      if (
+        !errMsg &&
+        errorsArray &&
+        Array.isArray(errorsArray) &&
+        errorsArray.length > 0
+      ) {
+        errMsg = errorsArray.map((e) => e.msg).join(", ");
+      }
+
+      errMsg = errMsg || err.message || "Failed to get user";
+      dispatch(setError(errMsg));
+      throw new Error(errMsg);
+    }finally{
+      dispatch(setLoading(false));
+    }
+  }
+
+  return { handleRegister, handleLogin, loading, error, handleGetMe };
 };

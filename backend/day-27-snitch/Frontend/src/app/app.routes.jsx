@@ -3,11 +3,13 @@ import Register from "../features/auth/pages/Register.jsx";
 import Login from "../features/auth/pages/Login.jsx";
 import CreateProduct from "../features/products/pages/CreateProduct.jsx";
 import SellerDashBoard from "../features/products/pages/SellerDashBoard.jsx";
+import Protected from "../features/auth/components/Protected.jsx";
+import Home from "../features/products/pages/Home.jsx";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
-    element: <h1>Hello world</h1>,
+    element: <Home />,
   },
   {
     path: "/register",
@@ -22,11 +24,19 @@ export const routes = createBrowserRouter([
     children: [
       {
         path: "create-listing",
-        element: <CreateProduct />,
+        element: (
+          <Protected role="seller">
+            <CreateProduct />
+          </Protected>
+        ),
       },
       {
         path: "dashboard",
-        element: <SellerDashBoard />,
+        element: (
+          <Protected role="seller">
+            <SellerDashBoard />
+          </Protected>
+        ),
       },
     ],
   },

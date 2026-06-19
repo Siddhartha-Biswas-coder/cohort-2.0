@@ -1,7 +1,5 @@
-import config from "../config/config.js";
+
 import asyncHandler from "../middlewares/asyncHandler.js";
-import userModel from "../models/user.model.js";
-import jwt from "jsonwebtoken";
 import {
   registerUserService,
   loginUserService,
@@ -56,4 +54,10 @@ export const googleCallback = asyncHandler(async (req, res) => {
   const user = await googleAuthService({ email, id, displayName }, res);
 
   res.redirect("http://localhost:5173/");
+});
+
+export const getMeController = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  sendResponse(200, user, res, "User fetched successfully");
 });
