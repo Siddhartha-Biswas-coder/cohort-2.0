@@ -1,71 +1,125 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import { useProduct } from "../hooks/useProduct.js";
-import { useProductForm } from "../hooks/useProductForm.js";
 import ThemeToggle from "../../../app/components/ThemeToggle.jsx";
 
-// Components
-import DashboardHeader from "../components/createListings/DashboardHeader.jsx";
-import ProductDetailsForm from "../components/createListings/ProductDetailsForm.jsx";
-import ProductImageUploader from "../components/createListings/ProductImageUploader.jsx";
-import ProductPricingSection from "../components/createListings/ProductPricingSection.jsx";
-import ProductPreviewCard from "../components/createListings/ProductPreviewCard.jsx";
-import SubmitActions from "../components/createListings/SubmitActions.jsx";
+// Import listings components
+import ListingHeader from "../components/listings/ListingHeader.jsx";
+import ListingFilters from "../components/listings/ListingFilters.jsx";
+import ListingGrid from "../components/listings/ListingGrid.jsx";
+import EmptyListings from "../components/listings/EmptyListings.jsx";
 
-const CreateProduct = () => {
+const SellerDashBoard = () => {
   const navigate = useNavigate();
-  const { handleCreateProduct } = useProduct();
+  const { handleGetSellerProducts } = useProduct();
+  const sellerProducts = useSelector((state) => state.product.sellerProducts);
+
+  // Local state for local listings manipulation (e.g. deletion) & filtering
+  const [localProducts, setLocalProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("All");
+  const [sortBy, setSortBy] = useState("newest");
   
-  const [successToast, setSuccessToast] = useState(null);
+  // Custom toast notification feedback
+  const [toast, setToast] = useState(null);
 
-  const onSubmitSuccess = (product) => {
-    setSuccessToast(`Product "${product.title}" published successfully!`);
-    setTimeout(() => {
-      setSuccessToast(null);
-    }, 5000);
-  };
+  useEffect(() => {
+    handleGetSellerProducts();
+  }, []);
 
-  const {
-    formData,
-    errors,
-    isSubmitting,
-    submitError,
-    handleInputChange,
-    handleAddImages,
-    handleRemoveImage,
-    submitForm,
-  } = useProductForm(onSubmitSuccess);
-
-  const handlePublish = () => {
-    submitForm(handleCreateProduct);
-  };
-
-  const handleSaveDraft = () => {
-    // Front-end only draft simulation
-    setSuccessToast("Listing draft saved successfully (Simulated)");
-    setTimeout(() => {
-      setSuccessToast(null);
-    }, 3000);
-  };
-
-  const handleDiscard = () => {
-    if (window.confirm("Are you sure you want to discard this listing? All unsaved changes will be lost.")) {
-      navigate("/seller-dashboard");
-      window.location.reload();
+  useEffect(() => {
+    if (sellerProducts) {
+      setLocalProducts(sellerProducts);
     }
+  }, [sellerProducts]);
+
+  // Extract unique currencies dynamically
+  const currencies = useMemo(() => {
+    if (!sellerProducts) return [];
+    const currSet = new Set(
+      sellerProducts.map((p) => p.price?.currency).filter(Boolean)
+    );
+    return Array.from(currSet);
+  }, [sellerProducts]);
+
+  // Handle client-side mock actions
+  const showToast = (title, message) => {
+    setToast({ title, message });
+    setTimeout(() => {
+      setToast(null);
+    }, 3500);
   };
+
+  const handleView = (product) => {
+    showToast(
+      "Maison Catalog",
+      `Viewing details for item "${product.title}" (ID: ${product.productId.substring(0, 8)}).`
+    );
+  };
+
+  const handleEdit = (product) => {
+    showToast(
+      "Maison Designer",
+      `Edit panel initialized for item "${product.title}".`
+    );
+  };
+
+  const handleDelete = (product) => {
+    // Delete locally
+    setLocalProducts((prev) =>
+      prev.filter((p) => p.productId !== product.productId)
+    );
+    showToast(
+      "Maison Inventory",
+      `Listing "${product.title}" has been archived and removed from your gallery.`
+    );
+  };
+
+  // Filter and sort computation
+  const filteredProducts = useMemo(() => {
+    let result = [...localProducts];
+
+    // Search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.title?.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q)
+      );
+    }
+
+    // Currency filter
+    if (selectedCurrency !== "All") {
+      result = result.filter((p) => p.price?.currency === selectedCurrency);
+    }
+
+    // Sort order
+    if (sortBy === "newest") {
+      result.reverse(); // Reverse standard insertion order
+    } else if (sortBy === "oldest") {
+      // Keep standard insertion order
+    } else if (sortBy === "priceLowHigh") {
+      result.sort((a, b) => (parseFloat(a.price?.amount) || 0) - (parseFloat(b.price?.amount) || 0));
+    } else if (sortBy === "priceHighLow") {
+      result.sort((a, b) => (parseFloat(b.price?.amount) || 0) - (parseFloat(a.price?.amount) || 0));
+    }
+
+    return result;
+  }, [localProducts, searchQuery, selectedCurrency, sortBy]);
 
   return (
     <div className="min-h-screen bg-charcoal-950 flex flex-col md:flex-row text-charcoal-400 select-none antialiased">
       {/* Toast Notification */}
-      {successToast && (
+      {toast && (
         <div className="fixed top-6 right-6 z-50 p-4 bg-charcoal-900 border border-gold-400 text-gold-50 shadow-gold-glow flex items-center gap-3 animate-error-fade-in-up">
-          <svg className="w-5 h-5 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+          <svg className="w-5 h-5 text-gold-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div className="flex flex-col">
-            <span className="font-display text-[10px] font-bold uppercase tracking-widest text-gold-400">Success</span>
-            <span className="text-xs font-sans text-charcoal-300 font-light mt-0.5">{successToast}</span>
+            <span className="font-display text-[10px] font-bold uppercase tracking-widest text-gold-400">{toast.title}</span>
+            <span className="text-xs font-sans text-charcoal-300 font-light mt-0.5">{toast.message}</span>
           </div>
         </div>
       )}
@@ -89,8 +143,7 @@ const CreateProduct = () => {
             <li>
               <button
                 type="button"
-                onClick={() => navigate("/seller/dashboard")}
-                className="w-full flex items-center px-6 py-3 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-500 hover:text-gold-400 hover:bg-charcoal-950/40 transition-all cursor-pointer"
+                className="w-full flex items-center px-6 py-3 text-[10px] font-display font-semibold uppercase tracking-widest text-gold-400 border-r-2 border-gold-400 bg-charcoal-950/30 transition-all cursor-pointer"
               >
                 <svg className="w-4 h-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
@@ -101,7 +154,8 @@ const CreateProduct = () => {
             <li>
               <button
                 type="button"
-                className="w-full flex items-center px-6 py-3 text-[10px] font-display font-semibold uppercase tracking-widest text-gold-400 border-r-2 border-gold-400 bg-charcoal-950/30 transition-all cursor-pointer"
+                onClick={() => navigate("/seller/create-listing")}
+                className="w-full flex items-center px-6 py-3 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-500 hover:text-gold-400 hover:bg-charcoal-950/40 transition-all cursor-pointer"
               >
                 <svg className="w-4 h-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -140,7 +194,6 @@ const CreateProduct = () => {
 
       {/* Main Content Viewport */}
       <main className="grow md:pl-64 min-h-screen flex flex-col justify-between">
-        
         {/* TopNavBar */}
         <header className="w-full h-16 flex justify-between items-center px-8 md:px-16 bg-charcoal-950 border-b border-charcoal-900 sticky top-0 z-40">
           <span className="font-display text-[10px] font-bold tracking-[0.3em] text-gold-400 select-none uppercase">
@@ -163,74 +216,49 @@ const CreateProduct = () => {
 
         {/* Workspace Container */}
         <div className="grow px-8 md:px-16 py-12 max-w-300 w-full mx-auto">
-          {/* Dashboard Title & Description */}
-          <DashboardHeader />
+          {/* Header Title Block */}
+          <ListingHeader />
 
-          {/* Form and Preview Split Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            
-            {/* Left Column: Form Details & Upload */}
-            <div className="lg:col-span-8 space-y-10">
-              <ProductDetailsForm
-                title={formData.title}
-                description={formData.description}
-                errors={errors}
-                onChange={handleInputChange}
-              />
-              <ProductImageUploader
-                images={formData.images}
-                onAddImages={handleAddImages}
-                onRemoveImage={handleRemoveImage}
-                errors={errors}
-              />
-            </div>
-
-            {/* Right Column: Pricing & Live Preview */}
-            <div className="lg:col-span-4 space-y-10">
-              <ProductPricingSection
-                priceAmount={formData.priceAmount}
-                priceCurrency={formData.priceCurrency}
-                errors={errors}
-                onChange={handleInputChange}
-              />
-              <ProductPreviewCard
-                title={formData.title}
-                description={formData.description}
-                priceAmount={formData.priceAmount}
-                priceCurrency={formData.priceCurrency}
-                images={formData.images}
-              />
-            </div>
-          </div>
-
-          {/* Footer Submit Bar */}
-          <div className="mt-12 pt-8 border-t border-charcoal-900/60 pb-16">
-            <SubmitActions
-              isSubmitting={isSubmitting}
-              submitError={submitError}
-              onPublish={handlePublish}
-              onSaveDraft={handleSaveDraft}
-              onDiscard={handleDiscard}
+          {/* Filters Control Block */}
+          {localProducts.length > 0 && (
+            <ListingFilters
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedCurrency={selectedCurrency}
+              setSelectedCurrency={setSelectedCurrency}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              currencies={currencies}
             />
-          </div>
+          )}
+
+          {/* listings Grid layout or empty state fallback */}
+          {filteredProducts.length > 0 ? (
+            <ListingGrid
+              products={filteredProducts}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ) : (
+            <EmptyListings />
+          )}
         </div>
 
         {/* Sticky Mobile Navigation (Hidden on desktop) */}
         <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-charcoal-950 border-t border-charcoal-850 px-6 py-4 flex gap-4">
           <button
             type="button"
-            onClick={handleDiscard}
-            className="flex-1 py-3 border border-charcoal-800 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-400"
+            className="flex-1 py-3 bg-gold-400 text-[#0a0a0a] font-display font-bold uppercase tracking-widest text-center cursor-pointer"
           >
-            Discard
+            Dashboard
           </button>
           <button
             type="button"
-            onClick={handlePublish}
-            disabled={isSubmitting}
-            className="flex-1 py-3 bg-gold-400 text-[#0a0a0a] font-display font-bold uppercase tracking-widest text-center hover:opacity-90 transition-opacity duration-300 cursor-pointer"
+            onClick={() => navigate("/seller/create-listing")}
+            className="flex-1 py-3 border border-charcoal-800 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-400 cursor-pointer"
           >
-            {isSubmitting ? "Publishing..." : "Publish"}
+            Create Listing
           </button>
         </div>
 
@@ -239,16 +267,10 @@ const CreateProduct = () => {
           <span className="font-display text-[9px] font-semibold text-charcoal-600 tracking-widest uppercase">
             © 2026 LUMIÈRE MAISON. ALL RIGHTS RESERVED.
           </span>
-          <div className="flex gap-6">
-            <span className="font-display text-[9px] font-semibold text-charcoal-600 tracking-widest hover:text-gold-400 transition-colors uppercase cursor-pointer">
-              Terms of Service
-            </span>
-            <span className="font-display text-[9px] font-semibold text-charcoal-600 tracking-widest hover:text-gold-400 transition-colors uppercase cursor-pointer">
-              Privacy Policy
-            </span>
-            <span className="font-display text-[9px] font-semibold text-charcoal-600 tracking-widest hover:text-gold-400 transition-colors uppercase cursor-pointer">
-              Seller Guidelines
-            </span>
+          <div className="flex gap-8 text-[9px] font-display font-semibold tracking-widest text-charcoal-500 uppercase">
+            <a href="#" className="hover:text-gold-400 transition-colors">Support</a>
+            <a href="#" className="hover:text-gold-400 transition-colors">Maison Policies</a>
+            <a href="#" className="hover:text-gold-400 transition-colors">Seller Guide</a>
           </div>
         </footer>
       </main>
@@ -256,4 +278,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default SellerDashBoard;

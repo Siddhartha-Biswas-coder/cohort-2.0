@@ -1,11 +1,27 @@
 import React from "react";
-import { CURRENCIES } from "../constants/currencies.js";
+import { CURRENCIES } from "../../constants/currencies.js";
 
-const ProductPreviewCard = ({ title, description, priceAmount, priceCurrency, images }) => {
-  const currentCurrency = CURRENCIES.find((c) => c.code === priceCurrency) || { symbol: "$", code: "USD" };
+const ProductPreviewCard = ({
+  title,
+  description,
+  priceAmount,
+  priceCurrency,
+  images,
+}) => {
+  const currentCurrency = CURRENCIES.find((c) => c.code === priceCurrency) || {
+    symbol: "$",
+    code: "USD",
+  };
   const displayTitle = title.trim() || "Draft Product Title";
-  const displayPrice = priceAmount ? parseFloat(priceAmount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00";
-  const displayDescription = description.trim() || "Awaiting campaign details, materials, and product description...";
+  const displayPrice = priceAmount
+    ? parseFloat(priceAmount).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : "0.00";
+  const displayDescription =
+    description.trim() ||
+    "Awaiting campaign details, materials, and product description...";
 
   const mainImageUrl = images.length > 0 ? images[0].previewUrl : null;
 
@@ -34,8 +50,18 @@ const ProductPreviewCard = ({ title, description, priceAmount, priceCurrency, im
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-charcoal-950">
             {/* Refined placeholder pattern */}
             <div className="w-12 h-12 rounded-full border border-gold-400/10 flex items-center justify-center mb-3 text-gold-400/30 animate-pulse">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
             </div>
             <span className="font-display text-[9px] tracking-[0.4em] text-charcoal-600 font-bold uppercase text-center block">
