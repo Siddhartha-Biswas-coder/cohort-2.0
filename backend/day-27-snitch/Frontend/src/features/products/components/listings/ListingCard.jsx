@@ -5,11 +5,22 @@ const ListingCard = ({ product, onView, onEdit, onDelete }) => {
   const { productId, title, description, price, images = [] } = product;
   const imageCount = images.length;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState("right");
   const currentImageUrl = imageCount > 0 ? images[currentImageIndex].url : null;
-  const mainImageUrl = imageCount > 0 ? images[0].url : null;
+  // const mainImageUrl = imageCount > 0 ? images[0].url : null; // Removed unused variable
   const displayPrice = price?.amount
     ? parseFloat(price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
     : "0.00";
+
+  const goNext = () => {
+    setSlideDirection("right");
+    setCurrentImageIndex((prev) => (prev + 1) % imageCount);
+  };
+
+  const goPrev = () => {
+    setSlideDirection("left");
+    setCurrentImageIndex((prev) => (prev - 1 + imageCount) % imageCount);
+  };
 
   return (
     <article className="bg-charcoal-900 border border-charcoal-800 p-5 flex flex-col gap-5 select-none relative group transition-all duration-500 rounded-lg hover:border-charcoal-700/60 h-full">
@@ -17,17 +28,34 @@ const ListingCard = ({ product, onView, onEdit, onDelete }) => {
         <div className="aspect-3/4 w-full bg-charcoal-950 relative overflow-hidden border border-charcoal-800/60 rounded-md">
           {imageCount > 0 ? (
             <>
+              {/* Slide animation keyframes — injected once per card */}
+              <style>{`
+                @keyframes slideInFromRight {
+                  from { transform: translateX(8%); opacity: 0; }
+                  to   { transform: translateX(0);  opacity: 1; }
+                }
+                @keyframes slideInFromLeft {
+                  from { transform: translateX(-8%); opacity: 0; }
+                  to   { transform: translateX(0);   opacity: 1; }
+                }
+              `}</style>
               <img
+                key={currentImageIndex}
                 src={images[currentImageIndex].url}
                 alt={title}
-                className="w-full h-full object-cover filter grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-[1.015] transition-all duration-1200 ease-in-out"
+                className="w-full h-full object-cover filter grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-[1.015] transition-[filter] duration-1200 ease-in-out"
+                style={{
+                  animation: imageCount > 1
+                    ? `${slideDirection === "right" ? "slideInFromRight" : "slideInFromLeft"} 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) both`
+                    : undefined,
+                }}
               />
               {imageCount > 1 && (
                 <>
                   <button
                     type="button"
-                    onClick={() => setCurrentImageIndex((currentImageIndex - 1 + imageCount) % imageCount)}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-1 hover:bg-black/50"
+                    onClick={goPrev}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-1.5 cursor-pointer hover:bg-black/60 hover:scale-110 hover:border hover:border-white/20 transition-all duration-200 z-20"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 19l-7-7 7-7" />
@@ -35,8 +63,8 @@ const ListingCard = ({ product, onView, onEdit, onDelete }) => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setCurrentImageIndex((currentImageIndex + 1) % imageCount)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-1 hover:bg-black/50"
+                    onClick={goNext}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-1.5 cursor-pointer hover:bg-black/60 hover:scale-110 hover:border hover:border-white/20 transition-all duration-200 z-20"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7" />
@@ -70,11 +98,11 @@ const ListingCard = ({ product, onView, onEdit, onDelete }) => {
             </span>
             {imageCount > 1 && (
               <div className="flex gap-1.5 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                {Array.from({ length: Math.min(imageCount, 4) }).map((_, i) => (
+                {Array.from({ length: imageCount }).map((_, i) => (
                   <div
                     key={i}
-                    className={`h-0.5 w-2 transition-all duration-300 ${
-                      i === 0 ? "bg-gold-400" : "bg-charcoal-700"
+                    className={`h-0.5 rounded-full transition-all duration-200 ${
+                      i === currentImageIndex ? "w-3 bg-gold-400" : "w-2 bg-charcoal-700"
                     }`}
                   />
                 ))}
