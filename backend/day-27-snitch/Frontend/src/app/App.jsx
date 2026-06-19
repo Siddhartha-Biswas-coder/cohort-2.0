@@ -4,11 +4,14 @@ import { RouterProvider } from "react-router";
 import { routes } from "./app.routes";
 import { Provider } from "react-redux";
 import { store } from "./app.store";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 const App = () => {
   return (
     <Provider store={store}>
-      <RouterProvider router={routes} />
+      <ThemeProvider>
+        <RouterProvider router={routes} />
+      </ThemeProvider>
     </Provider>
   );
 };

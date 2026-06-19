@@ -13,7 +13,7 @@ const RoleToggle = ({ isSeller, onChange }) => {
           onClick={() => onChange(true)}
           className={`flex flex-col items-start p-4.5 border text-left transition-all duration-300 rounded-lg cursor-pointer focus:outline-none relative ${
             isSeller
-              ? "border-[#D4AF37] bg-[rgba(212,175,55,0.04)]"
+              ? "border-gold-400 bg-bg-selected"
               : "border-charcoal-800/80 bg-charcoal-950/20 hover:border-charcoal-700/60 hover:bg-charcoal-900/40"
           }`}
         >
@@ -60,7 +60,7 @@ const RoleToggle = ({ isSeller, onChange }) => {
           onClick={() => onChange(false)}
           className={`flex flex-col items-start p-4.5 border text-left transition-all duration-300 rounded-lg cursor-pointer focus:outline-none relative ${
             !isSeller
-              ? "border-[#D4AF37] bg-[rgba(212,175,55,0.04)]"
+              ? "border-gold-400 bg-bg-selected"
               : "border-charcoal-800/80 bg-charcoal-950/20 hover:border-charcoal-700/60 hover:bg-charcoal-900/40"
           }`}
         >

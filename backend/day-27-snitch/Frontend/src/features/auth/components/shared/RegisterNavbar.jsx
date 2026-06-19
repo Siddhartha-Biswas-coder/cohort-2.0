@@ -1,4 +1,5 @@
 import React from "react";
+import ThemeToggle from "../../../../app/components/ThemeToggle.jsx";
 
 const RegisterNavbar = () => {
   return (
@@ -34,6 +35,7 @@ const RegisterNavbar = () => {
         </a>
       </div>
       <div className="flex items-center gap-6 text-gold-400">
+        <ThemeToggle />
         <button className="focus:outline-none focus:ring-1 focus:ring-gold-500 p-1 cursor-pointer">
           <svg
             className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity"

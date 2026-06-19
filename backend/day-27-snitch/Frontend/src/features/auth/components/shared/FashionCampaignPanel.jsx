@@ -11,20 +11,20 @@ const FashionCampaignPanel = ({ src, tagline, title }) => {
       />
 
       {/* Soft dark gradient transition visual bridge */}
-      <div className="absolute inset-0 pointer-events-none z-15" style={{ background: "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.35), rgba(0,0,0,0.65))" }}></div>
+      <div className="absolute inset-0 pointer-events-none z-15 transition-all duration-950 ease-in-out" style={{ background: "var(--visual-bridge-linear-val)" }}></div>
 
       {/* Seamless edge blending overlays */}
       {/* Left side fade */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 md:w-36 bg-linear-to-r from-charcoal-950 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute left-0 top-0 bottom-0 w-24 md:w-36 bg-linear-to-r from-charcoal-950 to-transparent pointer-events-none z-10 opacity-50"></div>
       {/* Right side fade */}
-      <div className="absolute right-0 top-0 bottom-0 w-24 md:w-36 bg-linear-to-l from-charcoal-950 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-24 md:w-36 bg-linear-to-l from-charcoal-950 to-transparent pointer-events-none z-10 opacity-50"></div>
       {/* Top side fade */}
-      <div className="absolute top-0 left-0 right-0 h-24 md:h-36 bg-linear-to-b from-charcoal-950 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute top-0 left-0 right-0 h-24 md:h-36 bg-linear-to-b from-charcoal-950 to-transparent pointer-events-none z-10 opacity-50"></div>
       {/* Bottom side fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-36 md:h-48 bg-linear-to-t from-charcoal-950 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-36 md:h-48 bg-linear-to-t from-charcoal-950 to-transparent pointer-events-none z-10 opacity-60"></div>
 
       {/* Ambient radial vignette for luxury depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(10,10,10,0.92)_100%)] pointer-events-none z-10"></div>
+      <div className="absolute inset-0 pointer-events-none z-10 transition-all duration-950 ease-in-out" style={{ background: "var(--vignette-radial-val)" }}></div>
 
       {/* Campaign Copy Overlay */}
       <div className="absolute bottom-10 left-8 right-8 text-left max-w-sm pointer-events-none z-20 select-none">

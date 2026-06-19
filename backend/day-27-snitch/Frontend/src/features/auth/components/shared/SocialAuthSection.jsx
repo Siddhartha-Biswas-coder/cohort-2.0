@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useTheme } from "../../../../app/hooks/useTheme";
 
 const SocialAuthSection = ({ parentLoading }) => {
   const [googleLoading, setGoogleLoading] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
 
   const handleGoogleLogin = () => {
     setGoogleLoading(true);
@@ -11,6 +14,14 @@ const SocialAuthSection = ({ parentLoading }) => {
   };
 
   const isButtonDisabled = googleLoading || parentLoading;
+
+  const buttonBgClass = isLight
+    ? "bg-[#FFFFFF] hover:bg-[#F8F9FA] border-[#747775] hover:border-[#747775]"
+    : "bg-[#131314] hover:bg-[#202124] border-[#747775] hover:border-[#747775]";
+
+  const textClass = isLight
+    ? "text-[#1f1f1f] group-hover:text-[#111111]"
+    : "text-[#e3e3e3] group-hover:text-white";
 
   return (
     <>
@@ -28,7 +39,7 @@ const SocialAuthSection = ({ parentLoading }) => {
         type="button"
         onClick={handleGoogleLogin}
         disabled={isButtonDisabled}
-        className={`w-full h-11 border border-charcoal-800 rounded-lg bg-[#131314] hover:bg-[#1a1a1c] hover:border-charcoal-700 flex items-center justify-center gap-3 transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-1 focus:ring-gold-500/30 relative px-4 ${
+        className={`w-full h-11 border rounded-lg flex items-center justify-center gap-3 transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-1 focus:ring-gold-500/30 relative px-4 ${buttonBgClass} ${
           googleLoading ? "opacity-90 cursor-wait border-gold-400/30" : ""
         }`}
       >
@@ -50,7 +61,7 @@ const SocialAuthSection = ({ parentLoading }) => {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
             </svg>
-            <span className="font-sans text-xs font-semibold text-[#e3e3e3] tracking-wide group-hover:text-white transition-colors duration-300">
+            <span className={`font-sans text-xs font-semibold tracking-wide transition-colors duration-300 ${textClass}`}>
               Continue with Google
             </span>
           </>
