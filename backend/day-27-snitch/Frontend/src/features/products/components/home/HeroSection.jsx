@@ -17,7 +17,7 @@ const HeroSection = () => {
         <img
           src={heroImage}
           alt="Lumière Fashion Editorial"
-          className="w-full h-full object-cover object-center scale-105"
+          className="w-full h-full object-cover object-center animate-image-reveal"
         />
         {/* Dark overlay for text legibility */}
         <div className="absolute inset-0 bg-charcoal-950/70" />
@@ -28,29 +28,44 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-8 max-w-3xl mx-auto animate-error-fade-in-up">
+      <div className="relative z-10 text-center px-8 max-w-3xl mx-auto">
         {/* Label */}
-        <span className="font-display text-[10px] font-semibold uppercase tracking-[0.35em] text-gold-400 block mb-6">
+        <span 
+          className="font-display text-[10px] font-semibold uppercase tracking-[0.35em] text-gold-400 block mb-6 animate-reveal"
+          style={{ animationDelay: "0ms" }}
+        >
           Lumière Collection
         </span>
 
         {/* Gold divider */}
-        <div className="w-12 h-px bg-gold-400 mx-auto mb-8" />
+        <div 
+          className="w-12 h-px bg-gold-400 mx-auto mb-8 animate-reveal"
+          style={{ animationDelay: "80ms" }}
+        />
 
         {/* Heading */}
-        <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-6">
+        <h1 
+          className="font-display text-3xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-6 animate-reveal"
+          style={{ animationDelay: "160ms" }}
+        >
           Curated Fashion
           <br />
           <span className="text-gold-400 font-normal">For Modern Living</span>
         </h1>
 
         {/* Supporting text */}
-        <p className="font-sans text-sm md:text-base text-charcoal-400 font-light leading-relaxed max-w-lg mx-auto mb-12 tracking-wide">
+        <p 
+          className="font-sans text-sm md:text-base text-charcoal-400 font-light leading-relaxed max-w-lg mx-auto mb-12 tracking-wide animate-reveal"
+          style={{ animationDelay: "240ms" }}
+        >
           Discover timeless pieces from independent fashion creators and premium sellers.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-reveal"
+          style={{ animationDelay: "320ms" }}
+        >
           <button
             type="button"
             onClick={scrollToCollection}

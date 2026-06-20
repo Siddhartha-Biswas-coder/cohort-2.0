@@ -145,15 +145,17 @@ const SellerDashBoard = () => {
 
       {/* Filters Control Block */}
       {localProducts.length > 0 && (
-        <ListingFilters
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          selectedCurrency={selectedCurrency}
-          setSelectedCurrency={setSelectedCurrency}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          currencies={currencies}
-        />
+        <div className="animate-reveal" style={{ animationDelay: "320ms" }}>
+          <ListingFilters
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedCurrency={selectedCurrency}
+            setSelectedCurrency={setSelectedCurrency}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            currencies={currencies}
+          />
+        </div>
       )}
 
       {/* Listings Grid layout or empty state fallback */}

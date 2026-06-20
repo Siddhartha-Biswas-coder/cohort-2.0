@@ -191,3 +191,87 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gold-400);
 }
+
+/* Premium Motion System */
+
+/* Page Entry Reveal Keyframes */
+@keyframes premiumFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-reveal {
+  animation: premiumFadeInUp 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered Delay Utilities */
+.delay-entry-1 { animation-delay: 60ms; }
+.delay-entry-2 { animation-delay: 120ms; }
+.delay-entry-3 { animation-delay: 180ms; }
+.delay-entry-4 { animation-delay: 240ms; }
+.delay-entry-5 { animation-delay: 300ms; }
+.delay-entry-6 { animation-delay: 360ms; }
+
+/* Scroll Reveal Transition */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 750ms cubic-bezier(0.16, 1, 0.3, 1), transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.scroll-reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Premium Card Hover Transitions */
+.premium-card-hover {
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 450ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-charcoal-700);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35), 0 0 30px rgba(197, 160, 89, 0.025);
+}
+
+/* Premium Image Subtle Zoom Transition */
+.premium-image-zoom {
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+              filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .premium-image-zoom {
+  transform: scale(1.02);
+}
+
+/* Premium Image Initial Entry Transition */
+@keyframes premiumImageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-image-reveal {
+  animation: premiumImageReveal 950ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Page Edge Vignette (fades into background color on both themes) */
+.page-vignette {
+  background: radial-gradient(circle at center, transparent 70%, var(--color-charcoal-950) 100%);
+  opacity: 0.8;
+}

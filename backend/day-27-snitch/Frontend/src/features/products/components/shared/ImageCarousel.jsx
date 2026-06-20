@@ -58,7 +58,7 @@ const ImageCarousel = ({
         key={currentImageIndex}
         src={images[currentImageIndex].url}
         alt={title}
-        className={imageClassName}
+        className={`${imageClassName} animate-image-reveal`}
         style={{
           animation: imageCount > 1
             ? `${slideDirection === "right" ? "slideInFromRight" : "slideInFromLeft"} 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) both`

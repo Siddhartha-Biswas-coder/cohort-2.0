@@ -112,47 +112,51 @@ const LoginForm = () => {
       <AuthAlert type="error" message={apiError} />
 
       {/* Email Address */}
-      <FormInput
-        label="Email Address"
-        id="email"
-        name="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="CONTACT@VANCE.STUDIO"
-        error={errors.email}
-        touched={touched.email}
-        autoComplete="email"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "320ms" }}>
+        <FormInput
+          label="Email Address"
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="CONTACT@VANCE.STUDIO"
+          error={errors.email}
+          touched={touched.email}
+          autoComplete="email"
+        />
+      </div>
 
       {/* Password */}
-      <FormInput
-        label="Password"
-        id="password"
-        name="password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="••••••••"
-        error={errors.password}
-        touched={touched.password}
-        autoComplete="current-password"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "380ms" }}>
+        <FormInput
+          label="Password"
+          id="password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="••••••••"
+          error={errors.password}
+          touched={touched.password}
+          autoComplete="current-password"
+        />
+      </div>
 
       {/* Submit Button */}
-      <div className="space-y-3">
+      <div className="space-y-3 animate-reveal" style={{ animationDelay: "440ms" }}>
         <SubmitButton loading={loading} disabled={isSubmitDisabled}>
           Sign In
         </SubmitButton>
-        <p className="text-center text-[9px] tracking-[0.2em] text-charcoal-500 uppercase">
-          Trusted by premium buyers and fashion sellers.
-        </p>
+        <AuthTrustBadges />
       </div>
 
       {/* Google Sign-In & Divider */}
-      <SocialAuthSection parentLoading={loading} />
+      <div className="animate-reveal" style={{ animationDelay: "500ms" }}>
+        <SocialAuthSection parentLoading={loading} />
+      </div>
     </form>
   );
 };

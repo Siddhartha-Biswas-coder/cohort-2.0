@@ -1,14 +1,22 @@
 import React from "react";
+import { useScrollReveal } from "../../hooks/useScrollReveal.js";
 
 const FeaturedCollection = ({ products = [] }) => {
   if (products.length === 0) return null;
 
+  const [revealRef, isRevealed] = useScrollReveal();
   const featured = products.slice(0, 3);
 
   return (
-    <section id="featured" className="px-8 md:px-16 py-20 md:py-28 max-w-[1600px] mx-auto">
+    <section 
+      ref={revealRef}
+      id="featured" 
+      className={`px-8 md:px-16 py-20 md:py-28 max-w-[1600px] mx-auto scroll-reveal ${
+        isRevealed ? "scroll-reveal-active" : ""
+      }`}
+    >
       {/* Section Header */}
-      <div className="text-center mb-16 animate-error-fade-in-up">
+      <div className="text-center mb-16">
         <span className="font-display text-[10px] font-semibold uppercase tracking-[0.35em] text-gold-400 block mb-4">
           Featured Pieces
         </span>
@@ -32,8 +40,10 @@ const FeaturedCollection = ({ products = [] }) => {
           return (
             <article
               key={product.productId}
-              className="group relative overflow-hidden rounded-sm cursor-pointer"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className={`group relative overflow-hidden rounded-sm cursor-pointer ${
+                isRevealed ? "animate-reveal" : "opacity-0"
+              }`}
+              style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Image */}
               <div className="aspect-3/4 w-full bg-charcoal-900 relative overflow-hidden">
@@ -41,7 +51,7 @@ const FeaturedCollection = ({ products = [] }) => {
                   <img
                     src={imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover filter grayscale-30 brightness-95 group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-1000 ease-out"
+                    className="w-full h-full object-cover filter grayscale-30 brightness-95 group-hover:grayscale-0 premium-image-zoom animate-image-reveal"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-charcoal-950">

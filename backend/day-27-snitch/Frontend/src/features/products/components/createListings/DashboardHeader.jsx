@@ -3,9 +3,9 @@ import React from "react";
 const DashboardHeader = ({ title = "Create New Listing", subtitle = "Showcase your fashion products with premium presentation." }) => {
   return (
     <div className="flex flex-col gap-2 border-b border-charcoal-800 pb-8 mb-12 select-none">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 animate-reveal" style={{ animationDelay: "0ms" }}>
         <svg
-          className="w-5 h-5 text-gold-400 animate-pulse"
+          className="w-5 h-5 text-gold-400"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.2"
@@ -21,10 +21,16 @@ const DashboardHeader = ({ title = "Create New Listing", subtitle = "Showcase yo
           Maison Listing Manager
         </span>
       </div>
-      <h1 className="font-display text-4xl md:text-5xl font-light text-gold-50 tracking-tight leading-none mt-2">
+      <h1 
+        className="font-display text-4xl md:text-5xl font-light text-gold-50 tracking-tight leading-none mt-2 animate-reveal"
+        style={{ animationDelay: "80ms" }}
+      >
         {title}
       </h1>
-      <p className="font-sans text-xs md:text-sm text-charcoal-500 font-light tracking-wide mt-1">
+      <p 
+        className="font-sans text-xs md:text-sm text-charcoal-500 font-light tracking-wide mt-1 animate-reveal"
+        style={{ animationDelay: "160ms" }}
+      >
         {subtitle}
       </p>
     </div>

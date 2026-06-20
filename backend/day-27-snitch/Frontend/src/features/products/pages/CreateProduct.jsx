@@ -107,7 +107,7 @@ const CreateProduct = () => {
       {/* Form and Preview Split Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Left Column: Form Details & Upload */}
-        <div className="lg:col-span-8 space-y-10">
+        <div className="lg:col-span-8 space-y-10 animate-reveal" style={{ animationDelay: "240ms" }}>
           <ProductDetailsForm
             title={formData.title}
             description={formData.description}
@@ -123,7 +123,7 @@ const CreateProduct = () => {
         </div>
 
         {/* Right Column: Pricing & Live Preview */}
-        <div className="lg:col-span-4 space-y-10">
+        <div className="lg:col-span-4 space-y-10 animate-reveal" style={{ animationDelay: "320ms" }}>
           <ProductPricingSection
             priceAmount={formData.priceAmount}
             priceCurrency={formData.priceCurrency}
@@ -141,7 +141,7 @@ const CreateProduct = () => {
       </div>
 
       {/* Footer Submit Bar */}
-      <div className="mt-12 pt-8 border-t border-charcoal-900/60 pb-16">
+      <div className="mt-12 pt-8 border-t border-charcoal-900/60 pb-16 animate-reveal" style={{ animationDelay: "400ms" }}>
         <SubmitActions
           isSubmitting={isSubmitting}
           submitError={submitError}

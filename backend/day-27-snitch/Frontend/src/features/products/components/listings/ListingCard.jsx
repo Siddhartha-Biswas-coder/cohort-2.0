@@ -2,20 +2,23 @@ import React from "react";
 import ListingActions from "./ListingActions.jsx";
 import ImageCarousel from "../shared/ImageCarousel.jsx";
 
-const ListingCard = ({ product, onView, onEdit, onDelete }) => {
+const ListingCard = ({ product, index = 0, onView, onEdit, onDelete }) => {
   const { productId, title, description, price, images = [] } = product;
   const displayPrice = price?.amount
     ? parseFloat(price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
     : "0.00";
 
   return (
-    <article className="bg-charcoal-900 border border-charcoal-800 p-5 flex flex-col gap-5 select-none relative group transition-all duration-500 rounded-lg hover:border-charcoal-700/60 h-full">
+    <article 
+      className="bg-charcoal-900 border border-charcoal-800 p-5 flex flex-col gap-5 select-none relative group premium-card-hover h-full animate-reveal"
+      style={{ animationDelay: `${400 + index * 50}ms` }}
+    >
       {/* Campaign Image Panel */}
       <ImageCarousel
         images={images}
         title={title}
         containerClassName="border border-charcoal-800/60 rounded-md"
-        imageClassName="w-full h-full object-cover filter grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-[1.015] transition-[filter] duration-1200 ease-in-out"
+        imageClassName="w-full h-full object-cover filter grayscale brightness-95 group-hover:grayscale-0 premium-image-zoom"
         arrowHoverOnly={false}
       >
         {/* Ambient top-bottom edge blending overlays */}

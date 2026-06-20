@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import AuthAlert from "../shared/AuthAlert.jsx";
 import SubmitButton from "../shared/SubmitButton.jsx";
 import SocialAuthSection from "../shared/SocialAuthSection.jsx";
+import AuthTrustBadges from "../shared/AuthTrustBadges.jsx";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -157,54 +158,62 @@ const RegisterForm = () => {
       <AuthAlert type="error" message={apiError} />
 
       {/* Role Toggle */}
-      <RoleToggle isSeller={formData.isSeller} onChange={handleRoleChange} />
+      <div className="animate-reveal" style={{ animationDelay: "300ms" }}>
+        <RoleToggle isSeller={formData.isSeller} onChange={handleRoleChange} />
+      </div>
 
       {/* Full Name */}
-      <FormInput
-        label="Full Name"
-        id="fullname"
-        name="fullname"
-        value={formData.fullname}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="ALEXANDER VANCE"
-        error={errors.fullname}
-        touched={touched.fullname}
-        autoComplete="name"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "360ms" }}>
+        <FormInput
+          label="Full Name"
+          id="fullname"
+          name="fullname"
+          value={formData.fullname}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="ALEXANDER VANCE"
+          error={errors.fullname}
+          touched={touched.fullname}
+          autoComplete="name"
+        />
+      </div>
 
       {/* Email Address */}
-      <FormInput
-        label="Email Address"
-        id="email"
-        name="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="CONTACT@VANCE.STUDIO"
-        error={errors.email}
-        touched={touched.email}
-        autoComplete="email"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "420ms" }}>
+        <FormInput
+          label="Email Address"
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="CONTACT@VANCE.STUDIO"
+          error={errors.email}
+          touched={touched.email}
+          autoComplete="email"
+        />
+      </div>
 
       {/* Contact Number */}
-      <FormInput
-        label="Contact Number"
-        id="contact"
-        name="contact"
-        type="tel"
-        value={formData.contact}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="9876543210"
-        error={errors.contact}
-        touched={touched.contact}
-        autoComplete="tel"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "480ms" }}>
+        <FormInput
+          label="Contact Number"
+          id="contact"
+          name="contact"
+          type="tel"
+          value={formData.contact}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="9876543210"
+          error={errors.contact}
+          touched={touched.contact}
+          autoComplete="tel"
+        />
+      </div>
 
       {/* Password with Strength Indicator */}
-      <div className="relative group">
+      <div className="relative group animate-reveal" style={{ animationDelay: "540ms" }}>
         <FormInput
           label="Password"
           id="password"
@@ -222,32 +231,34 @@ const RegisterForm = () => {
       </div>
 
       {/* Confirm Password */}
-      <FormInput
-        label="Confirm Password"
-        id="confirmPassword"
-        name="confirmPassword"
-        type="password"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="••••••••"
-        error={errors.confirmPassword}
-        touched={touched.confirmPassword}
-        autoComplete="new-password"
-      />
+      <div className="animate-reveal" style={{ animationDelay: "600ms" }}>
+        <FormInput
+          label="Confirm Password"
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="••••••••"
+          error={errors.confirmPassword}
+          touched={touched.confirmPassword}
+          autoComplete="new-password"
+        />
+      </div>
 
       {/* Submit Button */}
-      <div className="space-y-3">
+      <div className="space-y-3 animate-reveal" style={{ animationDelay: "660ms" }}>
         <SubmitButton loading={loading} disabled={isSubmitDisabled}>
           Create Account
         </SubmitButton>
-        <p className="text-center text-[9px] tracking-[0.2em] text-charcoal-500 uppercase">
-          Trusted by premium buyers and fashion sellers.
-        </p>
+        <AuthTrustBadges />
       </div>
 
       {/* Google Sign-In & Divider */}
-      <SocialAuthSection parentLoading={loading} />
+      <div className="animate-reveal" style={{ animationDelay: "720ms" }}>
+        <SocialAuthSection parentLoading={loading} />
+      </div>
     </form>
   );
 };

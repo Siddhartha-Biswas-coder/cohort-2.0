@@ -1,13 +1,13 @@
 import React from "react";
 
-const FashionCampaignPanel = ({ src, tagline, title }) => {
+const FashionCampaignPanel = ({ src, tagline, title, className = "" }) => {
   return (
-    <div className="w-full md:w-1/2 h-72 md:h-auto min-h-72 md:min-h-150 relative overflow-hidden group">
+    <div className={`w-full md:w-[50%] h-72 md:h-auto min-h-72 md:min-h-150 relative overflow-hidden group ${className}`}>
       {/* Main Campaign Image */}
       <img
         src={src}
         alt="LUMIÈRE Editorial Campaign"
-        className="w-full h-full object-cover filter grayscale-100 brightness-[0.9] group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1400 ease-in-out transform scale-100 group-hover:scale-[1.02]"
+        className="w-full h-full object-cover filter grayscale-100 brightness-[0.9] group-hover:grayscale-0 group-hover:brightness-100 premium-image-zoom animate-image-reveal"
       />
 
       {/* Soft dark gradient transition visual bridge */}
@@ -28,12 +28,18 @@ const FashionCampaignPanel = ({ src, tagline, title }) => {
 
       {/* Campaign Copy Overlay */}
       <div className="absolute bottom-10 left-8 right-8 text-left max-w-sm pointer-events-none z-20 select-none">
-        <h2 className="font-display text-2xl md:text-3xl font-light text-charcoal-200 tracking-wider uppercase leading-[1.2] mb-3">
+        <h2 
+          className="font-display text-2xl md:text-3xl font-light text-charcoal-200 tracking-wider uppercase leading-[1.2] mb-3 animate-reveal"
+          style={{ animationDelay: "80ms" }}
+        >
           Bespoke <span className="text-gold-400 font-normal">Craftsmanship.</span>
           <br />
           Timeless <span className="text-gold-400 font-normal">Aesthetics.</span>
         </h2>
-        <p className="text-[10px] md:text-xs text-charcoal-400 font-sans tracking-widest uppercase leading-relaxed">
+        <p 
+          className="text-[10px] md:text-xs text-charcoal-400 font-sans tracking-widest uppercase leading-relaxed animate-reveal"
+          style={{ animationDelay: "160ms" }}
+        >
           {title}
         </p>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import ImageCarousel from "../shared/ImageCarousel.jsx";
 
-const HomeProductCard = ({ product }) => {
+const HomeProductCard = ({ product, index = 0, isParentRevealed = true }) => {
   const { title, description, price, images = [] } = product;
 
   const displayPrice = price?.amount
@@ -9,12 +9,17 @@ const HomeProductCard = ({ product }) => {
     : "0.00";
 
   return (
-    <article className="bg-charcoal-900 border border-charcoal-800 rounded-lg overflow-hidden flex flex-col select-none group transition-all duration-500 hover:border-charcoal-700/60 hover:shadow-card-glow h-full">
+    <article 
+      className={`bg-charcoal-900 border border-charcoal-800 rounded-lg overflow-hidden flex flex-col select-none group premium-card-hover h-full ${
+        isParentRevealed ? "animate-reveal" : "opacity-0"
+      }`}
+      style={{ animationDelay: `${300 + index * 50}ms` }}
+    >
       {/* Image Panel */}
       <ImageCarousel
         images={images}
         title={title}
-        imageClassName="w-full h-full object-cover filter grayscale-20 brightness-95 group-hover:grayscale-0 group-hover:scale-[1.03] transition-[filter] duration-1000 ease-out"
+        imageClassName="w-full h-full object-cover filter grayscale-20 brightness-95 group-hover:grayscale-0 premium-image-zoom"
         arrowHoverOnly={true}
       >
         {/* Top-bottom edge blending */}
