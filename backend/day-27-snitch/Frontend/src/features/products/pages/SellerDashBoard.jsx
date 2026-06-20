@@ -54,10 +54,7 @@ const SellerDashBoard = () => {
   };
 
   const handleView = (product) => {
-    showToast(
-      "Maison Catalog",
-      `Viewing details for item "${product.title}" (ID: ${product.productId.substring(0, 8)}).`
-    );
+    navigate(`/seller/product/${product.productId}`);
   };
 
   const handleEdit = (product) => {
@@ -163,8 +160,6 @@ const SellerDashBoard = () => {
         <ListingGrid
           products={filteredProducts}
           onView={handleView}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
         />
       ) : (
         <EmptyListings />

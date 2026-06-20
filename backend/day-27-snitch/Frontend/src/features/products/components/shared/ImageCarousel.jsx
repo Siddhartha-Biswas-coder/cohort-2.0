@@ -42,7 +42,7 @@ const ImageCarousel = ({
   const arrowOpacityClass = arrowHoverOnly ? "opacity-0 group-hover:opacity-100" : "opacity-100";
 
   return (
-    <div className={`aspect-3/4 w-full bg-charcoal-950 relative overflow-hidden ${containerClassName}`}>
+    <div className={`aspect-3/4 w-full bg-charcoal-950 relative overflow-hidden group/image ${containerClassName}`}>
       {/* Slide animation keyframes */}
       <style>{`
         @keyframes slideInFromRight {
