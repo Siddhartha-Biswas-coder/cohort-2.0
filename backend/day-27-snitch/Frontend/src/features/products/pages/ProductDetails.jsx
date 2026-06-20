@@ -70,9 +70,7 @@ const ProductDetails = () => {
   // Filter recommendations (exclude current product and slice to first 3 items)
   const recommendations = useMemo(() => {
     if (!allProducts || allProducts.length === 0) return [];
-    return allProducts
-      .filter((p) => p.productId !== productId)
-      .slice(0, 3);
+    return allProducts.filter((p) => p.productId !== productId).slice(0, 3);
   }, [allProducts, productId]);
 
   // Loading State Renderer
@@ -104,7 +102,8 @@ const ProductDetails = () => {
             Listing Not Found
           </h1>
           <p className="font-sans text-sm text-charcoal-400 font-light max-w-sm mb-10 leading-relaxed">
-            The exclusive vintage piece you are looking for has been archived, sold, or does not exist.
+            The exclusive vintage piece you are looking for has been archived,
+            sold, or does not exist.
           </p>
           <button
             type="button"
@@ -127,9 +126,8 @@ const ProductDetails = () => {
       <HomeNavbar />
 
       {/* Main Luxury Canvas layout */}
-      <main className="pt-24 md:pt-28 pb-16 max-w-350 mx-auto px-6 md:px-12 w-full grow">
+      <main className="pt-24 md:pt-28 pb-16 max-w-275 mx-auto px-6 md:px-12 w-full grow">
         <div className="grid grid-cols-1 lg:grid-cols-[53%_1fr] gap-12 lg:gap-20">
-          
           {/* Left Column: Media Gallery */}
           <div className="animate-reveal" style={{ animationDelay: "100ms" }}>
             <ProductGallery
@@ -139,7 +137,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Right Column: Sticky Product Info panel */}
-          <div 
+          <div
             className="flex flex-col relative lg:sticky lg:top-28 h-fit pt-2 animate-reveal"
             style={{ animationDelay: "200ms" }}
           >
@@ -157,13 +155,13 @@ const ProductDetails = () => {
               onAddToCart={() =>
                 triggerToast(
                   "Shopping Bag",
-                  `"${productDetails.title}" has been added to your bag.`
+                  `"${productDetails.title}" has been added to your bag.`,
                 )
               }
               onBuyNow={() =>
                 triggerToast(
                   "Immediate Checkout",
-                  `Proceeding to checkout for "${productDetails.title}".`
+                  `Proceeding to checkout for "${productDetails.title}".`,
                 )
               }
             />
