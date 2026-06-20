@@ -9,6 +9,7 @@ const ListingFilters = ({
   sortBy,
   setSortBy,
   currencies = [],
+  placeholder = "SEARCH COLLECTIONS BY TITLE...",
 }) => {
   return (
     <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 pb-8 border-b border-charcoal-900/60 select-none">
@@ -23,7 +24,7 @@ const ListingFilters = ({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="SEARCH COLLECTIONS BY TITLE..."
+          placeholder={placeholder}
           className="w-full h-10 pl-11 pr-4 bg-charcoal-950/20 border border-charcoal-800 rounded-lg text-charcoal-200 placeholder:text-charcoal-600/80 font-sans text-xs tracking-wider focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-500/20 transition-all"
         />
       </div>
