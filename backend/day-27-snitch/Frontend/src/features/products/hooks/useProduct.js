@@ -3,6 +3,7 @@ import {
   createProduct,
   getSellerProducts,
   getAllProducts,
+  getProductDetailsById,
 } from "../services/product.api.js";
 import { setSellerProduct, setAllProducts } from "../state/product.slice.js";
 
@@ -24,9 +25,15 @@ export const useProduct = () => {
     dispatch(setAllProducts(data.data.products));
   }
 
+  async function handleGetProductDetailsById(productId) {
+    const data = await getProductDetailsById(productId);
+    return data.data.product;
+  }
+
   return {
     handleCreateProduct,
     handleGetSellerProducts,
     handleGetAllProducts,
+    handleGetProductDetailsById,
   };
 };

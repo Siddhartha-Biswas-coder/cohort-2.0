@@ -9,7 +9,7 @@ import React from "react";
  */
 const Toast = ({ title, message, icon }) => {
   return (
-    <div className="fixed top-6 right-6 z-50 p-4 bg-charcoal-900 border border-gold-400 text-gold-50 shadow-gold-glow flex items-center gap-3 animate-error-fade-in-up">
+    <div className="fixed top-24 right-6 z-9999 p-4 bg-charcoal-900 border border-gold-400 text-gold-50 shadow-gold-glow flex items-center gap-3 animate-error-fade-in-up">
       {icon || (
         <svg className="w-5 h-5 text-gold-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

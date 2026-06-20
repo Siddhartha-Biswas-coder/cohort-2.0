@@ -1,5 +1,6 @@
 import React from "react";
 import { useScrollReveal } from "../../hooks/useScrollReveal.js";
+import { useNavigate } from "react-router";
 
 const FeaturedCollection = ({ products = [] }) => {
   if (products.length === 0) return null;
@@ -7,10 +8,12 @@ const FeaturedCollection = ({ products = [] }) => {
   const [revealRef, isRevealed] = useScrollReveal();
   const featured = products.slice(0, 3);
 
+  const navigate = useNavigate();
+
   return (
-    <section 
+    <section
       ref={revealRef}
-      id="featured" 
+      id="featured"
       className={`px-8 md:px-16 py-20 md:py-28 max-w-[1600px] mx-auto scroll-reveal ${
         isRevealed ? "scroll-reveal-active" : ""
       }`}
@@ -34,7 +37,9 @@ const FeaturedCollection = ({ products = [] }) => {
         {featured.map((product, index) => {
           const imageUrl = product.images?.[0]?.url;
           const displayPrice = product.price?.amount
-            ? parseFloat(product.price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
+            ? parseFloat(product.price.amount).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+              })
             : "0.00";
 
           return (
@@ -46,7 +51,10 @@ const FeaturedCollection = ({ products = [] }) => {
               style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Image */}
-              <div className="aspect-3/4 w-full bg-charcoal-900 relative overflow-hidden">
+              <div
+                className="aspect-3/4 w-full bg-charcoal-900 relative overflow-hidden"
+                onClick={() => navigate(`/product/${product.productId}`)}
+              >
                 {imageUrl ? (
                   <img
                     src={imageUrl}
@@ -55,8 +63,18 @@ const FeaturedCollection = ({ products = [] }) => {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-charcoal-950">
-                    <svg className="w-8 h-8 text-charcoal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <svg
+                      className="w-8 h-8 text-charcoal-700"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
                     </svg>
                   </div>
                 )}

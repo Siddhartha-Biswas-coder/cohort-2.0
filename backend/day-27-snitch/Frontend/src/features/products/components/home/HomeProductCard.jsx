@@ -1,15 +1,19 @@
 import React from "react";
 import ImageCarousel from "../shared/ImageCarousel.jsx";
+import { useNavigate } from "react-router";
 
 const HomeProductCard = ({ product, index = 0, isParentRevealed = true }) => {
+  const navigate = useNavigate();
   const { title, description, price, images = [] } = product;
 
   const displayPrice = price?.amount
-    ? parseFloat(price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
+    ? parseFloat(price.amount).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+      })
     : "0.00";
 
   return (
-    <article 
+    <article
       className={`bg-charcoal-900 border border-charcoal-800 rounded-lg overflow-hidden flex flex-col select-none group premium-card-hover h-full ${
         isParentRevealed ? "animate-reveal" : "opacity-0"
       }`}
@@ -27,7 +31,10 @@ const HomeProductCard = ({ product, index = 0, isParentRevealed = true }) => {
 
         {/* View Product hover overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-charcoal-950/0 group-hover:bg-charcoal-950/30 transition-all duration-500 z-5">
-          <span className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
+          <span
+            className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0 cursor-pointer"
+            onClick={() => navigate(`/product/${product.productId}`)}
+          >
             View Product
           </span>
         </div>

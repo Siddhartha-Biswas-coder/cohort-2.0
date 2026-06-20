@@ -1,3 +1,4 @@
+import ApiError from "../errors/ApiError.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import productModel from "../models/product.model.js";
 import { uploadFile } from "../services/imageStorage.service.js";
@@ -87,4 +88,25 @@ export const getAllProductsController = asyncHandler(async(req,res) => {
       "Products fetched successfully",
     ),
   )
+})
+
+export const getProductDetailsById = asyncHandler(async(req,res) => {
+  const {id} = req.params;
+
+  const product = await productModel.findById(id)
+
+  if(!product){
+    throw new ApiError(404,"Product not found")
+  }
+
+  return res.status(200).json(new ApiResponse(200,{
+    product: {
+      productId : product._id,
+      seller: product.seller,
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      images: product.images,
+    }
+  },"Product details fetched successfully"))
 })

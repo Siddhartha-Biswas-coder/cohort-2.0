@@ -3,6 +3,7 @@ import { authenticateSeller } from "../middlewares/auth.middleware.js";
 import {
   createProduct,
   getAllProductsController,
+  getProductDetailsById,
   getSellerProducts,
 } from "../controllers/product.controller.js";
 import { upload } from "../services/imageStorage.service.js";
@@ -51,5 +52,15 @@ productRouter.get("/seller-products", authenticateSeller, getSellerProducts);
  */
 
 productRouter.get("/all-products", getAllProductsController);
+
+/**
+ * Get request to fetch the product by id
+ * @route Get /api/products/:id
+ * @method GET
+ * @access public
+ * @controller getProductByIdController
+ */
+
+productRouter.get("/:id", getProductDetailsById);
 
 export default productRouter;
