@@ -6,7 +6,8 @@ const VariantPriceEditor = ({
   priceCurrency = "INR",
   onPriceAmountChange,
   onPriceCurrencyChange,
-  error
+  error,
+  parentPrice
 }) => {
   const currentSymbol = CURRENCIES.find(c => c.code === priceCurrency)?.symbol || "₹";
 
@@ -25,7 +26,7 @@ const VariantPriceEditor = ({
             type="number"
             value={priceAmount || ""}
             onChange={(e) => onPriceAmountChange(e.target.value)}
-            placeholder="Valuation override"
+            placeholder={parentPrice?.amount ? `${parentPrice.amount} (Parent Product Price)` : "Valuation override"}
             step="0.01"
             min="0"
             className={`w-full bg-transparent border-b pl-5 py-2 text-xs text-gold-50 placeholder-charcoal-600 transition-all duration-300 focus:outline-none ${

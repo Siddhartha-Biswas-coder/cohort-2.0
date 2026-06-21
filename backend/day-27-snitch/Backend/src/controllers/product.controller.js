@@ -94,9 +94,9 @@ export const getAllProductsController = asyncHandler(async (req, res) => {
 });
 
 export const getProductDetailsById = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { productId } = req.params;
 
-  const product = await productModel.findById(id);
+  const product = await productModel.findById(productId);
 
   if (!product) {
     throw new ApiError(404, "Product not found");
@@ -117,6 +117,70 @@ export const getProductDetailsById = asyncHandler(async (req, res) => {
         },
       },
       "Product details fetched successfully",
+    ),
+  );
+});
+
+export const addProductVarientController = asyncHandler(async (req, res) => {
+  const sellerId = req.user._id;
+  const { productId } = req.params;
+
+  const product = await productModel.findOne({
+    _id: productId,
+    seller: sellerId,
+  });
+
+  if (!product) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  const files = req.files;
+  const images = [];
+  if (files || files.length !== 0) {
+    (
+      await Promise.all(
+        files.map(async (file) => {
+          const image = await uploadFile({
+            buffer: file.buffer,
+            fileName: file.originalname,
+          });
+          return image;
+        }),
+      )
+    ).map((image) => images.push(image));
+  }
+
+  const price = req.body.priceAmount;
+  const stock = req.body.stock;
+  const attributes = JSON.parse(req.body.attributes || "{}");
+
+  product.varients.push({
+    images,
+    price: {
+      amount: price,
+      currency: req.body.priceCurrency || product.price.currency,
+    },
+    stock,
+    attributes,
+  });
+
+  await product.save();
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        product: {
+          productId: product._id,
+          seller: product.seller,
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          images: product.images,
+          varients: product.varients,
+        },
+      },
+      "ProductVarient added successfully",
     ),
   );
 });

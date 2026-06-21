@@ -19,7 +19,7 @@ import DangerZone from "../components/seller-product/DangerZone.jsx";
 const SellerProductManagementPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { handleGetProductDetailsById } = useProduct();
+  const { handleGetProductDetailsById, handleAddProductVarient } = useProduct();
 
   // Primary States
   const [productDetails, setProductDetails] = useState(null);
@@ -135,14 +135,18 @@ const SellerProductManagementPage = () => {
   const saveProductDetails = () => {
     const errors = {};
     if (!formData.title.trim()) errors.title = "Listing title is required.";
-    if (!formData.description.trim()) errors.description = "Listing narrative is required.";
+    if (!formData.description.trim())
+      errors.description = "Listing narrative is required.";
     if (!formData.priceAmount || parseFloat(formData.priceAmount) <= 0) {
       errors.priceAmount = "Valuation amount must be greater than zero.";
     }
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
-      triggerToast("Validation Alert", "Please check and complete required inputs.");
+      triggerToast(
+        "Validation Alert",
+        "Please check and complete required inputs.",
+      );
       return;
     }
 
@@ -157,7 +161,10 @@ const SellerProductManagementPage = () => {
     }));
 
     setIsEditing(false);
-    triggerToast("Listing Saved", "Core product specifications have been updated.");
+    triggerToast(
+      "Listing Saved",
+      "Core product specifications have been updated.",
+    );
   };
 
   const discardProductDetails = () => {
@@ -174,24 +181,42 @@ const SellerProductManagementPage = () => {
     }));
     triggerToast(
       "Status Transitioned",
-      `Visibility state has been set to ${newStatus.toUpperCase()}.`
+      `Visibility state has been set to ${newStatus.toUpperCase()}.`,
     );
   };
 
   // Variant Actions
-  const handleAddVariant = (newVariant) => {
-    const currentVariants = productDetails.variants || productDetails.varients || [];
-    const updated = [...currentVariants, newVariant];
-    setProductDetails((prev) => ({
-      ...prev,
-      variants: updated,
-      varients: updated,
-    }));
-    triggerToast("SKU Added", "New variant profile has been registered.");
+  const handleAddVariant = async (newVariant) => {
+    try {
+      const addedVariant = await handleAddProductVarient(productId, newVariant);
+
+      const currentVariants =
+        productDetails.variants || productDetails.varients || [];
+
+      console.log(currentVariants);
+
+      // Check if hook returned the full list of variants (array) or a single variant object
+      const updated = Array.isArray(addedVariant)
+        ? addedVariant
+        : [...currentVariants, addedVariant || newVariant];
+
+      setProductDetails((prev) => ({
+        ...prev,
+        variants: updated,
+        varients: updated,
+      }));
+
+      console.log(updated);
+      triggerToast("SKU Added", "New variant profile has been registered.");
+    } catch (err) {
+      console.error("Error registering variant profile:", err);
+      triggerToast("SKU Add Failed", "Could not register variant profile.");
+    }
   };
 
   const handleEditVariant = (updatedVariant, index) => {
-    const currentVariants = productDetails.variants || productDetails.varients || [];
+    const currentVariants =
+      productDetails.variants || productDetails.varients || [];
     const updated = [...currentVariants];
     updated[index] = updatedVariant;
     setProductDetails((prev) => ({
@@ -199,11 +224,15 @@ const SellerProductManagementPage = () => {
       variants: updated,
       varients: updated,
     }));
-    triggerToast("SKU Updated", "Variant configuration details updated successfully.");
+    triggerToast(
+      "SKU Updated",
+      "Variant configuration details updated successfully.",
+    );
   };
 
   const handleDeleteVariant = (index) => {
-    const currentVariants = productDetails.variants || productDetails.varients || [];
+    const currentVariants =
+      productDetails.variants || productDetails.varients || [];
     const updated = currentVariants.filter((_, idx) => idx !== index);
     setProductDetails((prev) => ({
       ...prev,
@@ -269,7 +298,8 @@ const SellerProductManagementPage = () => {
             Studio Listing Not Found
           </h1>
           <p className="font-sans text-xs text-charcoal-400 font-light max-w-sm mb-10 leading-relaxed">
-            We couldn't load the requested listing. Verify that the product ID is correct.
+            We couldn't load the requested listing. Verify that the product ID
+            is correct.
           </p>
           <button
             type="button"
@@ -284,8 +314,11 @@ const SellerProductManagementPage = () => {
   }
 
   // Price overrides selector helper
-  const activeVariants = productDetails.variants || productDetails.varients || [];
-  const pricingOverrides = activeVariants.filter((v) => v.price && v.price.amount);
+  const activeVariants =
+    productDetails.variants || productDetails.varients || [];
+  const pricingOverrides = activeVariants.filter(
+    (v) => v.price && v.price.amount,
+  );
 
   // Mobile Bottom Tray Actions
   const mobileActions = isEditing ? (
@@ -342,7 +375,6 @@ const SellerProductManagementPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Left Column: Form Sheets & Component Panels */}
         <div className="lg:col-span-8 space-y-10">
-          
           {/* Section 1: Overview */}
           <div id="overview" className="scroll-mt-28">
             {isEditing ? (
@@ -374,6 +406,7 @@ const SellerProductManagementPage = () => {
               onAddVariant={handleAddVariant}
               onEditVariant={handleEditVariant}
               onDeleteVariant={handleDeleteVariant}
+              parentPrice={productDetails.price}
             />
           </div>
 
@@ -392,10 +425,7 @@ const SellerProductManagementPage = () => {
             />
 
             {/* Danger Zone */}
-            <DangerZone
-              status={status}
-              onStatusChange={handleStatusChange}
-            />
+            <DangerZone status={status} onStatusChange={handleStatusChange} />
           </div>
         </div>
 

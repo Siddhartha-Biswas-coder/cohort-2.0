@@ -46,7 +46,7 @@ const DeleteConfirmationModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 h-11 border border-charcoal-800 hover:border-charcoal-600 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-400 hover:text-charcoal-350 transition-all cursor-pointer"
+            className="flex-1 h-11 border border-charcoal-700 dark:border-charcoal-800 hover:border-charcoal-500 dark:hover:border-charcoal-600 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-400 hover:text-charcoal-300 dark:hover:text-charcoal-200 transition-all cursor-pointer"
           >
             Cancel
           </button>
@@ -56,7 +56,7 @@ const DeleteConfirmationModal = ({
               onConfirm();
               onClose();
             }}
-            className="flex-1 h-11 bg-red-650 hover:bg-red-550 text-white font-display text-[10px] font-bold uppercase tracking-widest text-center hover:shadow-[0_0_15px_rgba(239,68,68,0.25)] transition-all cursor-pointer"
+            className="flex-1 h-11 bg-red-600 hover:bg-red-500 text-white font-display text-[10px] font-bold uppercase tracking-widest text-center hover:shadow-[0_0_15px_rgba(239,68,68,0.25)] transition-all cursor-pointer"
           >
             Delete
           </button>

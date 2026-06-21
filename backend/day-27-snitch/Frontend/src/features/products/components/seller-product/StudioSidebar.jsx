@@ -61,7 +61,7 @@ const StudioSidebar = ({ activeSection = "overview", onSectionClick }) => {
         <button
           type="button"
           onClick={() => navigate("/seller/dashboard")}
-          className="flex items-center text-[9px] font-display font-semibold uppercase tracking-[0.2em] text-charcoal-500 hover:text-gold-400 transition-colors cursor-pointer w-fit"
+          className="flex items-center text-[9px] font-display font-semibold uppercase tracking-[0.2em] text-charcoal-500 hover:text-gold-600 dark:hover:text-gold-400 transition-colors cursor-pointer w-fit"
         >
           <svg className="w-3.5 h-3.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -110,8 +110,8 @@ const StudioSidebar = ({ activeSection = "overview", onSectionClick }) => {
                   onClick={() => onSectionClick?.(item.id)}
                   className={`w-full flex items-center px-6 py-3 text-[10px] font-display font-semibold uppercase tracking-widest transition-all cursor-pointer ${
                     isActive
-                      ? "text-gold-400 border-r-2 border-gold-400 bg-charcoal-950/30"
-                      : "text-charcoal-500 hover:text-gold-400 hover:bg-charcoal-950/40"
+                      ? "text-gold-600 dark:text-gold-400 border-r-2 border-gold-600 dark:border-gold-400 bg-charcoal-950/30"
+                      : "text-charcoal-500 hover:text-gold-600 dark:hover:text-gold-400 hover:bg-charcoal-950/40"
                   }`}
                 >
                   {item.icon}
@@ -128,7 +128,7 @@ const StudioSidebar = ({ activeSection = "overview", onSectionClick }) => {
         <button
           type="button"
           onClick={() => navigate("/login")}
-          className="w-full flex items-center px-2 py-2 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-500 hover:text-red-400 transition-colors cursor-pointer"
+          className="w-full flex items-center px-2 py-2 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-500 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
         >
           <svg
             className="w-4 h-4 mr-3"

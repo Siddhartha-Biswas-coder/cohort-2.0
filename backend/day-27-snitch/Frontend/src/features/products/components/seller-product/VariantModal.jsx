@@ -10,7 +10,8 @@ const VariantModal = ({
   onSave,
   editingVariant,
   editingIndex,
-  productImages = []
+  productImages = [],
+  parentPrice
 }) => {
   const [attributesList, setAttributesList] = useState([]);
   const [stock, setStock] = useState(10);
@@ -40,19 +41,24 @@ const VariantModal = ({
 
       setAttributesList(mappedAttrs.length > 0 ? mappedAttrs : [{ key: "Color", value: "", isCustom: false, customKey: "" }]);
       setStock(editingVariant.stock ?? 10);
-      setPriceAmount(editingVariant.price?.amount ?? "");
-      setPriceCurrency(editingVariant.price?.currency ?? "INR");
+      
+      const isInherited = parentPrice && 
+        parseFloat(editingVariant.price?.amount) === parseFloat(parentPrice.amount) &&
+        editingVariant.price?.currency === parentPrice.currency;
+
+      setPriceAmount(isInherited ? "" : (editingVariant.price?.amount ?? ""));
+      setPriceCurrency(editingVariant.price?.currency ?? parentPrice?.currency ?? "INR");
       setSelectedImages(editingVariant.images || []);
     } else {
       // Set defaults for new variant
       setAttributesList([{ key: "Color", value: "", isCustom: false, customKey: "" }]);
       setStock(10);
       setPriceAmount("");
-      setPriceCurrency("INR");
+      setPriceCurrency(parentPrice?.currency ?? "INR");
       setSelectedImages([]);
     }
     setErrors({});
-  }, [editingVariant, isOpen]);
+  }, [editingVariant, isOpen, parentPrice]);
 
   if (!isOpen) return null;
 
@@ -117,7 +123,7 @@ const VariantModal = ({
       stock: parseInt(stock, 10),
       price: priceAmount
         ? { amount: parseFloat(priceAmount), currency: priceCurrency }
-        : null,
+        : (parentPrice ? { amount: parseFloat(parentPrice.amount), currency: parentPrice.currency } : null),
       images: selectedImages
     };
 
@@ -177,6 +183,7 @@ const VariantModal = ({
               onPriceAmountChange={setPriceAmount}
               onPriceCurrencyChange={setPriceCurrency}
               error={errors.price}
+              parentPrice={parentPrice}
             />
 
             {/* Stock Allocation */}
@@ -209,7 +216,7 @@ const VariantModal = ({
             selectedImages={selectedImages}
             productImages={productImages}
             onAddImageFromLibrary={handleAddImageFromLibrary}
-            onUploadImage={(url) => setSelectedImages([...selectedImages, { url }])}
+            onUploadImage={(url, file) => setSelectedImages([...selectedImages, { url, file }])}
             onRemoveImage={handleRemoveImage}
           />
 
@@ -218,13 +225,13 @@ const VariantModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="h-11 px-6 border border-charcoal-800 hover:border-charcoal-600 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-500 hover:text-charcoal-350 transition-colors cursor-pointer w-auto"
+              className="h-11 px-6 border border-charcoal-700 dark:border-charcoal-800 hover:border-charcoal-500 dark:hover:border-charcoal-600 text-[10px] font-display font-semibold uppercase tracking-widest text-charcoal-400 hover:text-charcoal-300 dark:hover:text-charcoal-200 transition-colors cursor-pointer w-auto"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="h-11 px-6 bg-gold-400 text-charcoal-950 font-display text-[10px] font-bold uppercase tracking-widest text-center hover:bg-gold-500 hover:shadow-gold-glow transition-all duration-300 cursor-pointer w-auto"
+              className="h-11 px-6 bg-gold-400 text-charcoal-200 dark:text-charcoal-950 font-display text-[10px] font-bold uppercase tracking-widest text-center hover:bg-gold-500 hover:shadow-gold-glow transition-all duration-300 cursor-pointer w-auto"
             >
               {editingVariant ? "Save Variant" : "Create Variant"}
             </button>

@@ -2,6 +2,21 @@ import React from "react";
 
 const PRESET_KEYS = ["Color", "Size", "Material", "Edition"];
 
+const getPlaceholder = (key) => {
+  switch (key) {
+    case "Color":
+      return "e.g. Matte Black";
+    case "Size":
+      return "e.g. Large";
+    case "Material":
+      return "e.g. Suede Leather";
+    case "Edition":
+      return "e.g. Limited Edition";
+    default:
+      return "Enter value...";
+  }
+};
+
 const VariantAttributes = ({
   attributesList = [],
   onChange,
@@ -44,7 +59,7 @@ const VariantAttributes = ({
         <button
           type="button"
           onClick={addAttributeRow}
-          className="text-[9px] font-display font-semibold uppercase tracking-widest text-gold-400 hover:text-gold-500 transition-colors flex items-center gap-1 cursor-pointer"
+          className="text-[9px] font-display font-semibold uppercase tracking-widest text-gold-600 dark:text-gold-400 hover:text-gold-700 dark:hover:text-gold-300 transition-colors flex items-center gap-1 cursor-pointer"
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
@@ -107,7 +122,7 @@ const VariantAttributes = ({
                   type="text"
                   value={row.value || ""}
                   onChange={(e) => handleRowChange(idx, "value", e.target.value)}
-                  placeholder="e.g. Matte Black"
+                  placeholder={getPlaceholder(row.key)}
                   className="w-full bg-transparent border-b border-charcoal-800 py-1.5 text-xs text-gold-50 placeholder-charcoal-600 focus:outline-none focus:border-gold-400 transition-all"
                 />
               </div>
@@ -116,7 +131,7 @@ const VariantAttributes = ({
               <button
                 type="button"
                 onClick={() => removeAttributeRow(idx)}
-                className="absolute top-2 right-2 sm:static sm:self-end sm:mb-1.5 p-1 rounded-sm text-charcoal-600 hover:text-red-400 transition-colors cursor-pointer"
+                className="absolute top-2 right-2 sm:static sm:self-end sm:mb-1.5 p-1 rounded-sm text-charcoal-600 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
                 title="Remove dimension"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -9,6 +9,7 @@ const VariantManager = ({
   onAddVariant,
   onEditVariant,
   onDeleteVariant,
+  parentPrice,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingVariant, setEditingVariant] = useState(null);
@@ -66,7 +67,7 @@ const VariantManager = ({
         <button
           type="button"
           onClick={openAddModal}
-          className="px-4 py-2 border border-gold-400/80 hover:bg-gold-400 hover:text-charcoal-950 text-gold-400 font-display text-[10px] font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center gap-1.5"
+          className="px-4 py-2 border border-gold-600/80 dark:border-gold-400/80 hover:bg-gold-400 hover:text-charcoal-200 dark:hover:text-charcoal-950 text-gold-600 dark:text-gold-400 font-display text-[10px] font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center gap-1.5"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -85,6 +86,8 @@ const VariantManager = ({
               index={idx}
               onEdit={openEditModal}
               onDelete={handleDeleteTrigger}
+              parentPrice={parentPrice}
+              fallbackImage={productImages[0]?.url}
             />
           ))}
         </div>
@@ -107,7 +110,7 @@ const VariantManager = ({
           <button
             type="button"
             onClick={openAddModal}
-            className="px-5 py-2.5 bg-charcoal-950 text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest transition-all duration-200 border border-gold-400/30 cursor-pointer"
+            className="px-5 py-2.5 bg-charcoal-950 text-gold-600 dark:text-gold-400 hover:bg-gold-400 hover:text-charcoal-200 dark:hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest transition-all duration-200 border border-gold-600/30 dark:border-gold-400/30 cursor-pointer"
           >
             Create First Variant
           </button>
@@ -122,6 +125,7 @@ const VariantManager = ({
         editingVariant={editingVariant}
         editingIndex={editingIndex}
         productImages={productImages}
+        parentPrice={parentPrice}
       />
 
       {/* Delete Confirmation Overlay */}

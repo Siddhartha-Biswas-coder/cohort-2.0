@@ -38,7 +38,7 @@ const GalleryImageCard = ({
             Asset {index + 1}
           </span>
           {index === 0 && (
-            <span className="bg-gold-400 text-charcoal-950 px-1.5 py-0.5 rounded-xs text-[7px] font-display font-bold uppercase tracking-wider">
+            <span className="bg-gold-400 text-charcoal-200 dark:text-charcoal-950 px-1.5 py-0.5 rounded-xs text-[7px] font-display font-bold uppercase tracking-wider">
               Cover
             </span>
           )}
@@ -48,14 +48,14 @@ const GalleryImageCard = ({
           <button
             type="button"
             onClick={() => replaceInputRef.current?.click()}
-            className="w-full py-1.5 bg-charcoal-900 text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 font-display text-[8px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-400/20 cursor-pointer"
+            className="w-full py-1.5 bg-charcoal-900 text-gold-600 dark:text-gold-400 hover:bg-gold-400 hover:text-charcoal-200 dark:hover:text-charcoal-950 font-display text-[8px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-400/20 cursor-pointer"
           >
             Replace
           </button>
           <button
             type="button"
             onClick={handleRemoveClick}
-            className="w-full py-1.5 bg-charcoal-950 text-red-400 hover:bg-red-500 hover:text-white font-display text-[8px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/20 cursor-pointer"
+            className="w-full py-1.5 bg-charcoal-950 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white font-display text-[8px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/20 cursor-pointer"
           >
             Remove
           </button>

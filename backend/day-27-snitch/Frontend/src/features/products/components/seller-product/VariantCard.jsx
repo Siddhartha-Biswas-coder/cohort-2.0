@@ -6,6 +6,7 @@ const VariantCard = ({
   onEdit,
   onDelete,
   fallbackImage,
+  parentPrice,
 }) => {
   // Extract attributes
   const attributes = variant.attributes 
@@ -24,7 +25,13 @@ const VariantCard = ({
   // Extract pricing info
   const displayPrice = variant.price?.amount
     ? parseFloat(variant.price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
-    : null;
+    : (parentPrice?.amount
+        ? parseFloat(parentPrice.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })
+        : null);
+
+  const displayCurrency = variant.price?.amount
+    ? (variant.price.currency || "INR")
+    : (parentPrice?.currency || "INR");
 
   // Extract images
   const variantImages = variant.images || [];
@@ -82,7 +89,7 @@ const VariantCard = ({
             </h4>
             {displayPrice && (
               <span className="font-display text-xs text-gold-400 font-medium tracking-tight shrink-0">
-                {variant.price?.currency || "INR"} {displayPrice}
+                {displayCurrency} {displayPrice}
               </span>
             )}
           </div>
@@ -107,14 +114,14 @@ const VariantCard = ({
           <button
             type="button"
             onClick={() => onEdit(variant, index)}
-            className="flex-1 py-1.5 bg-charcoal-950 text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-400/20 cursor-pointer"
+            className="flex-1 py-1.5 bg-charcoal-950 dark:bg-charcoal-950 text-gold-500 dark:text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 dark:hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-450/40 dark:border-gold-400/20 cursor-pointer"
           >
             Edit
           </button>
           <button
             type="button"
             onClick={() => onDelete(index)}
-            className="flex-1 py-1.5 bg-charcoal-950 text-red-400 hover:bg-red-500 hover:text-white font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/20 cursor-pointer"
+            className="flex-1 py-1.5 bg-charcoal-950 dark:bg-charcoal-950 text-red-500 dark:text-red-400 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white dark:hover:text-white font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/30 dark:border-red-500/20 cursor-pointer"
           >
             Delete
           </button>

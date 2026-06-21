@@ -4,6 +4,7 @@ import {
   getSellerProducts,
   getAllProducts,
   getProductDetailsById,
+  addProductVarient,
 } from "../services/product.api.js";
 import { setSellerProduct, setAllProducts } from "../state/product.slice.js";
 
@@ -29,11 +30,18 @@ export const useProduct = () => {
     const data = await getProductDetailsById(productId);
     return data.data.product;
   }
+  async function handleAddProductVarient(productId, newProductVarient) {
+    const data = await addProductVarient(productId, newProductVarient);
+
+    // Extract the variant object from response if it returns an array or nested structure
+    return data.data.product.varients;
+  }
 
   return {
     handleCreateProduct,
     handleGetSellerProducts,
     handleGetAllProducts,
     handleGetProductDetailsById,
+    handleAddProductVarient,
   };
 };

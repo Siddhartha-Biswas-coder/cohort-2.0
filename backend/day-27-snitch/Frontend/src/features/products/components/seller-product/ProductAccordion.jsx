@@ -26,10 +26,10 @@ const ProductAccordion = () => {
             onClick={() => toggleSection("info")}
             className="w-full flex justify-between items-center group cursor-pointer"
           >
-            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-400 transition-colors">
+            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
               Product Information
             </span>
-            <span className={`text-charcoal-500 group-hover:text-gold-400 transition-all duration-300 transform ${
+            <span className={`text-charcoal-500 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-all duration-300 transform ${
               activeSection === "info" ? "rotate-180" : ""
             }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,10 +56,10 @@ const ProductAccordion = () => {
             onClick={() => toggleSection("media")}
             className="w-full flex justify-between items-center group cursor-pointer"
           >
-            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-400 transition-colors">
+            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
               Media Gallery
             </span>
-            <span className={`text-charcoal-500 group-hover:text-gold-400 transition-all duration-300 transform ${
+            <span className={`text-charcoal-500 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-all duration-300 transform ${
               activeSection === "media" ? "rotate-180" : ""
             }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,10 +86,10 @@ const ProductAccordion = () => {
             onClick={() => toggleSection("variants")}
             className="w-full flex justify-between items-center group cursor-pointer"
           >
-            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-400 transition-colors">
+            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
               Variants
             </span>
-            <span className={`text-charcoal-500 group-hover:text-gold-400 transition-all duration-300 transform ${
+            <span className={`text-charcoal-500 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-all duration-300 transform ${
               activeSection === "variants" ? "rotate-180" : ""
             }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,10 +116,10 @@ const ProductAccordion = () => {
             onClick={() => toggleSection("pricing")}
             className="w-full flex justify-between items-center group cursor-pointer"
           >
-            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-400 transition-colors">
+            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
               Pricing
             </span>
-            <span className={`text-charcoal-500 group-hover:text-gold-400 transition-all duration-300 transform ${
+            <span className={`text-charcoal-500 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-all duration-300 transform ${
               activeSection === "pricing" ? "rotate-180" : ""
             }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -146,10 +146,10 @@ const ProductAccordion = () => {
             onClick={() => toggleSection("settings")}
             className="w-full flex justify-between items-center group cursor-pointer"
           >
-            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-400 transition-colors">
+            <span className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal-200 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
               Listing Settings
             </span>
-            <span className={`text-charcoal-500 group-hover:text-gold-400 transition-all duration-300 transform ${
+            <span className={`text-charcoal-500 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-all duration-300 transform ${
               activeSection === "settings" ? "rotate-180" : ""
             }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

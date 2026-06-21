@@ -5,6 +5,7 @@ import {
   getAllProductsController,
   getProductDetailsById,
   getSellerProducts,
+  addProductVarientController,
 } from "../controllers/product.controller.js";
 import { upload } from "../services/imageStorage.service.js";
 import { CreateProductValidator } from "../validators/product.validator.js";
@@ -61,6 +62,21 @@ productRouter.get("/all-products", getAllProductsController);
  * @controller getProductByIdController
  */
 
-productRouter.get("/:id", getProductDetailsById);
+productRouter.get("/details/:productId", getProductDetailsById);
+
+/**
+ * @route post /api/products/:productId/varients
+ * @description add new varients to a product
+ * @access Private (Seller only)
+ * @middleware authenticateSeller
+ * @controller addProductVarient
+ */
+
+productRouter.post(
+  "/:productId/varients",
+  authenticateSeller,
+  upload.array("images", 7),
+  addProductVarientController,
+);
 
 export default productRouter;

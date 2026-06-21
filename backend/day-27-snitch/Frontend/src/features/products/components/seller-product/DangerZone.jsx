@@ -28,7 +28,7 @@ const DangerZone = ({ status, onStatusChange }) => {
           className={`h-11 px-6 border font-display text-[10px] font-bold uppercase tracking-widest transition-all duration-200 w-auto ${
             status === "archived"
               ? "border-charcoal-800 text-charcoal-600 cursor-not-allowed bg-transparent"
-              : "bg-red-950/30 hover:bg-red-900/40 text-red-400 border-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.1)] cursor-pointer"
+              : "bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.05)] dark:hover:shadow-[0_0_15px_rgba(239,68,68,0.1)] cursor-pointer"
           }`}
         >
           Archive Listing

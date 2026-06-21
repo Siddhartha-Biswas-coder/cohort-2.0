@@ -27,7 +27,7 @@ const StudioHeader = ({
           <button
             type="button"
             onClick={onStartEditing}
-            className="h-11 px-6 bg-charcoal-900 border border-charcoal-800 text-gold-400 font-display text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 hover:text-charcoal-950 hover:border-gold-400 transition-all duration-300 cursor-pointer w-auto"
+            className="h-11 px-6 bg-charcoal-900 border border-charcoal-700 dark:border-charcoal-800 text-gold-600 dark:text-gold-400 font-display text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 hover:text-charcoal-200 dark:hover:text-charcoal-950 hover:border-gold-400 transition-all duration-300 cursor-pointer w-auto"
           >
             Edit Product
           </button>
@@ -36,14 +36,14 @@ const StudioHeader = ({
             <button
               type="button"
               onClick={onDiscardChanges}
-              className="h-11 px-6 border border-charcoal-800 hover:border-charcoal-600 text-charcoal-500 hover:text-charcoal-350 font-display text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer w-auto"
+              className="h-11 px-6 border border-charcoal-700 dark:border-charcoal-800 hover:border-charcoal-500 dark:hover:border-charcoal-600 text-charcoal-400 hover:text-charcoal-300 dark:hover:text-charcoal-200 font-display text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer w-auto"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={onSaveChanges}
-              className="h-11 px-6 bg-gold-400 text-charcoal-950 font-display text-[10px] font-bold uppercase tracking-widest hover:bg-gold-500 hover:shadow-gold-glow transition-all duration-300 cursor-pointer w-auto"
+              className="h-11 px-6 bg-gold-400 text-charcoal-200 dark:text-charcoal-950 font-display text-[10px] font-bold uppercase tracking-widest hover:bg-gold-500 hover:shadow-gold-glow transition-all duration-300 cursor-pointer w-auto"
             >
               Save Variant
             </button>
