@@ -39,7 +39,7 @@ export const createProduct = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
-          varients: product.varients,
+          variants: product.variants,
         },
       },
       "Product created successfully",
@@ -63,7 +63,7 @@ export const getSellerProducts = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
-          varients: product.varients,
+          variants: product.variants,
         })),
       },
       "Products fetched successfully",
@@ -85,7 +85,7 @@ export const getAllProductsController = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
-          varients: product.varients,
+          variants: product.variants,
         })),
       },
       "Products fetched successfully",
@@ -113,7 +113,7 @@ export const getProductDetailsById = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
-          varients: product.varients,
+          variants: product.variants,
         },
       },
       "Product details fetched successfully",
@@ -121,7 +121,7 @@ export const getProductDetailsById = asyncHandler(async (req, res) => {
   );
 });
 
-export const addProductVarientController = asyncHandler(async (req, res) => {
+export const addProductVariantController = asyncHandler(async (req, res) => {
   const sellerId = req.user._id;
   const { productId } = req.params;
 
@@ -154,7 +154,7 @@ export const addProductVarientController = asyncHandler(async (req, res) => {
   const stock = req.body.stock;
   const attributes = JSON.parse(req.body.attributes || "{}");
 
-  product.varients.push({
+  product.variants.push({
     images,
     price: {
       amount: price,
@@ -177,10 +177,10 @@ export const addProductVarientController = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
-          varients: product.varients,
+          variants: product.variants,
         },
       },
-      "ProductVarient added successfully",
+      "ProductVariant added successfully",
     ),
   );
 });

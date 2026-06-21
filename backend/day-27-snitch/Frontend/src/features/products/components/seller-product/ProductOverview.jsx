@@ -2,8 +2,8 @@ import React from "react";
 import ImageCarousel from "../shared/ImageCarousel.jsx";
 
 const ProductOverview = ({ product }) => {
-  const { title, description, price, images = [], productId, variants = [], varients = [] } = product;
-  const activeVariants = variants.length > 0 ? variants : varients;
+  const { title, description, price, images = [], productId, variants = [] } = product;
+  const activeVariants = variants;
 
   const displayPrice = price?.amount
     ? parseFloat(price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })

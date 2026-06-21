@@ -1,8 +1,8 @@
 import React from "react";
 
 const ProductSummary = ({ product, status = "active" }) => {
-  const { productId, price, images = [], variants = [], varients = [] } = product;
-  const activeVariants = variants.length > 0 ? variants : varients;
+  const { productId, price, images = [], variants = [] } = product;
+  const activeVariants = variants;
 
   const displayPrice = price?.amount
     ? parseFloat(price.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })

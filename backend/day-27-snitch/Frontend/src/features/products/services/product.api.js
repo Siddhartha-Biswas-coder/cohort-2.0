@@ -38,11 +38,11 @@ async function urlToFile(url) {
   }
 }
 
-export async function addProductVarient(productId, newProductVarient) {
+export async function addProductVariant(productId, newProductVariant) {
   const formData = new FormData();
 
   const imageFiles = await Promise.all(
-    (newProductVarient.images || []).map(async (image) => {
+    (newProductVariant.images || []).map(async (image) => {
       if (image.file instanceof File || image.file instanceof Blob) {
         return image.file;
       }
@@ -59,13 +59,13 @@ export async function addProductVarient(productId, newProductVarient) {
     }
   });
 
-  formData.append(`stock`, newProductVarient.stock);
-  formData.append(`attributes`, JSON.stringify(newProductVarient.attributes));
-  formData.append(`priceAmount`, newProductVarient.price.amount);
-  formData.append(`priceCurrency`, newProductVarient.price.currency);
+  formData.append(`stock`, newProductVariant.stock);
+  formData.append(`attributes`, JSON.stringify(newProductVariant.attributes));
+  formData.append(`priceAmount`, newProductVariant.price.amount);
+  formData.append(`priceCurrency`, newProductVariant.price.currency);
 
   const response = await productApiInstance.post(
-    `/${productId}/varients`,
+    `/${productId}/variants`,
     formData,
   );
   return response.data;

@@ -19,7 +19,7 @@ import DangerZone from "../components/seller-product/DangerZone.jsx";
 const SellerProductManagementPage = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { handleGetProductDetailsById, handleAddProductVarient } = useProduct();
+  const { handleGetProductDetailsById, handleAddProductVariant } = useProduct();
 
   // Primary States
   const [productDetails, setProductDetails] = useState(null);
@@ -188,10 +188,10 @@ const SellerProductManagementPage = () => {
   // Variant Actions
   const handleAddVariant = async (newVariant) => {
     try {
-      const addedVariant = await handleAddProductVarient(productId, newVariant);
+      const addedVariant = await handleAddProductVariant(productId, newVariant);
 
       const currentVariants =
-        productDetails.variants || productDetails.varients || [];
+        productDetails.variants || [];
 
       console.log(currentVariants);
 
@@ -203,7 +203,6 @@ const SellerProductManagementPage = () => {
       setProductDetails((prev) => ({
         ...prev,
         variants: updated,
-        varients: updated,
       }));
 
       console.log(updated);
@@ -216,13 +215,12 @@ const SellerProductManagementPage = () => {
 
   const handleEditVariant = (updatedVariant, index) => {
     const currentVariants =
-      productDetails.variants || productDetails.varients || [];
+      productDetails.variants || [];
     const updated = [...currentVariants];
     updated[index] = updatedVariant;
     setProductDetails((prev) => ({
       ...prev,
       variants: updated,
-      varients: updated,
     }));
     triggerToast(
       "SKU Updated",
@@ -232,12 +230,11 @@ const SellerProductManagementPage = () => {
 
   const handleDeleteVariant = (index) => {
     const currentVariants =
-      productDetails.variants || productDetails.varients || [];
+      productDetails.variants || [];
     const updated = currentVariants.filter((_, idx) => idx !== index);
     setProductDetails((prev) => ({
       ...prev,
       variants: updated,
-      varients: updated,
     }));
     triggerToast("SKU Removed", "Deleted variant SKU combination.");
   };
@@ -315,7 +312,7 @@ const SellerProductManagementPage = () => {
 
   // Price overrides selector helper
   const activeVariants =
-    productDetails.variants || productDetails.varients || [];
+    productDetails.variants || [];
   const pricingOverrides = activeVariants.filter(
     (v) => v.price && v.price.amount,
   );

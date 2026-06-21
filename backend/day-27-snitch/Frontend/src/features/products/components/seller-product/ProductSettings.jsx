@@ -6,8 +6,8 @@ const ProductSettings = ({
   status = "active",
   onStatusChange,
 }) => {
-  const { productId, createdAt, updatedAt, images = [], variants = [], varients = [] } = product;
-  const activeVariants = variants.length > 0 ? variants : varients;
+  const { productId, createdAt, updatedAt, images = [], variants = [] } = product;
+  const activeVariants = variants;
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
