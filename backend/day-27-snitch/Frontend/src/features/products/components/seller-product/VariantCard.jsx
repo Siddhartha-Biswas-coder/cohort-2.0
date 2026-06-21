@@ -1,4 +1,5 @@
 import React from "react";
+import ImageCarousel from "../shared/ImageCarousel.jsx";
 
 const VariantCard = ({
   variant,
@@ -34,94 +35,97 @@ const VariantCard = ({
     : (parentPrice?.currency || "INR");
 
   // Extract images
-  const variantImages = variant.images || [];
-  const primaryImageUrl = variantImages[0]?.url || fallbackImage || "";
+  const variantImages = (variant.images && variant.images.length > 0)
+    ? variant.images
+    : (fallbackImage ? [{ url: fallbackImage }] : []);
 
   return (
-    <div className="bg-charcoal-900 border border-charcoal-800 rounded-md overflow-hidden flex flex-col justify-between premium-card-hover select-none relative group/vcard h-full">
-      
-      {/* Visual Header Block */}
-      <div className="relative aspect-square w-full bg-charcoal-950 border-b border-charcoal-800/40 overflow-hidden">
-        {primaryImageUrl ? (
-          <img
-            src={primaryImageUrl}
-            alt={generatedTitle}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover/vcard:scale-102"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-charcoal-600">
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span className="text-[8px] font-display uppercase tracking-widest text-charcoal-500 mt-2">
-              No Media
-            </span>
-          </div>
-        )}
-
-        {/* Image count badge */}
-        {variantImages.length > 0 && (
-          <div className="absolute top-3 right-3 bg-charcoal-950/80 border border-charcoal-800/80 backdrop-blur-xs px-2 py-0.5 rounded-sm">
-            <span className="text-[8px] text-charcoal-400 font-display tracking-widest font-semibold uppercase">
-              {variantImages.length} {variantImages.length === 1 ? "Photo" : "Photos"}
-            </span>
-          </div>
-        )}
-
-        {/* Stock Badge */}
-        <div className="absolute bottom-3 left-3">
-          <span className={`px-2 py-0.5 rounded-xs text-[8px] font-display font-semibold uppercase tracking-wider ${
-            variant.stock > 0
-              ? "bg-green-500/10 text-green-400 border border-green-500/20"
-              : "bg-red-500/10 text-red-400 border border-red-500/20"
-          }`}>
-            {variant.stock > 0 ? `${variant.stock} units` : "Out of stock"}
-          </span>
-        </div>
+    <div className="bg-charcoal-900 border border-charcoal-800 rounded-md overflow-hidden flex flex-col sm:flex-row premium-card-hover select-none relative group/vcard w-full">
+      {/* Left side: Image carousel */}
+      <div className="w-full sm:w-40 md:w-48 aspect-square sm:aspect-auto sm:h-auto shrink-0 border-b sm:border-b-0 sm:border-r border-charcoal-800/40 overflow-hidden relative">
+        <ImageCarousel
+          images={variantImages}
+          title={generatedTitle}
+          containerClassName="w-full h-full"
+          imageClassName="w-full h-full object-cover transition-transform duration-700 group-hover/vcard:scale-102"
+          arrowHoverOnly={true}
+        />
       </div>
 
-      {/* Attributes & Valuation Info */}
-      <div className="p-5 flex-1 flex flex-col justify-between gap-4">
-        <div className="space-y-3">
-          <div className="flex justify-between items-start gap-4">
-            <h4 className="font-display text-xs font-semibold text-charcoal-200 tracking-wider uppercase leading-snug line-clamp-1">
-              {generatedTitle}
-            </h4>
-            {displayPrice && (
-              <span className="font-display text-xs text-gold-400 font-medium tracking-tight shrink-0">
-                {displayCurrency} {displayPrice}
-              </span>
+      {/* Right side: Detailed configurations */}
+      <div className="p-6 flex-1 flex flex-col justify-between gap-6">
+        {/* Top: Attributes & Price Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          {/* Attributes List */}
+          <div className="space-y-2">
+            <span className="font-display text-[9px] font-semibold text-gold-400 uppercase tracking-widest block border-b border-charcoal-800/20 pb-1">
+              SKU Dimensions
+            </span>
+            {attributeEntries.length > 0 ? (
+              <div className="space-y-1.5 pt-1">
+                {attributeEntries.map(([key, val]) => (
+                  <div key={key} className="flex justify-between items-center text-xs gap-4">
+                    <span className="font-display text-charcoal-500 font-semibold uppercase tracking-wider">{key}</span>
+                    <span className="font-display text-charcoal-200 font-bold uppercase tracking-wide text-right">{val}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="font-display text-[10px] text-charcoal-550 tracking-wider uppercase italic pt-1">
+                Standard Combination
+              </div>
             )}
           </div>
 
-          {/* Dynamic Attribute Badges */}
-          {attributeEntries.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {attributeEntries.map(([key, val]) => (
-                <span
-                  key={key}
-                  className="bg-charcoal-950/60 text-charcoal-400 border border-charcoal-800/80 px-2 py-0.5 rounded-xs text-[9px] font-sans font-light tracking-wide"
-                >
-                  {key}: <span className="text-charcoal-350">{val}</span>
-                </span>
-              ))}
+          {/* Pricing & Stock Details */}
+          <div className="space-y-4">
+            {/* Price Offset */}
+            <div className="space-y-2">
+              <span className="font-display text-[9px] font-semibold text-charcoal-500 uppercase tracking-widest block border-b border-charcoal-800/20 pb-1">
+                Pricing Offset
+              </span>
+              <div className="flex justify-between items-center pt-1">
+                <span className="font-display text-[10px] text-charcoal-400 uppercase tracking-wider">Offset Value</span>
+                {displayPrice ? (
+                  <span className="font-display text-sm text-gold-400 font-bold tracking-tight">
+                    {displayCurrency} {displayPrice}
+                  </span>
+                ) : (
+                  <span className="font-display text-xs text-charcoal-500 font-light italic">
+                    Inherited from parent
+                  </span>
+                )}
+              </div>
             </div>
-          )}
+
+            {/* Current Stock */}
+            <div className="space-y-2">
+              <span className="font-display text-[9px] font-semibold text-charcoal-500 uppercase tracking-widest block border-b border-charcoal-800/20 pb-1">
+                Inventory Status
+              </span>
+              <div className="flex justify-between items-center pt-1 text-[10px] uppercase font-display tracking-widest">
+                <span className="text-charcoal-400 font-semibold">Available Units</span>
+                <span className={`font-bold text-sm ${variant.stock > 0 ? "text-green-400" : "text-red-400"}`}>
+                  {variant.stock}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Action Controls */}
-        <div className="flex gap-3 pt-3 border-t border-charcoal-800/40">
+        {/* Bottom: Action Controls */}
+        <div className="flex justify-end gap-3 pt-4 border-t border-charcoal-800/40">
           <button
             type="button"
             onClick={() => onEdit(variant, index)}
-            className="flex-1 py-1.5 bg-charcoal-950 dark:bg-charcoal-950 text-gold-500 dark:text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 dark:hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-450/40 dark:border-gold-400/20 cursor-pointer"
+            className="px-6 py-2 bg-charcoal-950 dark:bg-charcoal-950 text-gold-500 dark:text-gold-400 hover:bg-gold-400 hover:text-charcoal-950 dark:hover:text-charcoal-950 font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-gold-450/40 dark:border-gold-400/20 cursor-pointer"
           >
             Edit
           </button>
           <button
             type="button"
             onClick={() => onDelete(index)}
-            className="flex-1 py-1.5 bg-charcoal-950 dark:bg-charcoal-950 text-red-500 dark:text-red-400 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white dark:hover:text-white font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/30 dark:border-red-500/20 cursor-pointer"
+            className="px-6 py-2 bg-charcoal-950 dark:bg-charcoal-950 text-red-500 dark:text-red-400 hover:bg-red-500 dark:hover:bg-red-500 hover:text-white dark:hover:text-white font-display text-[9px] font-bold uppercase tracking-widest text-center transition-all duration-200 border border-red-500/30 dark:border-red-500/20 cursor-pointer"
           >
             Delete
           </button>

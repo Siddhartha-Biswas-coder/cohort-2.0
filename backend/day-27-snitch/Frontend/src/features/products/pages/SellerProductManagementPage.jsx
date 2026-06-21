@@ -332,7 +332,7 @@ const SellerProductManagementPage = () => {
         onClick={saveProductDetails}
         className="flex-1 h-11 bg-gold-400 text-[#0a0a0a] font-display font-bold uppercase tracking-widest text-center cursor-pointer"
       >
-        Save Variant
+        Save Changes
       </button>
     </>
   ) : (

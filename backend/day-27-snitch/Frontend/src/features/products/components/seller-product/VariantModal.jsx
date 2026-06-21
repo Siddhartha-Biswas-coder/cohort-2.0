@@ -14,7 +14,7 @@ const VariantModal = ({
   parentPrice
 }) => {
   const [attributesList, setAttributesList] = useState([]);
-  const [stock, setStock] = useState(10);
+  const [stock, setStock] = useState(0);
   const [priceAmount, setPriceAmount] = useState("");
   const [priceCurrency, setPriceCurrency] = useState("INR");
   const [selectedImages, setSelectedImages] = useState([]);
@@ -40,7 +40,7 @@ const VariantModal = ({
       });
 
       setAttributesList(mappedAttrs.length > 0 ? mappedAttrs : [{ key: "Color", value: "", isCustom: false, customKey: "" }]);
-      setStock(editingVariant.stock ?? 10);
+      setStock(editingVariant.stock ?? 0);
       
       const isInherited = parentPrice && 
         parseFloat(editingVariant.price?.amount) === parseFloat(parentPrice.amount) &&
@@ -52,7 +52,7 @@ const VariantModal = ({
     } else {
       // Set defaults for new variant
       setAttributesList([{ key: "Color", value: "", isCustom: false, customKey: "" }]);
-      setStock(10);
+      setStock(0);
       setPriceAmount("");
       setPriceCurrency(parentPrice?.currency ?? "INR");
       setSelectedImages([]);
@@ -195,7 +195,7 @@ const VariantModal = ({
                 type="number"
                 value={stock}
                 onChange={(e) => setStock(e.target.value)}
-                placeholder="10"
+                placeholder="0"
                 min="0"
                 className={`w-full bg-transparent border-b py-2 text-xs text-gold-50 placeholder-charcoal-600 transition-all duration-300 focus:outline-none ${
                   errors.stock

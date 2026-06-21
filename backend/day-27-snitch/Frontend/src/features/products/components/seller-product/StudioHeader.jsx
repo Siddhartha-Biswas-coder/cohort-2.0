@@ -45,7 +45,7 @@ const StudioHeader = ({
               onClick={onSaveChanges}
               className="h-11 px-6 bg-gold-400 text-charcoal-200 dark:text-charcoal-950 font-display text-[10px] font-bold uppercase tracking-widest hover:bg-gold-500 hover:shadow-gold-glow transition-all duration-300 cursor-pointer w-auto"
             >
-              Save Variant
+              Save Changes
             </button>
           </>
         )}
