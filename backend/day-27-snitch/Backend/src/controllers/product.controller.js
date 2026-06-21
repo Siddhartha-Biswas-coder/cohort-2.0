@@ -39,6 +39,7 @@ export const createProduct = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
+          varients: product.varients,
         },
       },
       "Product created successfully",
@@ -62,6 +63,7 @@ export const getSellerProducts = asyncHandler(async (req, res) => {
           description: product.description,
           price: product.price,
           images: product.images,
+          varients: product.varients,
         })),
       },
       "Products fetched successfully",
@@ -69,8 +71,8 @@ export const getSellerProducts = asyncHandler(async (req, res) => {
   );
 });
 
-export const getAllProductsController = asyncHandler(async(req,res) => {
-  const products = await productModel.find()
+export const getAllProductsController = asyncHandler(async (req, res) => {
+  const products = await productModel.find();
 
   res.status(200).json(
     new ApiResponse(
@@ -83,30 +85,38 @@ export const getAllProductsController = asyncHandler(async(req,res) => {
           description: product.description,
           price: product.price,
           images: product.images,
+          varients: product.varients,
         })),
       },
       "Products fetched successfully",
     ),
-  )
-})
+  );
+});
 
-export const getProductDetailsById = asyncHandler(async(req,res) => {
-  const {id} = req.params;
+export const getProductDetailsById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-  const product = await productModel.findById(id)
+  const product = await productModel.findById(id);
 
-  if(!product){
-    throw new ApiError(404,"Product not found")
+  if (!product) {
+    throw new ApiError(404, "Product not found");
   }
 
-  return res.status(200).json(new ApiResponse(200,{
-    product: {
-      productId : product._id,
-      seller: product.seller,
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      images: product.images,
-    }
-  },"Product details fetched successfully"))
-})
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        product: {
+          productId: product._id,
+          seller: product.seller,
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          images: product.images,
+          varients: product.varients,
+        },
+      },
+      "Product details fetched successfully",
+    ),
+  );
+});

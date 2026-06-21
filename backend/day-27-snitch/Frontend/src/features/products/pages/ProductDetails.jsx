@@ -33,7 +33,7 @@ const ProductDetails = () => {
   const [relatedRevealRef, isRelatedRevealed] = useScrollReveal();
 
   // Fetch product data and load recommendations catalog
-  const fetchPageData = async () => {
+  const fetchProductDetails = async () => {
     try {
       setLoading(true);
       setError(false);
@@ -52,7 +52,7 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    fetchPageData();
+    fetchProductDetails();
     // Pre-load all products to populate the related products section
     handleGetAllProducts();
     // Scroll to top when loading new product details

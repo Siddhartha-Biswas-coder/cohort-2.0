@@ -60,7 +60,7 @@ const CustomDropdown = ({ label, options = [], selected, onChange, className = "
       {/* Dropdown panel */}
       {open && (
         <div
-          className="absolute left-0 mt-1 w-full bg-charcoal-900 border border-charcoal-800 rounded-md shadow-lg bg-opacity-95 backdrop-blur-sm z-10 animate-fade-in scale-95 origin-top transition-transform duration-200"
+          className="absolute left-0 mt-1 w-full bg-charcoal-900 border border-charcoal-800 rounded-md shadow-lg bg-opacity-95 backdrop-blur-sm z-30 animate-fade-in scale-95 origin-top transition-transform duration-200"
         >
           <ul className="py-1">
             {options.map((opt) => (

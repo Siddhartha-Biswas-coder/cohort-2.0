@@ -136,7 +136,7 @@ const Home = () => {
         {/* Filters */}
         {hasProducts && (
           <div 
-            className={isCollectionRevealed ? "animate-reveal" : "opacity-0"}
+            className={`${isCollectionRevealed ? "animate-reveal" : "opacity-0"} relative z-20`}
             style={{ animationDelay: "240ms" }}
           >
             <ListingFilters

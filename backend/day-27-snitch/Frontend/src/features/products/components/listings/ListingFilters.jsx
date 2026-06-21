@@ -12,7 +12,7 @@ const ListingFilters = ({
   placeholder = "SEARCH COLLECTIONS BY TITLE...",
 }) => {
   return (
-    <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 pb-8 border-b border-charcoal-900/60 select-none">
+    <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-10 pb-8 border-b border-charcoal-900/60 select-none relative z-20">
       {/* Search Field */}
       <div className="relative flex-1 max-w-md">
         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-500">

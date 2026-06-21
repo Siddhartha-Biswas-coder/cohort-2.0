@@ -142,7 +142,7 @@ const SellerDashBoard = () => {
 
       {/* Filters Control Block */}
       {localProducts.length > 0 && (
-        <div className="animate-reveal" style={{ animationDelay: "320ms" }}>
+        <div className="animate-reveal relative z-20" style={{ animationDelay: "320ms" }}>
           <ListingFilters
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}

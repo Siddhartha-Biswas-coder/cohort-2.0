@@ -1,5 +1,6 @@
 import React from "react";
 import SellerSidebar from "./SellerSidebar.jsx";
+import StudioSidebar from "../seller-product/StudioSidebar.jsx";
 import SellerTopBar from "./SellerTopBar.jsx";
 import SellerFooter from "./SellerFooter.jsx";
 import Toast from "./Toast.jsx";
@@ -12,6 +13,9 @@ import Toast from "./Toast.jsx";
  *   footerLinks:   Array<{ label, href }> – footer navigation (optional)
  *   toast:         { title, message, icon? } | null – toast notification data
  *   mobileActions: ReactNode – custom mobile bottom bar content (optional)
+ *   sidebarType:   "seller" | "studio" – swaps sidebar contextual layouts
+ *   activeSection: string – currently active anchor section for studio
+ *   onSectionClick:function – click handler for studio anchor sections
  *   children:      ReactNode – the page body content
  */
 const SellerLayout = ({
@@ -20,6 +24,9 @@ const SellerLayout = ({
   footerLinks,
   toast,
   mobileActions,
+  sidebarType = "seller",
+  activeSection = "overview",
+  onSectionClick,
   children,
 }) => {
   return (
@@ -30,7 +37,11 @@ const SellerLayout = ({
       )}
 
       {/* Sidebar */}
-      <SellerSidebar activePage={activePage} />
+      {sidebarType === "studio" ? (
+        <StudioSidebar activeSection={activeSection} onSectionClick={onSectionClick} />
+      ) : (
+        <SellerSidebar activePage={activePage} />
+      )}
 
       {/* Main Content Viewport */}
       <main className="grow md:pl-64 min-h-screen flex flex-col justify-between">

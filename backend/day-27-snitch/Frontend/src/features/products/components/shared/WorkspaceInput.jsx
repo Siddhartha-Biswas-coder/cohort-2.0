@@ -25,7 +25,7 @@ const WorkspaceInput = ({
 
   return (
     <div className={`flex flex-col gap-3.5 group ${className}`}>
-      <label className="font-display text-[10px] font-semibold uppercase tracking-widest text-charcoal-500 group-focus-within:text-gold-400 transition-colors">
+      <label className="font-display text-[10px] font-semibold uppercase tracking-widest text-charcoal-500 group-focus-within:text-gold-400 transition-colors h-8 flex items-end">
         {label}
       </label>
       
