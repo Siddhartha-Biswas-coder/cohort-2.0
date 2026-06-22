@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ProductGallery = ({ images = [], title = "" }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isSwapping, setIsSwapping] = useState(false);
+
+  // Reset active image index only if it exceeds the bounds of the new images list
+  useEffect(() => {
+    setActiveImageIndex((prevIndex) => {
+      if (prevIndex >= images.length) {
+        return 0;
+      }
+      return prevIndex;
+    });
+  }, [images]);
 
   const fallbackPlaceholder = (
     <div className="w-full h-full flex items-center justify-center bg-charcoal-900 border border-charcoal-800">

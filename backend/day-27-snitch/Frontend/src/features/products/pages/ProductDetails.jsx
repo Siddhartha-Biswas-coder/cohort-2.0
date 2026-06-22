@@ -7,15 +7,17 @@ import { useScrollReveal } from "../hooks/useScrollReveal.js";
 // Layout & Global Components
 import HomeNavbar from "../components/home/HomeNavbar.jsx";
 import HomeFooter from "../components/home/HomeFooter.jsx";
-import HomeProductCard from "../components/home/HomeProductCard.jsx";
 import Toast from "../components/shared/Toast.jsx";
 
 // Page Subcomponents
 import ProductGallery from "../components/product/ProductGallery.jsx";
 import ProductInfo from "../components/product/ProductInfo.jsx";
-import ProductDescription from "../components/product/ProductDescription.jsx";
-import ProductActions from "../components/product/ProductActions.jsx";
-import ProductDetailsAccordion from "../components/product/ProductDetailsAccordion.jsx";
+import PriceDisplay from "../components/product/PriceDisplay.jsx";
+import StockBadge from "../components/product/StockBadge.jsx";
+import VariantSelector from "../components/product/VariantSelector.jsx";
+import PurchasePanel from "../components/product/PurchasePanel.jsx";
+import ProductAccordion from "../components/product/ProductAccordion.jsx";
+import RelatedProducts from "../components/product/RelatedProducts.jsx";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -27,6 +29,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [toast, setToast] = useState(null);
+  const [selectedAttributes, setSelectedAttributes] = useState({});
 
   // Redux state for related recommendations
   const allProducts = useSelector((state) => state.product.allProducts);
@@ -52,12 +55,72 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
+    setSelectedAttributes({});
     fetchProductDetails();
     // Pre-load all products to populate the related products section
     handleGetAllProducts();
     // Scroll to top when loading new product details
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
+
+  // Resolve matching variants — returns first match when any attributes are selected.
+  // A variant is "fully resolved" if selectedAttributes completely covers all of that
+  // variant's attribute keys (exact-cover check), OR if exactly one variant matches.
+  const { activeVariant, isVariantFullyResolved } = useMemo(() => {
+    if (!productDetails?.variants || productDetails.variants.length === 0)
+      return { activeVariant: null, isVariantFullyResolved: false };
+    if (Object.keys(selectedAttributes).length === 0)
+      return { activeVariant: null, isVariantFullyResolved: false };
+
+    // Step 1: Find all variants where every selected attribute matches
+    const matchingVariants = productDetails.variants.filter((variant) => {
+      if (!variant.attributes) return false;
+      return Object.entries(selectedAttributes).every(
+        ([key, value]) => variant.attributes[key] === value
+      );
+    });
+
+    if (matchingVariants.length === 0)
+      return { activeVariant: null, isVariantFullyResolved: false };
+
+    // Step 2: Among matches, check if selectedAttributes fully covers any variant's
+    // complete attribute set (i.e. no extra unselected keys remain on that variant).
+    // Example: selectedAttributes={Color:"Black"} fully covers Variant={Color:"Black"}
+    // but NOT Variant={Color:"Black", Edition:"Limited Edition"}.
+    const exactCoverVariant = matchingVariants.find((variant) => {
+      const variantKeys = Object.keys(variant.attributes || {});
+      return variantKeys.every((k) => selectedAttributes[k] !== undefined);
+    });
+
+    if (exactCoverVariant) {
+      // A uniquely purchasable variant is identified — enable purchase
+      return { activeVariant: exactCoverVariant, isVariantFullyResolved: true };
+    }
+
+    // Step 3: Multiple matches, none fully covered by current selection — show first as preview
+    return {
+      activeVariant: matchingVariants[0],
+      isVariantFullyResolved: false,
+    };
+  }, [selectedAttributes, productDetails?.variants]);
+
+  // Gallery images list (switches to variant's images as soon as any variant matches)
+  const galleryImages = useMemo(() => {
+    if (activeVariant && activeVariant.images && activeVariant.images.length > 0) {
+      return activeVariant.images;
+    }
+    return productDetails?.images || [];
+  }, [activeVariant, productDetails?.images]);
+
+  // Price (shows variant's price as soon as any variant matches)
+  const displayPrice = useMemo(() => {
+    return activeVariant?.price || productDetails?.price || { amount: 0, currency: "INR" };
+  }, [activeVariant, productDetails?.price]);
+
+  // Stock (shows variant stock when matched)
+  const displayStock = useMemo(() => {
+    return activeVariant ? activeVariant.stock : 0;
+  }, [activeVariant]);
 
   // Toast trigger helper
   const triggerToast = (title, message) => {
@@ -118,6 +181,8 @@ const ProductDetails = () => {
     );
   }
 
+  const hasVariants = productDetails.variants && productDetails.variants.length > 0;
+
   return (
     <div className="min-h-screen bg-charcoal-950 text-charcoal-400 flex flex-col justify-between">
       {/* Toast Alert */}
@@ -131,7 +196,7 @@ const ProductDetails = () => {
           {/* Left Column: Media Gallery */}
           <div className="animate-reveal" style={{ animationDelay: "100ms" }}>
             <ProductGallery
-              images={productDetails.images}
+              images={galleryImages}
               title={productDetails.title}
             />
           </div>
@@ -141,33 +206,59 @@ const ProductDetails = () => {
             className="flex flex-col relative lg:sticky lg:top-28 h-fit pt-2 animate-reveal"
             style={{ animationDelay: "200ms" }}
           >
-            {/* Info details (Title, label, price) */}
+            {/* Info details (Title, label) */}
             <ProductInfo
               title={productDetails.title}
-              price={productDetails.price}
             />
 
-            {/* Narrative story block */}
-            <ProductDescription description={productDetails.description} />
+            {/* Price & Stock status Row */}
+            <div className="flex items-center justify-between gap-4 mt-2 mb-6 border-b border-charcoal-800/40 pb-5">
+              <PriceDisplay price={displayPrice} />
+              {hasVariants && <StockBadge stock={displayStock} />}
+            </div>
 
-            {/* Buy / Cart Action Row */}
-            <ProductActions
-              onAddToCart={() =>
+            {/* Dynamic Variant Selector */}
+            {hasVariants && (
+              <VariantSelector
+                variants={productDetails.variants}
+                selectedAttributes={selectedAttributes}
+                onChangeSelectedAttributes={setSelectedAttributes}
+              />
+            )}
+
+            {/* Purchase panel actions */}
+            <PurchasePanel
+              onAddToCart={() => {
+                const variantDesc = activeVariant
+                  ? ` (${Object.entries(selectedAttributes)
+                      .map(([k, v]) => `${k}: ${v}`)
+                      .join(", ")})`
+                  : "";
                 triggerToast(
                   "Shopping Bag",
-                  `"${productDetails.title}" has been added to your bag.`,
-                )
-              }
-              onBuyNow={() =>
+                  `"${productDetails.title}"${variantDesc} has been added to your bag.`
+                );
+              }}
+              onBuyNow={() => {
+                const variantDesc = activeVariant
+                  ? ` (${Object.entries(selectedAttributes)
+                      .map(([k, v]) => `${k}: ${v}`)
+                      .join(", ")})`
+                  : "";
                 triggerToast(
                   "Immediate Checkout",
-                  `Proceeding to checkout for "${productDetails.title}".`,
-                )
-              }
+                  `Proceeding to checkout for "${productDetails.title}"${variantDesc}.`
+                );
+              }}
+              isOutOfStock={hasVariants && isVariantFullyResolved && displayStock === 0}
+              disabled={hasVariants && !isVariantFullyResolved}
             />
 
             {/* Product Specifications & Care Accordions */}
-            <ProductDetailsAccordion />
+            <ProductAccordion
+              description={productDetails.description}
+              activeVariant={activeVariant}
+            />
 
             {/* Subtle Product ID Signifier */}
             <div className="mt-8 text-[9px] font-mono tracking-widest text-charcoal-600 uppercase">
@@ -177,37 +268,26 @@ const ProductDetails = () => {
         </div>
 
         {/* Related Products Recommendation section */}
-        {recommendations.length > 0 && (
-          <section
-            ref={relatedRevealRef}
-            className={`mt-24 md:mt-32 pt-16 border-t border-charcoal-800/40 scroll-reveal ${
-              isRelatedRevealed ? "scroll-reveal-active" : ""
-            }`}
-          >
-            <div className="flex flex-col md:flex-row justify-between items-baseline mb-12 gap-4">
-              <h2 className="font-display text-2xl font-light text-charcoal-200 tracking-wider uppercase">
-                You May Also Like
-              </h2>
-              <button
-                onClick={() => navigate("/")}
-                className="font-display text-[10px] font-bold uppercase tracking-widest text-gold-400 hover:text-gold-500 border-b border-gold-400 hover:border-gold-500 pb-1 transition-all cursor-pointer"
-              >
-                Browse All Archives
-              </button>
-            </div>
+        <section
+          ref={relatedRevealRef}
+          className={`mt-24 md:mt-32 pt-16 border-t border-charcoal-800/40 scroll-reveal ${
+            isRelatedRevealed ? "scroll-reveal-active" : ""
+          }`}
+        >
+          <div className="flex flex-col md:flex-row justify-between items-baseline mb-12 gap-4">
+            <h2 className="font-display text-2xl font-light text-charcoal-200 tracking-wider uppercase">
+              You May Also Like
+            </h2>
+            <button
+              onClick={() => navigate("/")}
+              className="font-display text-[10px] font-bold uppercase tracking-widest text-gold-400 hover:text-gold-500 border-b border-gold-400 hover:border-gold-500 pb-1 transition-all cursor-pointer"
+            >
+              Browse All Archives
+            </button>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {recommendations.map((product, index) => (
-                <HomeProductCard
-                  key={product.productId}
-                  product={product}
-                  index={index}
-                  isParentRevealed={isRelatedRevealed}
-                />
-              ))}
-            </div>
-          </section>
-        )}
+          <RelatedProducts products={recommendations} isRevealed={isRelatedRevealed} />
+        </section>
       </main>
 
       <HomeFooter />
