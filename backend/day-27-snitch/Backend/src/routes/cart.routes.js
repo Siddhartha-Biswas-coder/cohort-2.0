@@ -14,6 +14,19 @@ const router = Router();
  * @argument quantity - Quantity of the item to add (optional, default: 1)
  */
 
-router.post("/", authenticateUser, validateAddToCart, addToCartController);
+router.post(
+  "/add/:productId/:variantId",
+  authenticateUser,
+  validateAddToCart,
+  addToCartController,
+);
+
+/**
+ * @route GET /api/cart
+ * @desc Get current user's cart
+ * @access Private
+ */
+
+router.get("/", authenticateUser, getCartController);
 
 export default router;

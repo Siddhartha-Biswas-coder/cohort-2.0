@@ -74,14 +74,43 @@ export const addToCartController = asyncHandler(async (req, res) => {
     price: product.price,
   });
 
-  await cart.save()
+  await cart.save();
 
   return res.status(200).json(
-    new ApiResponse(200, {
-      cart: {
-        user: cart.user,
-        items: cart.items,
+    new ApiResponse(
+      200,
+      {
+        cart: {
+          user: cart.user,
+          items: cart.items,
+        },
       },
-    }),
+      "Product added to cart successfully",
+    ),
+  );
+});
+
+export const getCartController = asyncHandler(async (req, res) => {
+  const cart = await cartModel
+    .findOne({
+      user: req.user._id,
+    })
+    .populate("items.product");
+
+  if (!cart) {
+    throw new ApiError(404, "Cart not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        cart: {
+          user: cart.user,
+          items: cart.items,
+        },
+      },
+      "Cart fetched successfully",
+    ),
   );
 });
