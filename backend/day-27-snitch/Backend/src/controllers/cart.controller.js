@@ -1,12 +1,13 @@
-import { stockOfVariantDAO } from "../dao/product.dao";
-import ApiError from "../errors/ApiError";
-import asyncHandler from "../middlewares/asyncHandler";
-import cartModel from "../models/cart.model";
-import productModel from "../models/product.model";
+import { stockOfVariantDAO } from "../dao/product.dao.js";
+import ApiError from "../errors/ApiError.js";
+import ApiResponse from "../utils/ApiResponse.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
+import cartModel from "../models/cart.model.js";
+import productModel from "../models/product.model.js";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
-  const quantity = req.body.quantity || 1;
+  const quantity = req.body?.quantity || 1;
 
   const product = await productModel.findOne({
     _id: productId,
@@ -27,24 +28,21 @@ export const addToCartController = asyncHandler(async (req, res) => {
     (await cartModel.findOne({ user: req.user._id })) ||
     (await cartModel.create({ user: req.user._id }));
 
-  const isProductAlreadyInCart = cart.items.some(
+  // Use a single .find() to locate an existing cart item for this product+variant
+  const existingItem = cart.items.find(
     (item) =>
       item.product.toString() === productId &&
       item.variant?.toString() === variantId,
   );
 
-  if (isProductAlreadyInCart) {
-    const quantityInCart = cart.items.find(
-      (item) =>
-        item.product.toString() === productId &&
-        item.variant?.toString() === variantId,
-    ).quantity;
+  if (existingItem) {
+    const quantityInCart = existingItem.quantity ?? 0;
 
     if (stock < quantityInCart + quantity) {
       throw new ApiError(400, "Not enough stock");
     }
 
-    await cartModel.findOneAndUpdate(
+    const updatedCart = await cartModel.findOneAndUpdate(
       {
         user: req.user._id,
         "items.product": productId,
@@ -53,13 +51,18 @@ export const addToCartController = asyncHandler(async (req, res) => {
       { $inc: { "items.$.quantity": quantity } },
       { new: true },
     );
+
     return res.status(200).json(
-      new ApiResponse(200, {
-        cart: {
-          user: cart.user,
-          items: cart.items,
+      new ApiResponse(
+        200,
+        {
+          cart: {
+            user: updatedCart.user,
+            items: updatedCart.items,
+          },
         },
-      }),
+        "Cart updated successfully",
+      ),
     );
   }
 

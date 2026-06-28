@@ -1,4 +1,4 @@
-import productModel from "../models/product.model";
+import productModel from "../models/product.model.js";
 
 export const stockOfVariantDAO = async (productId, variantId) => {
   const product = await productModel.findOne({
@@ -6,9 +6,13 @@ export const stockOfVariantDAO = async (productId, variantId) => {
     "variants._id": variantId,
   });
 
-  const stock = product.variants.find(
+  const matchedVariant = product.variants.find(
     (variant) => variant._id.toString() === variantId,
-  ).stock;
+  );
+
+  if (!matchedVariant) return 0;
+
+  const stock = matchedVariant.stock ?? 0;
 
   return stock;
 };

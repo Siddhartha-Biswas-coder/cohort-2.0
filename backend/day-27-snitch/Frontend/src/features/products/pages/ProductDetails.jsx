@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { useProduct } from "../hooks/useProduct.js";
+import { useCart } from "../../cart/hooks/useCart.js";
 import { useScrollReveal } from "../hooks/useScrollReveal.js";
 
 // Layout & Global Components
@@ -23,6 +24,7 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const { handleGetProductDetailsById, handleGetAllProducts } = useProduct();
+  const { handleAddItem } = useCart();
 
   // State
   const [productDetails, setProductDetails] = useState(null);
@@ -76,7 +78,7 @@ const ProductDetails = () => {
     const matchingVariants = productDetails.variants.filter((variant) => {
       if (!variant.attributes) return false;
       return Object.entries(selectedAttributes).every(
-        ([key, value]) => variant.attributes[key] === value
+        ([key, value]) => variant.attributes[key] === value,
       );
     });
 
@@ -106,7 +108,11 @@ const ProductDetails = () => {
 
   // Gallery images list (switches to variant's images as soon as any variant matches)
   const galleryImages = useMemo(() => {
-    if (activeVariant && activeVariant.images && activeVariant.images.length > 0) {
+    if (
+      activeVariant &&
+      activeVariant.images &&
+      activeVariant.images.length > 0
+    ) {
       return activeVariant.images;
     }
     return productDetails?.images || [];
@@ -114,7 +120,10 @@ const ProductDetails = () => {
 
   // Price (shows variant's price as soon as any variant matches)
   const displayPrice = useMemo(() => {
-    return activeVariant?.price || productDetails?.price || { amount: 0, currency: "INR" };
+    return (
+      activeVariant?.price ||
+      productDetails?.price || { amount: 0, currency: "INR" }
+    );
   }, [activeVariant, productDetails?.price]);
 
   // Stock (shows variant stock when matched)
@@ -181,7 +190,8 @@ const ProductDetails = () => {
     );
   }
 
-  const hasVariants = productDetails.variants && productDetails.variants.length > 0;
+  const hasVariants =
+    productDetails.variants && productDetails.variants.length > 0;
 
   return (
     <div className="min-h-screen bg-charcoal-950 text-charcoal-400 flex flex-col justify-between">
@@ -207,9 +217,7 @@ const ProductDetails = () => {
             style={{ animationDelay: "200ms" }}
           >
             {/* Info details (Title, label) */}
-            <ProductInfo
-              title={productDetails.title}
-            />
+            <ProductInfo title={productDetails.title} />
 
             {/* Price & Stock status Row */}
             <div className="flex items-center justify-between gap-4 mt-2 mb-6 border-b border-charcoal-800/40 pb-5">
@@ -228,16 +236,24 @@ const ProductDetails = () => {
 
             {/* Purchase panel actions */}
             <PurchasePanel
-              onAddToCart={() => {
-                const variantDesc = activeVariant
-                  ? ` (${Object.entries(selectedAttributes)
-                      .map(([k, v]) => `${k}: ${v}`)
-                      .join(", ")})`
-                  : "";
-                triggerToast(
-                  "Shopping Bag",
-                  `"${productDetails.title}"${variantDesc} has been added to your bag.`
-                );
+              onAddToCart={async () => {
+                try {
+                  await handleAddItem({
+                    productId,
+                    variantId: activeVariant._id,
+                  });
+                  const variantDesc = activeVariant
+                    ? ` (${Object.entries(selectedAttributes)
+                        .map(([k, v]) => `${k}: ${v}`)
+                        .join(", ")})`
+                    : "";
+                  triggerToast(
+                    "Shopping Bag",
+                    `"${productDetails.title}"${variantDesc} has been added to your bag.`,
+                  );
+                } catch (err) {
+                  triggerToast("Error", err || "Could not add item to bag.");
+                }
               }}
               onBuyNow={() => {
                 const variantDesc = activeVariant
@@ -247,10 +263,12 @@ const ProductDetails = () => {
                   : "";
                 triggerToast(
                   "Immediate Checkout",
-                  `Proceeding to checkout for "${productDetails.title}"${variantDesc}.`
+                  `Proceeding to checkout for "${productDetails.title}"${variantDesc}.`,
                 );
               }}
-              isOutOfStock={hasVariants && isVariantFullyResolved && displayStock === 0}
+              isOutOfStock={
+                hasVariants && isVariantFullyResolved && displayStock === 0
+              }
               disabled={hasVariants && !isVariantFullyResolved}
             />
 
@@ -286,7 +304,10 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          <RelatedProducts products={recommendations} isRevealed={isRelatedRevealed} />
+          <RelatedProducts
+            products={recommendations}
+            isRevealed={isRelatedRevealed}
+          />
         </section>
       </main>
 

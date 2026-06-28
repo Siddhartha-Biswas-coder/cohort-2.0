@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authenticateUser } from "../middlewares/auth.middleware";
-import { validateAddToCart } from "../validators/cart.validator";
-import { addToCartController } from "../controllers/cart.controller";
+import { authenticateUser } from "../middlewares/auth.middleware.js";
+import { validateAddToCart } from "../validators/cart.validator.js";
+import { addToCartController, getCartController } from "../controllers/cart.controller.js";
 
 const router = Router();
 
@@ -27,6 +27,6 @@ router.post(
  * @access Private
  */
 
-router.get("/", authenticateUser, getCartController);
+router.get("/get-cart", authenticateUser, getCartController);
 
 export default router;
