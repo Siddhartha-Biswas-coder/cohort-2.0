@@ -104,7 +104,7 @@ const CartItemCard = ({ item, index }) => {
       style={{ animationDelay: `${100 + index * 80}ms` }}
     >
       {/* Product Image */}
-      <div className="shrink-0 w-24 h-28 md:w-28 md:h-32 bg-charcoal-900 border border-charcoal-800/50 overflow-hidden">
+      <div className="shrink-0 w-16 h-20 md:w-20 md:h-24 bg-charcoal-900 border border-charcoal-800/50 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -135,11 +135,11 @@ const CartItemCard = ({ item, index }) => {
         {/* Title Row */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="font-display text-sm md:text-base font-medium text-charcoal-200 uppercase tracking-wider leading-snug line-clamp-2">
+            <h3 className="font-display text-xs md:text-sm font-medium text-charcoal-200 uppercase tracking-wider leading-snug line-clamp-2">
               {title}
             </h3>
             {description && (
-              <p className="font-sans text-xs text-charcoal-500 font-light mt-1 leading-relaxed line-clamp-1">
+              <p className="font-sans text-[11px] text-charcoal-500 font-light mt-1 leading-relaxed line-clamp-1">
                 {description}
               </p>
             )}

@@ -202,8 +202,8 @@ const ProductDetails = () => {
       <HomeNavbar />
 
       {/* Main Luxury Canvas layout */}
-      <main className="pt-24 md:pt-28 pb-16 max-w-275 mx-auto px-6 md:px-12 w-full grow">
-        <div className="grid grid-cols-1 lg:grid-cols-[53%_1fr] gap-12 lg:gap-20">
+      <main className="pt-24 md:pt-28 pb-16 max-w-240 mx-auto px-6 md:px-12 w-full grow">
+        <div className="grid grid-cols-1 lg:grid-cols-[40%_1fr] gap-12 lg:gap-16">
           {/* Left Column: Media Gallery */}
           <div className="animate-reveal" style={{ animationDelay: "100ms" }}>
             <ProductGallery

@@ -7,7 +7,7 @@ const CartHeader = ({ itemCount = 0 }) => {
       style={{ animationDelay: "100ms" }}
     >
       <div className="flex items-baseline gap-4">
-        <h1 className="font-display text-4xl md:text-5xl font-light text-charcoal-200 uppercase tracking-[0.08em]">
+        <h1 className="font-display text-2xl md:text-3xl font-light text-charcoal-200 uppercase tracking-[0.08em]">
           Shopping Cart
         </h1>
         {itemCount > 0 && (

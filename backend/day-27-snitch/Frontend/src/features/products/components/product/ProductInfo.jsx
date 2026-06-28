@@ -9,7 +9,7 @@ const ProductInfo = ({ title }) => {
       </span>
 
       {/* Title */}
-      <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-3">
+      <h1 className="font-display text-xl md:text-2xl lg:text-3xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-3">
         {title}
       </h1>
     </div>

@@ -45,7 +45,7 @@ const HeroSection = () => {
 
         {/* Heading */}
         <h1 
-          className="font-display text-3xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-6 animate-reveal"
+          className="font-display text-xl md:text-3xl lg:text-4xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-6 animate-reveal"
           style={{ animationDelay: "160ms" }}
         >
           Curated Fashion
