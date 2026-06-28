@@ -13,6 +13,14 @@ The application features a **Premium Motion System** modeled after editorial lux
 - **Search & Filtering**: Real-time search, sorting (newest, low-to-high, high-to-low), and currency filtering.
 - **Shared Image Carousel**: A custom, highly optimized image carousel with subtle dot indicators, absolute slide count badges, and smooth horizontal slide animations.
 
+### 🛒 Premium Shopping Cart
+- **Protected Cart Route**: Access to the `/cart` page is restricted to logged-in buyers. Guest users are redirected to `/login` smoothly.
+- **Interactive Stepper**: A custom-designed `[-] Quantity [+]` stepper with micro-interaction hover and click scaling, replacing default browser number controls.
+- **Variant-Specific Rendering**: Dynamically matches and displays selected variant attributes (Color, Size, Material) and displays the variant-specific image (with product image fallback).
+- **Redux-Integrated Local State**: Manage quantities, removals, and additions instantly with clean state slice actions.
+- **Dynamic Summary**: Order summary module calculating subtotal, platform fee, 9% tax, and grand totals instantly in sync with variant prices.
+- **Animated Cart Icon & Badge**: Fixed header shopping bag icon displaying current cart item counts with a subtle scale pop animation on badge count changes.
+
 ### 👔 Seller Workspace
 - **Personal Dashboard**: Track and manage all active listings with interactive controls.
 - **Seamless Creation Flow**: Add and edit listings using a clean wizard-style form built with reusable, bottom-bordered inputs (`WorkspaceInput`).
@@ -70,6 +78,7 @@ day-27-snitch/
 │   │   ├── app/               # Root routing config & App.css styles
 │   │   ├── features/
 │   │   │   ├── auth/          # Authentication pages, components, & assets
+│   │   │   ├── cart/          # Premium shopping cart layout, item lists, summaries, & Redux state
 │   │   │   └── products/      # Products catalog, marketplace, and seller dashboard
 │   │   │       ├── components/
 │   │   │       │   ├── shared/# Deduplicated widgets (ImageCarousel, WorkspaceInput)
