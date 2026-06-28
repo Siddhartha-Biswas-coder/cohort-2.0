@@ -88,8 +88,7 @@ const Home = () => {
       {/* Hero */}
       <HeroSection />
 
-      {/* Featured Collection */}
-      {hasProducts && <FeaturedCollection products={products} />}
+
 
       {/* Product Discovery Section */}
       <section 
@@ -154,7 +153,7 @@ const Home = () => {
 
         {/* Product Grid or Empty State */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5">
             {filteredProducts.map((product, index) => (
               <HomeProductCard 
                 key={product.productId} 

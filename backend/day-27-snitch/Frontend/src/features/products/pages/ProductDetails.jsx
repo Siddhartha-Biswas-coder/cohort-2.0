@@ -25,6 +25,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { handleGetProductDetailsById, handleGetAllProducts } = useProduct();
   const { handleAddItem } = useCart();
+  const user = useSelector((state) => state.auth.user);
 
   // State
   const [productDetails, setProductDetails] = useState(null);
@@ -237,6 +238,10 @@ const ProductDetails = () => {
             {/* Purchase panel actions */}
             <PurchasePanel
               onAddToCart={async () => {
+                if (!user) {
+                  navigate("/login");
+                  return;
+                }
                 try {
                   await handleAddItem({
                     productId,

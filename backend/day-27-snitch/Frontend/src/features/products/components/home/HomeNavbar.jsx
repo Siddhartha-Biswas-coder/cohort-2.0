@@ -6,6 +6,7 @@ import ThemeToggle from "../../../../app/components/ThemeToggle.jsx";
 const HomeNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
   const itemCount = cartItems.length;
   const isCartActive = location.pathname === "/cart";
@@ -97,7 +98,13 @@ const HomeNavbar = () => {
           {/* Cart Icon */}
           <button
             type="button"
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              if (!user) {
+                navigate("/login");
+              } else {
+                navigate("/cart");
+              }
+            }}
             aria-label={`Shopping cart (${itemCount} items)`}
             className={`relative flex items-center justify-center w-9 h-9 transition-all duration-300 cursor-pointer bg-transparent border-none group
               ${isCartActive ? "text-gold-400" : "text-charcoal-500 hover:text-gold-400"}`}

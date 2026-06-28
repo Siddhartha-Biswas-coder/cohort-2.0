@@ -85,21 +85,9 @@ export const useAuth = () => {
       const data = await getMe();
       dispatch(setUser(data.data.user));
     }catch(err){
-      const errorsArray = err.response?.data?.errors;
-      let errMsg = err.response?.data?.message;
-
-      if (
-        !errMsg &&
-        errorsArray &&
-        Array.isArray(errorsArray) &&
-        errorsArray.length > 0
-      ) {
-        errMsg = errorsArray.map((e) => e.msg).join(", ");
-      }
-
-      errMsg = errMsg || err.message || "Failed to get user";
-      dispatch(setError(errMsg));
-      throw new Error(errMsg);
+      // Session check failed (expected for guests), clear user & error state
+      dispatch(setUser(null));
+      dispatch(setError(null));
     }finally{
       dispatch(setLoading(false));
     }
