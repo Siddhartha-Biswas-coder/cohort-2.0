@@ -3,7 +3,7 @@ import SellerSidebar from "./SellerSidebar.jsx";
 import StudioSidebar from "../seller-product/StudioSidebar.jsx";
 import SellerTopBar from "./SellerTopBar.jsx";
 import SellerFooter from "./SellerFooter.jsx";
-import Toast from "./Toast.jsx";
+import Toast from "../../../shared/components/Toast.jsx";
 
 /**
  * SellerLayout — master layout wrapper for all seller pages

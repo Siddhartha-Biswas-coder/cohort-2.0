@@ -79,6 +79,7 @@ day-27-snitch/
 │   │   ├── features/
 │   │   │   ├── auth/          # Authentication pages, components, & assets
 │   │   │   ├── cart/          # Premium shopping cart layout, item lists, summaries, & Redux state
+│   │   │   ├── shared/        # Shared application components (Nav.jsx, Footer.jsx, Toast.jsx)
 │   │   │   └── products/      # Products catalog, marketplace, and seller dashboard
 │   │   │       ├── components/
 │   │   │       │   ├── shared/# Deduplicated widgets (ImageCarousel, WorkspaceInput)

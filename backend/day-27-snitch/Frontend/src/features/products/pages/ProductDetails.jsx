@@ -6,9 +6,7 @@ import { useCart } from "../../cart/hooks/useCart.js";
 import { useScrollReveal } from "../hooks/useScrollReveal.js";
 
 // Layout & Global Components
-import HomeNavbar from "../components/home/HomeNavbar.jsx";
-import HomeFooter from "../components/home/HomeFooter.jsx";
-import Toast from "../components/shared/Toast.jsx";
+import Toast from "../../shared/components/Toast.jsx";
 
 // Page Subcomponents
 import ProductGallery from "../components/product/ProductGallery.jsx";
@@ -150,14 +148,12 @@ const ProductDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-charcoal-950 text-charcoal-400 flex flex-col justify-between">
-        <HomeNavbar />
         <div className="flex flex-col items-center justify-center py-40 grow select-none">
           <div className="w-8 h-8 border border-t-gold-400 border-charcoal-800 rounded-full animate-spin mb-4" />
           <span className="font-display text-[10px] font-semibold uppercase tracking-[0.25em] text-gold-400">
             Loading Catalog Details...
           </span>
         </div>
-        <HomeFooter />
       </div>
     );
   }
@@ -166,7 +162,6 @@ const ProductDetails = () => {
   if (error || !productDetails) {
     return (
       <div className="min-h-screen bg-charcoal-950 text-charcoal-400 flex flex-col justify-between">
-        <HomeNavbar />
         <div className="flex flex-col items-center justify-center text-center px-6 py-40 grow select-none">
           <span className="font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-gold-400 mb-6">
             Maison Lumière
@@ -186,7 +181,6 @@ const ProductDetails = () => {
             Return to Marketplace
           </button>
         </div>
-        <HomeFooter />
       </div>
     );
   }
@@ -198,8 +192,6 @@ const ProductDetails = () => {
     <div className="min-h-screen bg-charcoal-950 text-charcoal-400 flex flex-col justify-between">
       {/* Toast Alert */}
       {toast && <Toast title={toast.title} message={toast.message} />}
-
-      <HomeNavbar />
 
       {/* Main Luxury Canvas layout */}
       <main className="pt-24 md:pt-28 pb-16 max-w-240 mx-auto px-6 md:px-12 w-full grow">
@@ -315,8 +307,6 @@ const ProductDetails = () => {
           />
         </section>
       </main>
-
-      <HomeFooter />
     </div>
   );
 };

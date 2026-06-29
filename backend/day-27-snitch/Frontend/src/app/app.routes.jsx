@@ -8,12 +8,9 @@ import Home from "../features/products/pages/Home.jsx";
 import ProductDetails from "../features/products/pages/ProductDetails.jsx";
 import SellerProductManagementPage from "../features/products/pages/SellerProductManagementPage.jsx";
 import CartPage from "../features/cart/pages/CartPage.jsx";
+import AppLayout from "./AppLayout.jsx";
 
 export const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
   {
     path: "/register",
     element: <Register />,
@@ -23,44 +20,54 @@ export const routes = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/product/:productId",
-    element: <ProductDetails />,
-  },
-  {
-    path: "/seller",
+    element: <AppLayout />,
     children: [
       {
-        path: "create-listing",
-        element: (
-          <Protected role="seller">
-            <CreateProduct />
-          </Protected>
-        ),
+        path: "/",
+        element: <Home />,
+      },
+
+      {
+        path: "/product/:productId",
+        element: <ProductDetails />,
       },
       {
-        path: "dashboard",
-        element: (
-          <Protected role="seller">
-            <SellerDashBoard />
-          </Protected>
-        ),
+        path: "/seller",
+        children: [
+          {
+            path: "create-listing",
+            element: (
+              <Protected role="seller">
+                <CreateProduct />
+              </Protected>
+            ),
+          },
+          {
+            path: "dashboard",
+            element: (
+              <Protected role="seller">
+                <SellerDashBoard />
+              </Protected>
+            ),
+          },
+          {
+            path: "product/:productId",
+            element: (
+              <Protected role="seller">
+                <SellerProductManagementPage />
+              </Protected>
+            ),
+          },
+        ],
       },
       {
-        path: "product/:productId",
+        path: "/cart",
         element: (
-          <Protected role="seller">
-            <SellerProductManagementPage />
+          <Protected role="buyer">
+            <CartPage />
           </Protected>
         ),
       },
     ],
-  },
-  {
-    path: "/cart",
-    element: (
-      <Protected role="buyer">
-        <CartPage />
-      </Protected>
-    ),
   },
 ]);

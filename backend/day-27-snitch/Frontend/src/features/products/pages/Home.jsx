@@ -4,13 +4,10 @@ import { useProduct } from "../hooks/useProduct.js";
 import { useScrollReveal } from "../hooks/useScrollReveal.js";
 
 // Home page components
-import HomeNavbar from "../components/home/HomeNavbar.jsx";
 import HeroSection from "../components/home/HeroSection.jsx";
-import FeaturedCollection from "../components/home/FeaturedCollection.jsx";
 import ListingFilters from "../components/listings/ListingFilters.jsx";
 import HomeProductCard from "../components/home/HomeProductCard.jsx";
 import HomeEmptyState from "../components/home/HomeEmptyState.jsx";
-import HomeFooter from "../components/home/HomeFooter.jsx";
 
 const Home = () => {
   const { handleGetAllProducts } = useProduct();
@@ -82,9 +79,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-charcoal-950 text-charcoal-400 antialiased">
-      {/* Navigation */}
-      <HomeNavbar />
-
       {/* Hero */}
       <HeroSection />
 
@@ -167,9 +161,6 @@ const Home = () => {
           <HomeEmptyState />
         )}
       </section>
-
-      {/* Footer */}
-      <HomeFooter />
     </div>
   );
 };

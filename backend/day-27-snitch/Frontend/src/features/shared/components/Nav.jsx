@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import ThemeToggle from "../../../../app/components/ThemeToggle.jsx";
+import ThemeToggle from "../../../app/components/ThemeToggle.jsx";
 
-const HomeNavbar = () => {
+const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector((state) => state.auth.user);
@@ -161,5 +161,4 @@ const HomeNavbar = () => {
   );
 };
 
-export default HomeNavbar;
-
+export default Nav;
