@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../state/cart.state.js";
+import { removeItem } from "../state/cart.state.js";
 import CartQuantitySelector from "./CartQuantitySelector.jsx";
+import { useCart } from "../hooks/useCart.js";
 
 // Helper: resolve product ID and variant ID from a cart item
 const resolveIds = (item) => {
   const productId =
-    item.product?._id?.toString() ||
-    item.product?.toString() ||
-    item.product;
+    item.product?._id?.toString() || item.product?.toString() || item.product;
   const variantId =
-    item.variant?._id?.toString() ||
-    item.variant?.toString() ||
-    item.variant;
+    item.variant?._id?.toString() || item.variant?.toString() || item.variant;
   return { productId, variantId };
 };
 
@@ -49,6 +46,8 @@ const VariantChips = ({ attributes }) => {
 
 const CartItemCard = ({ item, index }) => {
   const dispatch = useDispatch();
+  const { handleIncrementCartItemQuantity, handleDecrementCartItemQuantity } =
+    useCart();
   const [removing, setRemoving] = useState(false);
   const [savedForLater, setSavedForLater] = useState(false);
 
@@ -56,10 +55,8 @@ const CartItemCard = ({ item, index }) => {
 
   // Populated product data (from getCart API)
   const product = item.product;
-  const title =
-    typeof product === "object" ? product?.title : "Product";
-  const description =
-    typeof product === "object" ? product?.description : "";
+  const title = typeof product === "object" ? product?.title : "Product";
+  const description = typeof product === "object" ? product?.description : "";
 
   // Resolve the active variant object from the product's variants array
   const matchedVariant =
@@ -77,20 +74,28 @@ const CartItemCard = ({ item, index }) => {
 
   const price = matchedVariant?.price || item.price;
   const quantity = item.quantity ?? 1;
-  const subtotal = price?.amount
-    ? price.amount * quantity
-    : null;
+  const subtotal = price?.amount ? price.amount * quantity : null;
 
-  const availableStock = matchedVariant 
-    ? matchedVariant.stock 
-    : (typeof product === "object" ? product.stock : 0);
+  const availableStock = matchedVariant
+    ? matchedVariant.stock
+    : typeof product === "object"
+      ? product.stock
+      : 0;
 
-  const handleDecrease = () => {
-    dispatch(updateQuantity({ productId, variantId, quantity: quantity - 1 }));
+  const handleDecrease = async () => {
+    try {
+      await handleDecrementCartItemQuantity({ productId, variantId });
+    } catch (err) {
+      console.error("Failed to decrease quantity:", err);
+    }
   };
 
-  const handleIncrease = () => {
-    dispatch(updateQuantity({ productId, variantId, quantity: quantity + 1 }));
+  const handleIncrease = async () => {
+    try {
+      await handleIncrementCartItemQuantity({ productId, variantId });
+    } catch (err) {
+      console.error("Failed to increment quantity:", err);
+    }
   };
 
   const handleRemove = () => {
@@ -169,20 +174,22 @@ const CartItemCard = ({ item, index }) => {
               max={availableStock}
             />
             {availableStock !== undefined && (
-              <span className={`text-[10px] font-sans tracking-wide transition-colors ${
-                availableStock === 0 
-                  ? "text-red-400 font-semibold animate-pulse" 
-                  : availableStock <= 5 
-                  ? "text-red-400 font-semibold" 
-                  : availableStock <= 20 
-                  ? "text-amber-400 font-medium" 
-                  : "text-emerald-400 font-medium"
-              }`}>
-                {availableStock === 0 
-                  ? "• Out of Stock" 
-                  : availableStock <= 5 
-                  ? `• Only ${availableStock} left` 
-                  : `• ${availableStock} available`}
+              <span
+                className={`text-[10px] font-sans tracking-wide transition-colors ${
+                  availableStock === 0
+                    ? "text-red-400 font-semibold animate-pulse"
+                    : availableStock <= 5
+                      ? "text-red-400 font-semibold"
+                      : availableStock <= 20
+                        ? "text-amber-400 font-medium"
+                        : "text-emerald-400 font-medium"
+                }`}
+              >
+                {availableStock === 0
+                  ? "• Out of Stock"
+                  : availableStock <= 5
+                    ? `• Only ${availableStock} left`
+                    : `• ${availableStock} available`}
               </span>
             )}
           </div>
@@ -192,7 +199,10 @@ const CartItemCard = ({ item, index }) => {
                 Subtotal
               </span>
               <span className="font-display text-sm font-semibold text-charcoal-300">
-                {formatPrice({ amount: subtotal, currency: price?.currency || "INR" })}
+                {formatPrice({
+                  amount: subtotal,
+                  currency: price?.currency || "INR",
+                })}
               </span>
             </div>
           )}

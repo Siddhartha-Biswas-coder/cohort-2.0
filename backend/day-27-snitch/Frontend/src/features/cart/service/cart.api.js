@@ -24,3 +24,31 @@ export const getCart = async () => {
     throw error.response.data.message;
   }
 };
+
+export const incrementCartItemQuantityService = async ({
+  productId,
+  variantId,
+}) => {
+  try {
+    const response = await cartApiInstance.patch(
+      `/quantity/increment/${productId}/${variantId}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
+};
+
+export const decrementCartItemQuantityService = async ({
+  productId,
+  variantId,
+}) => {
+  try {
+    const response = await cartApiInstance.patch(
+      `/quantity/decrement/${productId}/${variantId}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
+};

@@ -117,3 +117,128 @@ export const getCartController = asyncHandler(async (req, res) => {
     ),
   );
 });
+
+export const incrementCartItemQuantityController = asyncHandler(
+  async (req, res) => {
+    const { productId, variantId } = req.params;
+
+    const product = await productModel.findOne({
+      _id: productId,
+      "variants._id": variantId,
+    });
+
+    if (!product) {
+      throw new ApiError(404, "Product or variant not found");
+    }
+
+    const cart = await cartModel.findOne({ user: req.user._id });
+
+    if (!cart) {
+      throw new ApiError(404, "Cart not found");
+    }
+
+    const stock = await stockOfVariantDAO(productId, variantId);
+
+    const existingItemQuantity =
+      cart.items.find(
+        (item) =>
+          item.product.toString() === productId &&
+          item.variant?.toString() === variantId,
+      )?.quantity || 0;
+
+    if (existingItemQuantity === 0) {
+      throw new ApiError(404, "Cart item not found");
+    }
+
+    if (stock < existingItemQuantity + 1) {
+      throw new ApiError(
+        400,
+        `Only ${stock} items left in stock, and you already have ${existingItemQuantity} in your cart`,
+      );
+    }
+
+    const updatedCart = await cartModel.findOneAndUpdate(
+      {
+        user: req.user._id,
+        "items.product": productId,
+        "items.variant": variantId,
+      },
+      { $inc: { "items.$.quantity": 1 } },
+      { new: true },
+    );
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          cart: {
+            user: updatedCart.user,
+            items: updatedCart.items,
+          },
+        },
+        "Cart item quantity incremented successfully",
+      ),
+    );
+  },
+);
+
+export const decrementCartItemQuantityController = asyncHandler(
+  async (req, res) => {
+    const { productId, variantId } = req.params;
+
+    const product = await productModel.findOne({
+      _id: productId,
+      "variants._id": variantId,
+    });
+
+    if (!product) {
+      throw new ApiError(404, "Product or variant not found");
+    }
+
+    const cart = await cartModel.findOne({ user: req.user._id });
+
+    if (!cart) {
+      throw new ApiError(404, "Cart not found");
+    }
+
+    const stock = await stockOfVariantDAO(productId, variantId);
+
+    const existingItemQuantity =
+      cart.items.find(
+        (item) =>
+          item.product.toString() === productId &&
+          item.variant?.toString() === variantId,
+      )?.quantity || 0;
+
+    if (existingItemQuantity === 0) {
+      throw new ApiError(404, "Cart item not found");
+    }
+
+    if (existingItemQuantity === 1) {
+      throw new ApiError(404, "Cart item already set to minimum quantity");
+    }
+
+    const updatedCart = await cartModel.findOneAndUpdate(
+      {
+        user: req.user._id,
+        "items.product": productId,
+        "items.variant": variantId,
+      },
+      { $inc: { "items.$.quantity": -1 } },
+      { new: true },
+    );
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          cart: {
+            user: updatedCart.user,
+            items: updatedCart.items,
+          },
+        },
+        "Cart item quantity decremented successfully",
+      ),
+    );
+  },
+);
