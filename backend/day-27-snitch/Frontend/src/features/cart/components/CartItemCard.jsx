@@ -81,6 +81,10 @@ const CartItemCard = ({ item, index }) => {
     ? price.amount * quantity
     : null;
 
+  const availableStock = matchedVariant 
+    ? matchedVariant.stock 
+    : (typeof product === "object" ? product.stock : 0);
+
   const handleDecrease = () => {
     dispatch(updateQuantity({ productId, variantId, quantity: quantity - 1 }));
   };
@@ -157,11 +161,31 @@ const CartItemCard = ({ item, index }) => {
 
         {/* Quantity + Subtotal Row */}
         <div className="flex items-center justify-between gap-4 mt-1">
-          <CartQuantitySelector
-            quantity={quantity}
-            onDecrease={handleDecrease}
-            onIncrease={handleIncrease}
-          />
+          <div className="flex items-center gap-3">
+            <CartQuantitySelector
+              quantity={quantity}
+              onDecrease={handleDecrease}
+              onIncrease={handleIncrease}
+              max={availableStock}
+            />
+            {availableStock !== undefined && (
+              <span className={`text-[10px] font-sans tracking-wide transition-colors ${
+                availableStock === 0 
+                  ? "text-red-400 font-semibold animate-pulse" 
+                  : availableStock <= 5 
+                  ? "text-red-400 font-semibold" 
+                  : availableStock <= 20 
+                  ? "text-amber-400 font-medium" 
+                  : "text-emerald-400 font-medium"
+              }`}>
+                {availableStock === 0 
+                  ? "• Out of Stock" 
+                  : availableStock <= 5 
+                  ? `• Only ${availableStock} left` 
+                  : `• ${availableStock} available`}
+              </span>
+            )}
+          </div>
           {subtotal !== null && (
             <div className="text-right">
               <span className="font-display text-[9px] uppercase tracking-widest text-charcoal-500 block mb-0.5">

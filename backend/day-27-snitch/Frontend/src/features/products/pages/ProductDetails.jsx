@@ -267,6 +267,7 @@ const ProductDetails = () => {
                 hasVariants && isVariantFullyResolved && displayStock === 0
               }
               disabled={hasVariants && !isVariantFullyResolved}
+              stock={displayStock}
             />
 
             {/* Product Specifications & Care Accordions */}

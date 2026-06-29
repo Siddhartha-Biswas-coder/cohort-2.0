@@ -6,16 +6,16 @@ const StockBadge = ({ stock = 0 }) => {
 
   if (stock === 0) {
     text = "Out of Stock";
-    badgeClasses = "border-charcoal-700/50 text-charcoal-500 bg-charcoal-800/10";
+    badgeClasses = "border-charcoal-800 text-charcoal-500 bg-charcoal-950/10";
   } else if (stock <= 5) {
     text = `Only ${stock} Left`;
-    badgeClasses = "border-gold-500/35 text-gold-500/90 bg-gold-400/5";
-  } else if (stock <= 10) {
-    text = "Low Inventory";
-    badgeClasses = "border-gold-500/25 text-gold-500/80 bg-gold-400/3";
+    badgeClasses = "border-red-900/35 text-red-400 bg-red-950/20 shadow-[0_0_12px_rgba(239,68,68,0.05)]";
+  } else if (stock <= 20) {
+    text = `Low Inventory (${stock} Left)`;
+    badgeClasses = "border-amber-900/30 text-amber-400 bg-amber-950/15 shadow-[0_0_12px_rgba(245,158,11,0.03)]";
   } else {
-    text = "In Stock";
-    badgeClasses = "border-charcoal-800 text-charcoal-400 bg-charcoal-900/30";
+    text = `In Stock (${stock} Available)`;
+    badgeClasses = "border-emerald-900/30 text-emerald-400 bg-emerald-950/15 shadow-[0_0_12px_rgba(16,185,129,0.03)]";
   }
 
   return (

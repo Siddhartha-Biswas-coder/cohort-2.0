@@ -6,6 +6,7 @@ const PurchasePanel = ({
   onBuyNow,
   isOutOfStock = false,
   disabled = false,
+  stock = 0,
 }) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -50,7 +51,25 @@ const PurchasePanel = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 w-full mb-8 select-none">
+    <div className="flex flex-col gap-3.5 w-full mb-8 select-none">
+      {/* Stock Availability Info */}
+      {!disabled && (
+        <div className="flex items-center justify-between pb-1">
+          <span className="font-display text-[9px] font-semibold uppercase tracking-widest text-charcoal-500">
+            Availability
+          </span>
+          <span className={`font-sans text-xs font-semibold ${stock === 0 ? "text-red-400" : stock <= 5 ? "text-red-400" : stock <= 20 ? "text-amber-400" : "text-emerald-400"}`}>
+            {stock === 0 
+              ? "Out of Stock" 
+              : stock <= 5 
+              ? `Only ${stock} Left` 
+              : stock <= 20 
+              ? `Low Inventory (${stock} Left)` 
+              : `In Stock (${stock} Available)`}
+          </span>
+        </div>
+      )}
+
       {/* Buy Now Button - Primary action */}
       <button
         type="button"

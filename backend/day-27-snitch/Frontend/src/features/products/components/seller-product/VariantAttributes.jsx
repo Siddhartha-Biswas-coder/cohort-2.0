@@ -2,6 +2,13 @@ import React from "react";
 
 const PRESET_KEYS = ["Color", "Size", "Material", "Edition"];
 
+const PRESET_VALUES = {
+  Color: ["Black", "White", "Blue", "Navy", "Red", "Gold", "Beige", "Ivory", "Silver", "Gray", "Green", "Emerald", "Brown", "Silk", "Champagne", "Pale Pink"],
+  Size: ["S", "M", "L", "XL", "XXL"],
+  Material: ["Cotton", "Silk", "Suede", "Leather", "Linen", "Wool", "Denim", "Satin"],
+  Edition: ["Standard", "Limited Edition", "Archival"]
+};
+
 const getPlaceholder = (key) => {
   switch (key) {
     case "Color":
@@ -17,13 +24,100 @@ const getPlaceholder = (key) => {
   }
 };
 
+const CustomSelect = ({ value, options, onChange, placeholder = "Select option...", showCustomOption = true }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const containerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  const handleSelect = (val) => {
+    onChange(val);
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-transparent border-b border-charcoal-800 py-2.5 text-xs text-left text-gold-50 flex items-center justify-between hover:border-gold-400 focus:outline-none focus:border-gold-400 transition-all duration-300 cursor-pointer"
+      >
+        <span className="truncate">{value || placeholder}</span>
+        <svg
+          className={`h-3.5 w-3.5 text-charcoal-600 transition-transform duration-300 shrink-0 ml-2 ${isOpen ? "rotate-180 text-gold-400" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 right-0 mt-2 bg-charcoal-900 border border-charcoal-850 rounded-sm shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_0_1px_rgba(197,160,89,0.1)] z-50 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-charcoal-800 scrollbar-track-transparent">
+          <ul className="py-1 divide-y divide-charcoal-850/20">
+            {showCustomOption && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => handleSelect("__custom")}
+                  className="w-full text-left px-4 py-2 text-xs text-gold-400 font-display font-bold uppercase tracking-widest hover:bg-gold-400/5 hover:text-gold-300 transition-all cursor-pointer"
+                >
+                  Custom...
+                </button>
+              </li>
+            )}
+            
+            {options.map((opt) => (
+              <li key={opt}>
+                <button
+                  type="button"
+                  onClick={() => handleSelect(opt)}
+                  className={`w-full text-left px-4 py-2 text-xs transition-all cursor-pointer ${
+                    value === opt 
+                      ? "text-gold-400 bg-gold-400/5 font-semibold" 
+                      : "text-charcoal-300 hover:bg-charcoal-800 hover:text-gold-400"
+                  }`}
+                >
+                  {opt}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const VariantAttributes = ({
   attributesList = [],
   onChange,
 }) => {
 
   const addAttributeRow = () => {
-    onChange([...attributesList, { key: "Color", value: "", isCustom: false, customKey: "" }]);
+    const existingKeys = attributesList.map((r) => (r.isCustom ? "Custom" : r.key));
+    const nextPreset = PRESET_KEYS.find((k) => !existingKeys.includes(k));
+
+    if (nextPreset) {
+      onChange([
+        ...attributesList,
+        { key: nextPreset, value: "", isCustom: false, customKey: "" },
+      ]);
+    } else {
+      onChange([
+        ...attributesList,
+        { key: "Custom", value: "", isCustom: true, customKey: "" },
+      ]);
+    }
   };
 
   const removeAttributeRow = (idx) => {
@@ -34,11 +128,16 @@ const VariantAttributes = ({
   const handleRowChange = (idx, field, value) => {
     const updated = attributesList.map((row, i) => {
       if (i !== idx) return row;
-      const updatedRow = { ...row, [field]: value };
+      let updatedRow;
+      if (typeof field === "object") {
+        updatedRow = { ...row, ...field };
+      } else {
+        updatedRow = { ...row, [field]: value };
+      }
       
-      // If type key changes, reset custom configurations
-      if (field === "key") {
-        if (value === "Custom") {
+      const checkKey = typeof field === "object" ? field.key : (field === "key" ? value : undefined);
+      if (checkKey !== undefined) {
+        if (checkKey === "Custom") {
           updatedRow.isCustom = true;
         } else {
           updatedRow.isCustom = false;
@@ -71,30 +170,28 @@ const VariantAttributes = ({
       {attributesList.length > 0 ? (
         <div className="space-y-4">
           {attributesList.map((row, idx) => (
-            <div key={idx} className="flex flex-col sm:flex-row gap-4 items-start bg-charcoal-950/40 border border-charcoal-800/40 p-4 rounded-md relative group/row">
+            <div key={idx} className="flex flex-col sm:flex-row gap-4 items-end bg-charcoal-950/40 border border-charcoal-800/40 p-4 rounded-md relative group/row pb-5">
               
               {/* Key selection dropdown */}
               <div className="flex-1 w-full flex flex-col gap-2">
                 <label className="text-[8px] font-display font-bold uppercase tracking-widest text-charcoal-500">
                   Dimension Key
                 </label>
-                <div className="relative">
-                  <select
-                    value={row.isCustom ? "Custom" : row.key}
-                    onChange={(e) => handleRowChange(idx, "key", e.target.value)}
-                    className="w-full bg-transparent border-b border-charcoal-800 py-2 pr-8 text-xs text-gold-50 appearance-none focus:outline-none focus:border-gold-400 transition-all cursor-pointer"
-                  >
-                    {PRESET_KEYS.map((k) => (
-                      <option key={k} value={k} className="bg-charcoal-900 text-gold-50">{k}</option>
-                    ))}
-                    <option value="Custom" className="bg-charcoal-900 text-gold-50">Custom...</option>
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-charcoal-600">
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
+                <CustomSelect
+                  value={row.isCustom ? "Custom" : row.key}
+                  options={PRESET_KEYS.filter(
+                    (k) => !attributesList.some((r, i) => i !== idx && !r.isCustom && r.key === k)
+                  )}
+                  onChange={(val) => {
+                    if (val === "__custom") {
+                      handleRowChange(idx, "key", "Custom");
+                    } else {
+                      handleRowChange(idx, "key", val);
+                    }
+                  }}
+                  placeholder="Select Key"
+                  showCustomOption={true}
+                />
               </div>
 
               {/* Custom Key Name textfield */}
@@ -108,7 +205,7 @@ const VariantAttributes = ({
                     value={row.customKey || ""}
                     onChange={(e) => handleRowChange(idx, "customKey", e.target.value)}
                     placeholder="e.g. Closure"
-                    className="w-full bg-transparent border-b border-charcoal-800 py-1.5 text-xs text-gold-50 placeholder-charcoal-600 focus:outline-none focus:border-gold-400 transition-all"
+                    className="w-full bg-transparent border-b border-charcoal-800 py-2.5 text-xs text-gold-50 placeholder-charcoal-600 focus:outline-none focus:border-gold-400 transition-all"
                   />
                 </div>
               )}
@@ -118,20 +215,51 @@ const VariantAttributes = ({
                 <label className="text-[8px] font-display font-bold uppercase tracking-widest text-charcoal-500">
                   Attribute Value
                 </label>
-                <input
-                  type="text"
-                  value={row.value || ""}
-                  onChange={(e) => handleRowChange(idx, "value", e.target.value)}
-                  placeholder={getPlaceholder(row.key)}
-                  className="w-full bg-transparent border-b border-charcoal-800 py-1.5 text-xs text-gold-50 placeholder-charcoal-600 focus:outline-none focus:border-gold-400 transition-all"
-                />
+                
+                {row.isCustom || row.showCustomInput || (row.value && !PRESET_VALUES[row.key]?.includes(row.value)) ? (
+                  <div className="relative flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={row.value === "__custom" ? "" : (row.value || "")}
+                      onChange={(e) => handleRowChange(idx, "value", e.target.value)}
+                      placeholder={getPlaceholder(row.key)}
+                      className="w-full bg-transparent border-b border-charcoal-800 py-2.5 text-xs text-gold-50 placeholder-charcoal-600 focus:outline-none focus:border-gold-400 transition-all pr-12"
+                    />
+                    {!row.isCustom && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleRowChange(idx, { showCustomInput: false, value: "" });
+                        }}
+                        className="absolute right-0 bottom-2.5 text-gold-600 hover:text-gold-400 transition-colors text-[9px] font-display font-semibold uppercase tracking-widest"
+                        title="Back to dropdown"
+                      >
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <CustomSelect
+                    value={row.value || ""}
+                    options={PRESET_VALUES[row.key] || []}
+                    onChange={(val) => {
+                      if (val === "__custom") {
+                        handleRowChange(idx, { showCustomInput: true, value: "" });
+                      } else {
+                        handleRowChange(idx, "value", val);
+                      }
+                    }}
+                    placeholder="Select Value"
+                    showCustomOption={true}
+                  />
+                )}
               </div>
 
               {/* Remove Row Button */}
               <button
                 type="button"
                 onClick={() => removeAttributeRow(idx)}
-                className="absolute top-2 right-2 sm:static sm:self-end sm:mb-1.5 p-1 rounded-sm text-charcoal-600 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
+                className="absolute top-2 right-2 sm:static sm:self-end sm:mb-2.25 p-1 rounded-sm text-charcoal-600 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer"
                 title="Remove dimension"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

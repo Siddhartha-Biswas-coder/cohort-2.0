@@ -101,6 +101,9 @@ const VariantModal = ({
         newErrors.attributes = `Value is missing for attribute "${finalKey || 'Row ' + (i+1)}"`;
       }
       if (finalKey && row.value?.trim()) {
+        if (validAttributes[finalKey] !== undefined) {
+          newErrors.attributes = `Duplicate attribute key "${finalKey}" is not allowed. Each key can only be set once per variant.`;
+        }
         validAttributes[finalKey] = row.value.trim();
       }
     });
