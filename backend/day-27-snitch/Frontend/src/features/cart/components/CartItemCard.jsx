@@ -76,6 +76,10 @@ const CartItemCard = ({ item, index }) => {
   const quantity = item.quantity ?? 1;
   const subtotal = price?.amount ? price.amount * quantity : null;
 
+  const oldPrice = item.price;
+  const newPrice = matchedVariant?.price || (typeof product === "object" ? product?.price : null);
+  const isPriceChanged = oldPrice && newPrice && oldPrice.amount !== newPrice.amount;
+
   const availableStock = matchedVariant
     ? matchedVariant.stock
     : typeof product === "object"
@@ -164,6 +168,23 @@ const CartItemCard = ({ item, index }) => {
         {/* Variant Chips */}
         {attributes && <VariantChips attributes={attributes} />}
 
+        {/* Price Update Alert Box */}
+        {isPriceChanged && (
+          <div className="bg-amber-950/10 border border-amber-900/35 px-3 py-2 mt-2 flex flex-col gap-0.5 select-none rounded-sm">
+            <span className="font-display text-[9px] font-bold uppercase tracking-widest text-amber-500">
+              Price Updated
+            </span>
+            <div className="flex items-center gap-1.5 font-display text-[10px] font-semibold text-charcoal-200">
+              <span>{formatPrice(oldPrice)}</span>
+              <span className="text-amber-500">→</span>
+              <span className="text-gold-400">{formatPrice(newPrice)}</span>
+            </div>
+            <p className="font-sans text-[10px] text-charcoal-500 font-light leading-snug">
+              This item's price has changed since it was added to your cart
+            </p>
+          </div>
+        )}
+
         {/* Quantity + Subtotal Row */}
         <div className="flex items-center justify-between gap-4 mt-1">
           <div className="flex items-center gap-3">
@@ -193,6 +214,7 @@ const CartItemCard = ({ item, index }) => {
               </span>
             )}
           </div>
+
           {subtotal !== null && (
             <div className="text-right">
               <span className="font-display text-[9px] uppercase tracking-widest text-charcoal-500 block mb-0.5">

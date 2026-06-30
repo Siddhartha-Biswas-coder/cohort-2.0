@@ -27,7 +27,7 @@ const VariantSelector = ({
     if (!variants || variants.length === 0) return {};
     const map = {};
     attributeKeys.forEach((key) => {
-      map[key] = [];
+      map[key] = ["Original"];
       variants.forEach((variant) => {
         if (variant.attributes && variant.attributes[key]) {
           const val = variant.attributes[key];
@@ -45,6 +45,7 @@ const VariantSelector = ({
   //   - has [key]: [value]
   //   - has all currently selected attributes (for OTHER keys)
   const isOptionAvailable = (key, value) => {
+    if (value === "Original") return true;
     if (!variants || variants.length === 0) return false;
 
     // Build test selections: keep all selections except for this key, add this value
@@ -67,6 +68,13 @@ const VariantSelector = ({
   // Handle attribute chip click — always callable, even for unavailable options
   const handleSelectAttribute = (key, value) => {
     if (!variants || variants.length === 0) return;
+
+    if (value === "Original") {
+      const nextSelections = { ...selectedAttributes };
+      delete nextSelections[key];
+      onChangeSelectedAttributes(nextSelections);
+      return;
+    }
 
     // Toggle: if already selected, deselect it and find best remaining match
     if (selectedAttributes[key] === value) {
@@ -152,7 +160,7 @@ const VariantSelector = ({
             key={key}
             label={key}
             options={attributeValues[key]}
-            selectedValue={selectedAttributes[key]}
+            selectedValue={selectedAttributes[key] || "Original"}
             onSelect={handleSelectAttribute}
             isOptionDisabled={(k, v) => !isOptionAvailable(k, v)}
           />
