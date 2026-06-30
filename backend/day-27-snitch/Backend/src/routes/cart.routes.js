@@ -3,7 +3,7 @@ import { authenticateUser } from "../middlewares/auth.middleware.js";
 import {
   validateIncrementCartItemQuantity,
   validateDecrementCartItemQuantity,
-  validateAddToCart
+  validateAddToCart,
 } from "../validators/cart.validator.js";
 import {
   addToCartController,
@@ -11,6 +11,7 @@ import {
   incrementCartItemQuantityController,
   decrementCartItemQuantityController,
   razorPayOrderController,
+  verifyRazorPayOrderController,
 } from "../controllers/cart.controller.js";
 
 const router = Router();
@@ -75,10 +76,11 @@ router.patch(
  * @access Private
  */
 
-router.post(
-  "/payment/create/order",
-  authenticateUser,
-  razorPayOrderController,
-);
+router.post("/payment/create/order", authenticateUser, razorPayOrderController);
 
+router.post(
+  "/payment/verify/order",
+  authenticateUser,
+  verifyRazorPayOrderController,
+);
 export default router;

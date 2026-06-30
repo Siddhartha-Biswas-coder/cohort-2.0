@@ -30,7 +30,7 @@ const TrustIndicator = ({ text }) => (
 );
 
 const CartSummary = ({ items = [] }) => {
-  const { handleCreateCartOrder } = useCart();
+  const { handleCreateCartOrder, handleVerifyCartOrder } = useCart();
   const { error, isLoading, Razorpay } = useRazorpay();
 
   const navigate = useNavigate();
@@ -57,9 +57,13 @@ const CartSummary = ({ items = [] }) => {
         name: "LUMIÈRE",
         description: "LUMIÈRE",
         order_id: order.id, // Generate order_id on server
-        handler: (response) => {
+        handler: async (response) => {
           console.log(response);
-          alert("Payment Successful!");
+          const isValid = await handleVerifyCartOrder(response);
+
+          if (isValid) {
+            navigate(`/order-success?order=${response.razorpay_order_id}`);
+          }
         },
         prefill: {
           name: user?.fullname,

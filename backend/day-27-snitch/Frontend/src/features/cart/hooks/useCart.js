@@ -11,6 +11,7 @@ import {
   decrementCartItemQuantityService,
   getCart,
   incrementCartItemQuantityService,
+  verifyCartOrderService,
 } from "../service/cart.api.js";
 import { useDispatch } from "react-redux";
 
@@ -68,11 +69,32 @@ export const useCart = () => {
     }
   }
 
+  async function handleVerifyCartOrder({
+    razorpay_payment_id,
+    razorpay_order_id,
+    razorpay_signature,
+  }) {
+    try {
+      const data = await verifyCartOrderService({
+        razorpay_payment_id,
+        razorpay_order_id,
+        razorpay_signature,
+      });
+      return data.success;
+    } catch (err) {
+      console.error("Failed to verify cart order:", err);
+      throw err;
+    } finally {
+      dispatch(setCartLoading(false));
+    }
+  }
+
   return {
     handleAddItem,
     handleGetCart,
     handleIncrementCartItemQuantity,
     handleDecrementCartItemQuantity,
     handleCreateCartOrder,
+    handleVerifyCartOrder,
   };
 };

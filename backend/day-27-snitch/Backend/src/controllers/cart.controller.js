@@ -6,6 +6,9 @@ import cartModel from "../models/cart.model.js";
 import productModel from "../models/product.model.js";
 import { createRazorPayOrder } from "../services/payment.service.js";
 import { getCartDetailsDAO } from "../dao/cart.dao.js";
+import paymentModel from "../models/payment.model.js";
+import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
+import config from "../config/config.js";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
@@ -246,6 +249,7 @@ export const decrementCartItemQuantityController = asyncHandler(
 
 export const razorPayOrderController = asyncHandler(async (req, res) => {
   const cart = await getCartDetailsDAO(req.user._id);
+  console.log(cart);
 
   if (!cart || !cart.items || cart.items.length === 0) {
     throw new ApiError(400, "Cart is empty");
@@ -262,6 +266,31 @@ export const razorPayOrderController = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to create order");
   }
 
+  console.log(order);
+
+  const payment = await paymentModel.create({
+    user: req.user._id,
+    razorpay: {
+      orderId: order.id,
+    },
+    price: {
+      amount: allTotal,
+      currency: currency,
+    },
+    orderItems: cart.items.map((item) => ({
+      title: item.product.title,
+      productId: item.product._id,
+      variantId: item.variant,
+      quantity: item.quantity,
+      images: item.product.variants.images || item.product.images,
+      description: item.product.description,
+      price: {
+        amount: item.product.variants.price.amount || item.product.price.amount,
+        currency: item.product.variants.price.currency || item.price.currency,
+      },
+    })),
+  });
+
   return res.status(200).json(
     new ApiResponse(
       200,
@@ -269,6 +298,55 @@ export const razorPayOrderController = asyncHandler(async (req, res) => {
         order,
       },
       "Order created successfully",
+    ),
+  );
+});
+
+export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
+  const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
+
+  if (!razorpayPaymentId || !razorpayOrderId || !razorpaySignature) {
+    throw new ApiError(400, "All the fields are required");
+  }
+
+  const payment = await paymentModel.findOne({
+    "razorpay.orderId": razorpayOrderId,
+    user: req.user._id,
+    status: "pending",
+  });
+
+  if (!payment) {
+    throw new ApiError(404, "payment not found");
+  }
+
+  const isVerified = validatePaymentVerification(
+    {
+      payment_id: razorpayPaymentId,
+      order_id: razorpayOrderId,
+    },
+    razorpaySignature,
+    config.RAZOR_PAY_KEY_SECRET,
+  );
+
+  if (!isVerified) {
+    payment.status = "failed";
+    await payment.save();
+    throw new ApiError(400, "Payment verification failed");
+  }
+
+  payment.status = "completed";
+
+  ((payment.razorpay.paymentId = razorpayPaymentId),
+    (payment.razorpay.signature = razorpaySignature),
+    await payment.save());
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        payment,
+      },
+      "Payment verified successfully",
     ),
   );
 });
