@@ -1,5 +1,5 @@
 import {
-  setItems,
+  setCartData,
   addItem,
   setCartLoading,
   incrementCartItemQuantity,
@@ -25,10 +25,10 @@ export const useCart = () => {
     try {
       dispatch(setCartLoading(true));
       const data = await getCart();
-      dispatch(setItems(data.data.cart.items));
+      dispatch(setCartData(data.data.cart));
     } catch (err) {
       console.error("Failed to load cart:", err);
-      dispatch(setItems([]));
+      dispatch(setCartData({ items: [], totalPrice: 0 }));
     } finally {
       dispatch(setCartLoading(false));
     }

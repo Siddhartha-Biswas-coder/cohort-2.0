@@ -9,7 +9,7 @@ const resolveIds = (item) => {
   const productId =
     item.product?._id?.toString() || item.product?.toString() || item.product;
   const variantId =
-    item.variant?._id?.toString() || item.variant?.toString() || item.variant;
+    item.variant?._id?.toString() ||  item.variant?.toString() || item.variant;
   return { productId, variantId };
 };
 
@@ -60,8 +60,12 @@ const CartItemCard = ({ item, index }) => {
 
   // Resolve the active variant object from the product's variants array
   const matchedVariant =
-    typeof product === "object" && product?.variants && variantId
-      ? product.variants.find((v) => v._id?.toString() === variantId.toString())
+    typeof product === "object" && product?.variants
+      ? Array.isArray(product.variants)
+        ? variantId
+          ? product.variants.find((v) => v._id?.toString() === variantId.toString())
+          : null
+        : product.variants
       : null;
 
   // Use variant-specific image, fall back to main product image

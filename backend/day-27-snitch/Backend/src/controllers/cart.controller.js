@@ -4,6 +4,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import cartModel from "../models/cart.model.js";
 import productModel from "../models/product.model.js";
+import mongoose from "mongoose";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
@@ -94,23 +95,73 @@ export const addToCartController = asyncHandler(async (req, res) => {
 });
 
 export const getCartController = asyncHandler(async (req, res) => {
-  const cart = await cartModel
-    .findOne({
-      user: req.user._id,
-    })
-    .populate("items.product");
+  const cart = await cartModel.aggregate([
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(req.user._id),
+      },
+    },
+    { $unwind: { path: "$items" } },
+    {
+      $lookup: {
+        from: "products",
+        localField: "items.product",
+        foreignField: "_id",
+        as: "items.product",
+      },
+    },
+    { $unwind: { path: "$items.product" } },
+    {
+      $unwind: { path: "$items.product.variants" },
+    },
+    {
+      $match: {
+        $expr: {
+          $eq: ["$items.variant", "$items.product.variants._id"],
+        },
+      },
+    },
+    {
+      $addFields: {
+        itemPrice: {
+          price: {
+            $multiply: [
+              "$items.quantity",
+              "$items.product.variants.price.amount",
+            ],
+          },
+          currency: "$items.product.variants.price.currency",
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$_id",
+        totalPrice: { $sum: "$itemPrice.price" },
+        currency: {
+          $first: "$itemPrice.currency",
+        },
+        items: { $push: "$items" },
+      },
+    },
+  ]);
 
-  if (!cart) {
+  const cartExists = await cartModel.findOne({ user: req.user._id });
+  if (!cartExists) {
     throw new ApiError(404, "Cart not found");
   }
+
+  const cartData = cart[0] || { items: [] };
 
   return res.status(200).json(
     new ApiResponse(
       200,
       {
         cart: {
-          user: cart.user,
-          items: cart.items,
+          user: req.user._id,
+          items: cartData.items || [],
+          totalPrice: cartData.totalPrice || 0,
+          currency: cartData.currency || "INR",
         },
       },
       "Cart fetched successfully",

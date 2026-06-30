@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const PLATFORM_FEE = 49;
 const TAX_RATE = 0.09;
 
-const formatINR = (amount) =>
-  `INR ${Number(amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
+const formatPrice = (amount, currency = "INR") =>
+  `${currency} ${Number(amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
 
 const TrustIndicator = ({ text }) => (
   <div className="flex items-center gap-2">
@@ -24,25 +25,10 @@ const TrustIndicator = ({ text }) => (
 
 const CartSummary = ({ items = [] }) => {
   const navigate = useNavigate();
+  const subtotal = useSelector((state) => state.cart.totalPrice || 0);
+  const currency = useSelector((state) => state.cart.currency || "INR");
 
-  // Calculate subtotal from items
-  const subtotal = items.reduce((acc, item) => {
-    const product = item.product;
-    const variantId =
-      item.variant?._id?.toString() ||
-      item.variant?.toString() ||
-      item.variant;
-
-    const matchedVariant =
-      typeof product === "object" && product?.variants && variantId
-        ? product.variants.find((v) => v._id?.toString() === variantId.toString())
-        : null;
-
-    const price = matchedVariant?.price || item.price;
-    const amount = price?.amount ?? 0;
-    const qty = item.quantity ?? 1;
-    return acc + amount * qty;
-  }, 0);
+  const formatValue = (val) => formatPrice(val, currency);
 
   const tax = Math.round(subtotal * TAX_RATE);
   const grandTotal = subtotal + PLATFORM_FEE + tax;
@@ -61,7 +47,7 @@ const CartSummary = ({ items = [] }) => {
         <div className="flex justify-between items-baseline">
           <span className="font-sans text-xs text-charcoal-500">Subtotal</span>
           <span className="font-display text-xs text-charcoal-300">
-            {hasItems ? formatINR(subtotal) : "—"}
+            {hasItems ? formatValue(subtotal) : "—"}
           </span>
         </div>
 
@@ -75,14 +61,14 @@ const CartSummary = ({ items = [] }) => {
         <div className="flex justify-between items-baseline">
           <span className="font-sans text-xs text-charcoal-500">Platform Fee</span>
           <span className="font-display text-xs text-charcoal-300">
-            {formatINR(PLATFORM_FEE)}
+            {formatValue(PLATFORM_FEE)}
           </span>
         </div>
 
         <div className="flex justify-between items-baseline">
           <span className="font-sans text-xs text-charcoal-500">Tax (9%)</span>
           <span className="font-display text-xs text-charcoal-300">
-            {hasItems ? formatINR(tax) : "—"}
+            {hasItems ? formatValue(tax) : "—"}
           </span>
         </div>
       </div>
@@ -94,7 +80,7 @@ const CartSummary = ({ items = [] }) => {
             Grand Total
           </span>
           <span className="font-display text-lg font-semibold text-gold-400">
-            {hasItems ? formatINR(grandTotal) : "—"}
+            {hasItems ? formatValue(grandTotal) : "—"}
           </span>
         </div>
       </div>

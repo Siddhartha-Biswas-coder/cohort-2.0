@@ -1,20 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const calculateTotalPrice = (items) => {
+  return items.reduce((acc, item) => {
+    const price = item.price;
+    const amount = price?.amount ?? 0;
+    const qty = item.quantity ?? 1;
+    return acc + amount * qty;
+  }, 0);
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     items: [],
     loading: false,
+    totalPrice: 0,
+    currency: "INR",
   },
   reducers: {
-    setItems: (state, action) => {
-      state.items = action.payload;
+    setCartData: (state, action) => {
+      state.items = action.payload.items || [];
+      state.totalPrice = action.payload.totalPrice || 0;
+      state.currency = action.payload.currency || "INR";
     },
     addItem: (state, action) => {
       state.items.push(action.payload);
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     removeItem: (state, action) => {
-      // action.payload = { productId, variantId }
       const { productId, variantId } = action.payload;
       state.items = state.items.filter((item) => {
         const pId =
@@ -26,6 +39,7 @@ const cartSlice = createSlice({
           vId?.toString() === variantId?.toString()
         );
       });
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     setCartLoading: (state, action) => {
       state.loading = action.payload;
@@ -46,6 +60,7 @@ const cartSlice = createSlice({
           return item;
         }
       });
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     decrementCartItemQuantity: (state, action) => {
       const { productId, variantId } = action.payload;
@@ -58,17 +73,18 @@ const cartSlice = createSlice({
           pId?.toString() === productId?.toString() &&
           vId?.toString() === variantId?.toString()
         ) {
-          return { ...item, quantity: (item.quantity ?? 2) - 1 };
+          return { ...item, quantity: Math.max(1, (item.quantity ?? 2) - 1) };
         } else {
           return item;
         }
       });
+      state.totalPrice = calculateTotalPrice(state.items);
     },
   },
 });
 
 export const {
-  setItems,
+  setCartData,
   addItem,
   removeItem,
   setCartLoading,
