@@ -29,13 +29,3 @@ export const validateDecrementCartItemQuantity = [
   param("variantId").isMongoId().withMessage("Invalid variant ID"),
   validateRequest,
 ];
-
-export const validateRazorPayOrder = [
-  body("amount").isInt({ min: 1 }).withMessage("Amount must be at least 1"),
-  body("currency")
-    .isString()
-    .isIn(["INR", "USD", "EUR", "GBP", "JPY"])
-    .default("INR")
-    .withMessage("Currency is required"),
-  validateRequest,
-];

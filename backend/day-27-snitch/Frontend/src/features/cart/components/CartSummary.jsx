@@ -45,9 +45,9 @@ const CartSummary = ({ items = [] }) => {
 
   const hasItems = items.length > 0;
 
-  async function handleCheckOut({ grandTotal: amount, currency }) {
+  async function handleCheckOut() {
     try {
-      const order = await handleCreateCartOrder({ amount, currency });
+      const order = await handleCreateCartOrder();
       console.log("Order response from backend:", order);
 
       const options = {
@@ -139,7 +139,7 @@ const CartSummary = ({ items = [] }) => {
       <button
         type="button"
         disabled={!hasItems}
-        onClick={() => handleCheckOut({ grandTotal, currency })}
+        onClick={() => handleCheckOut()}
         className={`w-full h-12 flex items-center justify-center font-display text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-300 mb-3
           ${
             hasItems

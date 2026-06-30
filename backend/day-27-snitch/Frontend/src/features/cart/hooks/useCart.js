@@ -55,10 +55,10 @@ export const useCart = () => {
     }
   }
 
-  async function handleCreateCartOrder({ amount, currency }) {
+  async function handleCreateCartOrder() {
     try {
       dispatch(setCartLoading(true));
-      const data = await createCartOrderService({ amount, currency });
+      const data = await createCartOrderService();
       return data.data.order;
     } catch (err) {
       console.error("Failed to create cart order:", err);

@@ -3,8 +3,7 @@ import { authenticateUser } from "../middlewares/auth.middleware.js";
 import {
   validateIncrementCartItemQuantity,
   validateDecrementCartItemQuantity,
-  validateAddToCart,
-  validateRazorPayOrder,
+  validateAddToCart
 } from "../validators/cart.validator.js";
 import {
   addToCartController,
@@ -79,7 +78,6 @@ router.patch(
 router.post(
   "/payment/create/order",
   authenticateUser,
-  validateRazorPayOrder,
   razorPayOrderController,
 );
 

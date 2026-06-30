@@ -53,12 +53,9 @@ export const decrementCartItemQuantityService = async ({
   }
 };
 
-export const createCartOrderService = async ({ amount, currency }) => {
+export const createCartOrderService = async () => {
   try {
-    const response = await cartApiInstance.post("/payment/create/order", {
-      amount,
-      currency,
-    });
+    const response = await cartApiInstance.post("/payment/create/order");
     return response.data;
   } catch (error) {
     throw error.response.data.message;

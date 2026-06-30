@@ -4,8 +4,8 @@ import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import cartModel from "../models/cart.model.js";
 import productModel from "../models/product.model.js";
-import mongoose from "mongoose";
 import { createRazorPayOrder } from "../services/payment.service.js";
+import { getCartDetailsDAO } from "../dao/cart.dao.js";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
@@ -96,63 +96,12 @@ export const addToCartController = asyncHandler(async (req, res) => {
 });
 
 export const getCartController = asyncHandler(async (req, res) => {
-  const cart = await cartModel.aggregate([
-    {
-      $match: {
-        user: new mongoose.Types.ObjectId(req.user._id),
-      },
-    },
-    { $unwind: { path: "$items" } },
-    {
-      $lookup: {
-        from: "products",
-        localField: "items.product",
-        foreignField: "_id",
-        as: "items.product",
-      },
-    },
-    { $unwind: { path: "$items.product" } },
-    {
-      $unwind: { path: "$items.product.variants" },
-    },
-    {
-      $match: {
-        $expr: {
-          $eq: ["$items.variant", "$items.product.variants._id"],
-        },
-      },
-    },
-    {
-      $addFields: {
-        itemPrice: {
-          price: {
-            $multiply: [
-              "$items.quantity",
-              "$items.product.variants.price.amount",
-            ],
-          },
-          currency: "$items.product.variants.price.currency",
-        },
-      },
-    },
-    {
-      $group: {
-        _id: "$_id",
-        totalPrice: { $sum: "$itemPrice.price" },
-        currency: {
-          $first: "$itemPrice.currency",
-        },
-        items: { $push: "$items" },
-      },
-    },
-  ]);
-
   const cartExists = await cartModel.findOne({ user: req.user._id });
   if (!cartExists) {
     throw new ApiError(404, "Cart not found");
   }
 
-  const cartData = cart[0] || { items: [] };
+  const cartData = await getCartDetailsDAO(req.user._id);
 
   return res.status(200).json(
     new ApiResponse(
@@ -296,9 +245,18 @@ export const decrementCartItemQuantityController = asyncHandler(
 );
 
 export const razorPayOrderController = asyncHandler(async (req, res) => {
-  const { amount, currency = "INR" } = req.body;
+  const cart = await getCartDetailsDAO(req.user._id);
 
-  const order = await createRazorPayOrder({ amount, currency });
+  if (!cart || !cart.items || cart.items.length === 0) {
+    throw new ApiError(400, "Cart is empty");
+  }
+
+  const amount = cart.totalPrice || 0;
+  const tax = Math.round(amount * 0.09);
+  const allTotal = amount + tax + 49;
+  const currency = cart.currency || "INR";
+
+  const order = await createRazorPayOrder({ amount: allTotal, currency });
 
   if (!order) {
     throw new ApiError(500, "Failed to create order");
