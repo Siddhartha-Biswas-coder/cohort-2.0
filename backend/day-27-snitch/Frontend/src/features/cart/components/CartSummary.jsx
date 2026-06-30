@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useCart } from "../hooks/useCart";
+import { useRazorpay } from "react-razorpay";
 
 const PLATFORM_FEE = 49;
 const TAX_RATE = 0.09;
@@ -17,16 +19,24 @@ const TrustIndicator = ({ text }) => (
       strokeWidth="2.5"
       viewBox="0 0 24 24"
     >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 12.75l6 6 9-13.5"
+      />
     </svg>
     <span className="font-sans text-xs text-charcoal-500">{text}</span>
   </div>
 );
 
 const CartSummary = ({ items = [] }) => {
+  const { handleCreateCartOrder } = useCart();
+  const { error, isLoading, Razorpay } = useRazorpay();
+
   const navigate = useNavigate();
   const subtotal = useSelector((state) => state.cart.totalPrice || 0);
   const currency = useSelector((state) => state.cart.currency || "INR");
+  const user = useSelector((state) => state.auth.user);
 
   const formatValue = (val) => formatPrice(val, currency);
 
@@ -35,8 +45,44 @@ const CartSummary = ({ items = [] }) => {
 
   const hasItems = items.length > 0;
 
+  async function handleCheckOut({ grandTotal: amount, currency }) {
+    try {
+      const order = await handleCreateCartOrder({ amount, currency });
+      console.log("Order response from backend:", order);
+
+      const options = {
+        key: "rzp_test_T7x8BgQCYTMm4L",
+        amount: order.amount, // Amount in paise
+        currency: order.currency,
+        name: "LUMIÈRE",
+        description: "LUMIÈRE",
+        order_id: order.id, // Generate order_id on server
+        handler: (response) => {
+          console.log(response);
+          alert("Payment Successful!");
+        },
+        prefill: {
+          name: user?.fullname,
+          email: user?.email,
+          contact: user?.contact,
+        },
+        theme: {
+          color: "#F37254",
+        },
+      };
+
+      const razorpayInstance = new Razorpay(options);
+      razorpayInstance.open();
+    } catch (error) {
+      console.error("Failed to place order:", error);
+    }
+  }
+
   return (
-    <div className="sticky top-28 bg-charcoal-900 border border-charcoal-800/50 p-6 animate-reveal" style={{ animationDelay: "150ms" }}>
+    <div
+      className="sticky top-28 bg-charcoal-900 border border-charcoal-800/50 p-6 animate-reveal"
+      style={{ animationDelay: "150ms" }}
+    >
       {/* Header */}
       <h2 className="font-display text-[11px] font-bold uppercase tracking-[0.25em] text-charcoal-400 pb-5 border-b border-charcoal-800/40 mb-5">
         Order Summary
@@ -52,14 +98,18 @@ const CartSummary = ({ items = [] }) => {
         </div>
 
         <div className="flex justify-between items-baseline">
-          <span className="font-sans text-xs text-charcoal-500">Estimated Shipping</span>
+          <span className="font-sans text-xs text-charcoal-500">
+            Estimated Shipping
+          </span>
           <span className="font-display text-xs text-charcoal-500 italic">
             At checkout
           </span>
         </div>
 
         <div className="flex justify-between items-baseline">
-          <span className="font-sans text-xs text-charcoal-500">Platform Fee</span>
+          <span className="font-sans text-xs text-charcoal-500">
+            Platform Fee
+          </span>
           <span className="font-display text-xs text-charcoal-300">
             {formatValue(PLATFORM_FEE)}
           </span>
@@ -89,10 +139,12 @@ const CartSummary = ({ items = [] }) => {
       <button
         type="button"
         disabled={!hasItems}
+        onClick={() => handleCheckOut({ grandTotal, currency })}
         className={`w-full h-12 flex items-center justify-center font-display text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-300 mb-3
-          ${hasItems
-            ? "bg-gold-400 text-charcoal-950 hover:bg-gold-500 active:scale-[0.99] cursor-pointer"
-            : "bg-charcoal-800/50 text-charcoal-600 cursor-not-allowed opacity-50"
+          ${
+            hasItems
+              ? "bg-gold-400 text-charcoal-950 hover:bg-gold-500 active:scale-[0.99] cursor-pointer"
+              : "bg-charcoal-800/50 text-charcoal-600 cursor-not-allowed opacity-50"
           }`}
       >
         Proceed to Checkout

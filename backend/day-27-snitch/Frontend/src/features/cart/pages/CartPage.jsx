@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useCart } from "../hooks/useCart.js";
-import { useRazorpay } from "react-razorpay";
 
 import CartBreadcrumb from "../components/CartBreadcrumb.jsx";
 import CartHeader from "../components/CartHeader.jsx";
@@ -11,10 +10,9 @@ import CartSummary from "../components/CartSummary.jsx";
 import EmptyCart from "../components/EmptyCart.jsx";
 
 const CartPage = () => {
-  const { handleGetCart } = useCart();
+  const { handleGetCart} = useCart();
   const items = useSelector((state) => state.cart.items);
   const loading = useSelector((state) => state.cart.loading);
-  const { error, isLoading, Razorpay } = useRazorpay();
 
   useEffect(() => {
     handleGetCart();

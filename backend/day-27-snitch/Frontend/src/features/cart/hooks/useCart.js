@@ -7,6 +7,7 @@ import {
 } from "../state/cart.state.js";
 import {
   addProductService,
+  createCartOrderService,
   decrementCartItemQuantityService,
   getCart,
   incrementCartItemQuantityService,
@@ -54,10 +55,24 @@ export const useCart = () => {
     }
   }
 
+  async function handleCreateCartOrder({ amount, currency }) {
+    try {
+      dispatch(setCartLoading(true));
+      const data = await createCartOrderService({ amount, currency });
+      return data.data.order;
+    } catch (err) {
+      console.error("Failed to create cart order:", err);
+      throw err;
+    } finally {
+      dispatch(setCartLoading(false));
+    }
+  }
+
   return {
     handleAddItem,
     handleGetCart,
     handleIncrementCartItemQuantity,
     handleDecrementCartItemQuantity,
+    handleCreateCartOrder,
   };
 };

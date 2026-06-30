@@ -4,12 +4,14 @@ import {
   validateIncrementCartItemQuantity,
   validateDecrementCartItemQuantity,
   validateAddToCart,
+  validateRazorPayOrder,
 } from "../validators/cart.validator.js";
 import {
   addToCartController,
   getCartController,
   incrementCartItemQuantityController,
   decrementCartItemQuantityController,
+  razorPayOrderController,
 } from "../controllers/cart.controller.js";
 
 const router = Router();
@@ -66,6 +68,19 @@ router.patch(
   authenticateUser,
   validateDecrementCartItemQuantity,
   decrementCartItemQuantityController,
+);
+
+/**
+ * @route POST /api/cart/payment/create/order
+ * @desc Create a payment order for cart
+ * @access Private
+ */
+
+router.post(
+  "/payment/create/order",
+  authenticateUser,
+  validateRazorPayOrder,
+  razorPayOrderController,
 );
 
 export default router;

@@ -5,6 +5,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import cartModel from "../models/cart.model.js";
 import productModel from "../models/product.model.js";
 import mongoose from "mongoose";
+import { createRazorPayOrder } from "../services/payment.service.js";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
@@ -293,3 +294,23 @@ export const decrementCartItemQuantityController = asyncHandler(
     );
   },
 );
+
+export const razorPayOrderController = asyncHandler(async (req, res) => {
+  const { amount, currency = "INR" } = req.body;
+
+  const order = await createRazorPayOrder({ amount, currency });
+
+  if (!order) {
+    throw new ApiError(500, "Failed to create order");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        order,
+      },
+      "Order created successfully",
+    ),
+  );
+});
