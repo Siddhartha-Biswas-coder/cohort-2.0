@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeItem } from "../state/cart.state.js";
+import { removeItem } from "../../state/cart.state.js";
 import CartQuantitySelector from "./CartQuantitySelector.jsx";
-import { useCart } from "../hooks/useCart.js";
+import { useCart } from "../../hooks/useCart.js";
 
 // Helper: resolve product ID and variant ID from a cart item
 const resolveIds = (item) => {

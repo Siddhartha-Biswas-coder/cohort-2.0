@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useCart } from "../hooks/useCart.js";
 
-import CartBreadcrumb from "../components/CartBreadcrumb.jsx";
-import CartHeader from "../components/CartHeader.jsx";
-import CartItemCard from "../components/CartItemCard.jsx";
-import CartSummary from "../components/CartSummary.jsx";
-import EmptyCart from "../components/EmptyCart.jsx";
+import CartBreadcrumb from "../components/cart/CartBreadcrumb.jsx";
+import CartHeader from "../components/cart/CartHeader.jsx";
+import CartItemCard from "../components/cart/CartItemCard.jsx";
+import CartSummary from "../components/cart/CartSummary.jsx";
+import EmptyCart from "../components/cart/EmptyCart.jsx";
 
 const CartPage = () => {
   const { handleGetCart} = useCart();

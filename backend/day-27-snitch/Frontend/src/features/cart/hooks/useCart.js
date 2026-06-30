@@ -80,7 +80,7 @@ export const useCart = () => {
         razorpay_order_id,
         razorpay_signature,
       });
-      return data.success;
+      return data;
     } catch (err) {
       console.error("Failed to verify cart order:", err);
       throw err;

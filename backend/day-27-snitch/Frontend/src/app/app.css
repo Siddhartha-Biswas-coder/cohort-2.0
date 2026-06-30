@@ -152,6 +152,17 @@ body {
   transition: background-color 0.95s cubic-bezier(0.76, 0, 0.24, 1), border-color 0.95s cubic-bezier(0.76, 0, 0.24, 1), color 0.95s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+/* Prevent transitions on initial load to avoid white flashes */
+.preload,
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+
 /* View Transitions API circular reveal animation overrides */
 ::view-transition-old(root),
 ::view-transition-new(root) {

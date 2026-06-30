@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../../hooks/useCart";
 import { useRazorpay } from "react-razorpay";
 
 const PLATFORM_FEE = 49;
@@ -59,10 +59,12 @@ const CartSummary = ({ items = [] }) => {
         order_id: order.id, // Generate order_id on server
         handler: async (response) => {
           console.log(response);
-          const isValid = await handleVerifyCartOrder(response);
+          const result = await handleVerifyCartOrder(response);
 
-          if (isValid) {
-            navigate(`/order-success?order=${response.razorpay_order_id}`);
+          if (result && result.success) {
+            navigate(`/order-success?order=${response.razorpay_order_id}`, {
+              state: { payment: result.data?.payment }
+            });
           }
         },
         prefill: {
