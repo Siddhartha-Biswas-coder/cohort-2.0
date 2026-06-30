@@ -12,18 +12,25 @@ The application features a **Premium Motion System** modeled after editorial lux
 - **Curated Discoveries**: Discover exclusive fashion pieces presented on an elegant card layout.
 - **Search & Filtering**: Real-time search, sorting (newest, low-to-high, high-to-low), and currency filtering.
 - **Shared Image Carousel**: A custom, highly optimized image carousel with subtle dot indicators, absolute slide count badges, and smooth horizontal slide animations.
+- **View Details Banner**: Replaced the central eye button overlay with a premium slide-up glassmorphic "VIEW DETAILS" banner at the bottom of the image card container on hover.
 
 ### 🛒 Premium Shopping Cart
 - **Protected Cart Route**: Access to the `/cart` page is restricted to logged-in buyers. Guest users are redirected to `/login` smoothly.
 - **Interactive Stepper**: A custom-designed `[-] Quantity [+]` stepper with micro-interaction hover and click scaling, replacing default browser number controls.
+- **Silent Background Syncing**: Quantity changes update silently in the background, removing unmount/remount loading flashes for a seamless user experience.
 - **Variant-Specific Rendering**: Dynamically matches and displays selected variant attributes (Color, Size, Material) and displays the variant-specific image (with product image fallback).
 - **Redux-Integrated Local State**: Manage quantities, removals, and additions instantly with clean state slice actions.
-- **Dynamic Summary**: Order summary module calculating subtotal, platform fee, 9% tax, and grand totals instantly in sync with variant prices.
+- **Price Update Alert Banner**: Renders a warning notification container displaying old vs. new price differences if an item's price changed after being added to the cart.
+- **Original Product Reversion**: Attribute group selectors feature an `"Original"` chip that resets active selections and safely points the viewport back to the base product.
+- **Dynamic Summary**: Order summary module powered directly by the backend Mongoose aggregation pipeline, displaying subtotal, platform fee, tax, and grand totals without redundant frontend client-side calculation loops.
+- **Available Stock Counters & Caps**: Real-time inline counter badges color-coded in muted luxury shades (emerald green for high stock, amber for low inventory, red for last items) that disable the stepper increment controls automatically when stock caps are reached.
 - **Animated Cart Icon & Badge**: Fixed header shopping bag icon displaying current cart item counts with a subtle scale pop animation on badge count changes.
 
 ### 👔 Seller Workspace
 - **Personal Dashboard**: Track and manage all active listings with interactive controls.
 - **Seamless Creation Flow**: Add and edit listings using a clean wizard-style form built with reusable, bottom-bordered inputs (`WorkspaceInput`).
+- **Variant Attribute Deduplication**: Key preset choices (Size, Color, Material) are filtered out dynamically from selection dropdowns once used in another row to prevent duplicate configuration conflicts.
+- **State-Batched Custom Inputs**: Preset dropdowns instantly toggle into manual text inputs upon choosing the top-aligned "Custom..." option.
 - **Interactive Image Upload**: Drag-and-drop or select multiple photos with an interactive preview grid.
 
 ### 🔒 Secure Authentication
