@@ -31,7 +31,7 @@ router.get(
     failureRedirect:
       config.NODE_ENV === "development"
         ? "http://localhost:5173/login"
-        : "/login",
+        : `${config.CLIENT_URL}/login`,
   }),
   googleCallback,
 );

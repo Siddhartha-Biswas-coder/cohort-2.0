@@ -61,7 +61,11 @@ export const googleCallback = asyncHandler(async (req, res) => {
 
   res.cookie("token", token, cookieOptions);
 
-  res.redirect(config.CLIENT_URL);
+  res.redirect(
+    config.NODE_ENV === "development"
+      ? "http://localhost:5173"
+      : config.CLIENT_URL,
+  );
 });
 
 export const getMeController = asyncHandler(async (req, res) => {
