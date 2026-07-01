@@ -8,8 +8,9 @@ const SocialAuthSection = ({ parentLoading }) => {
 
   const handleGoogleLogin = () => {
     setGoogleLoading(true);
+    const backendUrl = (import.meta.env.VITE_BACKEND_URL || "").replace(/\/$/, "");
     setTimeout(() => {
-      window.location.href = "/api/auth/google";
+      window.location.href = `${backendUrl}/api/auth/google`;
     }, 600);
   };
 

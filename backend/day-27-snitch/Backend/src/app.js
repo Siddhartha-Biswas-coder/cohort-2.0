@@ -20,7 +20,7 @@ app.use(
   cors({
     origin: config.CORS_ORIGIN.split(",").map((o) => o.trim().replace(/\/$/, "")),
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   }),
 );
 
