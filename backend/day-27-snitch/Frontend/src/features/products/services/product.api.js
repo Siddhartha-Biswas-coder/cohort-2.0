@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "";
 
 const productApiInstance = axios.create({
   baseURL: `${API_BASE_URL}/api/products`,
@@ -32,7 +32,8 @@ async function urlToFile(url) {
     const response = await fetch(url);
     const blob = await response.blob();
     const cleanUrl = url.split("?")[0];
-    const filename = cleanUrl.substring(cleanUrl.lastIndexOf("/") + 1) || "variant_image.jpg";
+    const filename =
+      cleanUrl.substring(cleanUrl.lastIndexOf("/") + 1) || "variant_image.jpg";
     return new File([blob], filename, { type: blob.type || "image/jpeg" });
   } catch (error) {
     console.error("Failed to convert image URL to File:", error);
@@ -52,7 +53,7 @@ export async function addProductVariant(productId, newProductVariant) {
         return await urlToFile(image.url);
       }
       return null;
-    })
+    }),
   );
 
   imageFiles.forEach((file) => {
@@ -72,4 +73,3 @@ export async function addProductVariant(productId, newProductVariant) {
   );
   return response.data;
 }
-
