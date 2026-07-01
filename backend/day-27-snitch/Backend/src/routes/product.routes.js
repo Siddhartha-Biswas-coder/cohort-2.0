@@ -1,16 +1,16 @@
 import express from "express";
 import { authenticateSeller } from "../middlewares/auth.middleware.js";
 import {
-  createProduct,
   getAllProductsController,
-  getProductDetailsById,
-  getSellerProducts,
   addProductVariantController,
+  createProductController,
+  getSellerProductsController,
+  getProductDetailsByIdController,
 } from "../controllers/product.controller.js";
 import { upload } from "../services/imageStorage.service.js";
 import { CreateProductValidator } from "../validators/product.validator.js";
 
-const productRouter = express.Router();
+const router = express.Router();
 
 /**
  * Post request to create a product
@@ -24,12 +24,12 @@ const productRouter = express.Router();
  * @controller createProduct
  */
 
-productRouter.post(
+router.post(
   "/",
   authenticateSeller,
   upload.array("images", 7),
   CreateProductValidator,
-  createProduct,
+  createProductController,
 );
 
 /**
@@ -42,7 +42,7 @@ productRouter.post(
  * @controller getSellerProducts
  */
 
-productRouter.get("/seller-products", authenticateSeller, getSellerProducts);
+router.get("/seller-products", authenticateSeller, getSellerProductsController);
 
 /**
  * Get request to fetch all the products
@@ -52,7 +52,7 @@ productRouter.get("/seller-products", authenticateSeller, getSellerProducts);
  * @controller getAllProductsController
  */
 
-productRouter.get("/all-products", getAllProductsController);
+router.get("/all-products", getAllProductsController);
 
 /**
  * Get request to fetch the product by id
@@ -62,7 +62,7 @@ productRouter.get("/all-products", getAllProductsController);
  * @controller getProductByIdController
  */
 
-productRouter.get("/details/:productId", getProductDetailsById);
+router.get("/details/:productId", getProductDetailsByIdController);
 
 /**
  * @route post /api/products/:productId/variants
@@ -72,11 +72,11 @@ productRouter.get("/details/:productId", getProductDetailsById);
  * @controller addProductVariant
  */
 
-productRouter.post(
+router.post(
   "/:productId/variants",
   authenticateSeller,
   upload.array("images", 7),
   addProductVariantController,
 );
 
-export default productRouter;
+export default router;

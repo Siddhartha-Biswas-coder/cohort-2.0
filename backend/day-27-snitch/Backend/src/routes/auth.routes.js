@@ -13,18 +13,18 @@ import passport from "passport";
 import config from "../config/config.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 
-const authRouter = Router();
+const router = Router();
 
-authRouter.post("/register", validateRegisterUser, registerUserController);
+router.post("/register", validateRegisterUser, registerUserController);
 
-authRouter.post("/login", validateLoginUser, loginUserController);
+router.post("/login", validateLoginUser, loginUserController);
 
-authRouter.get(
+router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
-authRouter.get(
+router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
@@ -36,6 +36,6 @@ authRouter.get(
   googleCallback,
 );
 
-authRouter.get("/me", authenticateUser, getMeController);
+router.get("/me", authenticateUser, getMeController);
 
-export default authRouter;
+export default router;

@@ -9,88 +9,32 @@ import { getCartDetailsDAO } from "../dao/cart.dao.js";
 import paymentModel from "../models/payment.model.js";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
 import config from "../config/config.js";
+import {
+  findCartByUserRepository,
+  findOrCreateCartRepository,
+  incrementCartItemQuantityRepository,
+  saveCart,
+} from "../repositories/cart.repository.js";
+import { addToCartService } from "../services/cart.service.js";
 
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
   const quantity = req.body?.quantity || 1;
 
-  const product = await productModel.findOne({
-    _id: productId,
-    "variants._id": variantId,
-  });
-
-  if (!product) {
-    throw new ApiError(404, "Product or variant not found");
-  }
-
-  const stock = await stockOfVariantDAO(productId, variantId);
-
-  if (!stock || stock === 0) {
-    throw new ApiError(400, "Product or variant is out of stock");
-  }
-
-  const cart =
-    (await cartModel.findOne({ user: req.user._id })) ||
-    (await cartModel.create({ user: req.user._id }));
-
-  // Use a single .find() to locate an existing cart item for this product+variant
-  const existingItem = cart.items.find(
-    (item) =>
-      item.product.toString() === productId &&
-      item.variant?.toString() === variantId,
-  );
-
-  if (existingItem) {
-    const quantityInCart = existingItem.quantity ?? 0;
-
-    if (stock < quantityInCart + quantity) {
-      throw new ApiError(400, "Not enough stock");
-    }
-
-    const updatedCart = await cartModel.findOneAndUpdate(
-      {
-        user: req.user._id,
-        "items.product": productId,
-        "items.variant": variantId,
-      },
-      { $inc: { "items.$.quantity": quantity } },
-      { new: true },
-    );
-
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        {
-          cart: {
-            user: updatedCart.user,
-            items: updatedCart.items,
-          },
-        },
-        "Cart updated successfully",
-      ),
-    );
-  }
-
-  if (stock < quantity) {
-    throw new ApiError(400, `Only ${stock} items left in stock`);
-  }
-
-  cart.items.push({
-    product: productId,
-    variant: variantId,
+  const updatedCart = await addToCartService({
+    userId: req.user._id,
+    productId,
+    variantId,
     quantity,
-    price: product.price,
   });
-
-  await cart.save();
 
   return res.status(200).json(
     new ApiResponse(
       200,
       {
         cart: {
-          user: cart.user,
-          items: cart.items,
+          user: updatedCart.user,
+          items: updatedCart.items,
         },
       },
       "Product added to cart successfully",
@@ -99,7 +43,7 @@ export const addToCartController = asyncHandler(async (req, res) => {
 });
 
 export const getCartController = asyncHandler(async (req, res) => {
-  const cartExists = await cartModel.findOne({ user: req.user._id });
+  const cartExists = await findCartByUserRepository(req.user._id);
   if (!cartExists) {
     throw new ApiError(404, "Cart not found");
   }
@@ -135,7 +79,7 @@ export const incrementCartItemQuantityController = asyncHandler(
       throw new ApiError(404, "Product or variant not found");
     }
 
-    const cart = await cartModel.findOne({ user: req.user._id });
+    const cart = await findCartByUserRepository(req.user._id);
 
     if (!cart) {
       throw new ApiError(404, "Cart not found");
@@ -161,15 +105,14 @@ export const incrementCartItemQuantityController = asyncHandler(
       );
     }
 
-    const updatedCart = await cartModel.findOneAndUpdate(
-      {
-        user: req.user._id,
-        "items.product": productId,
-        "items.variant": variantId,
-      },
-      { $inc: { "items.$.quantity": 1 } },
-      { new: true },
-    );
+    const updatedCart = await incrementCartItemQuantityRepository({
+      userId: req.user._id,
+      productId,
+      variantId,
+      quantity: 1,
+    });
+
+    await saveCart(cart);
 
     return res.status(200).json(
       new ApiResponse(
@@ -199,7 +142,7 @@ export const decrementCartItemQuantityController = asyncHandler(
       throw new ApiError(404, "Product or variant not found");
     }
 
-    const cart = await cartModel.findOne({ user: req.user._id });
+    const cart = await findCartByUserRepository(req.user._id);
 
     if (!cart) {
       throw new ApiError(404, "Cart not found");
@@ -222,15 +165,14 @@ export const decrementCartItemQuantityController = asyncHandler(
       throw new ApiError(404, "Cart item already set to minimum quantity");
     }
 
-    const updatedCart = await cartModel.findOneAndUpdate(
-      {
-        user: req.user._id,
-        "items.product": productId,
-        "items.variant": variantId,
-      },
-      { $inc: { "items.$.quantity": -1 } },
-      { new: true },
-    );
+    const updatedCart = await incrementCartItemQuantityRepository({
+      userId: req.user._id,
+      productId,
+      variantId,
+      quantity: -1,
+    });
+
+    await saveCart(cart);
 
     return res.status(200).json(
       new ApiResponse(
@@ -351,26 +293,27 @@ export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
   );
 });
 
-export const getPaymentOrderDetailsController = asyncHandler(async (req, res) => {
-  const { orderId } = req.params;
+export const getPaymentOrderDetailsController = asyncHandler(
+  async (req, res) => {
+    const { orderId } = req.params;
 
-  const payment = await paymentModel.findOne({
-    "razorpay.orderId": orderId,
-    user: req.user._id,
-  });
+    const payment = await paymentModel.findOne({
+      "razorpay.orderId": orderId,
+      user: req.user._id,
+    });
 
-  if (!payment) {
-    throw new ApiError(404, "Order/Payment not found");
-  }
+    if (!payment) {
+      throw new ApiError(404, "Order/Payment not found");
+    }
 
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        payment,
-      },
-      "Order details fetched successfully",
-    ),
-  );
-});
-
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          payment,
+        },
+        "Order details fetched successfully",
+      ),
+    );
+  },
+);

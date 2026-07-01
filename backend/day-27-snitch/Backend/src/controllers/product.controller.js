@@ -1,23 +1,22 @@
-import ApiError from "../errors/ApiError.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
-import productModel from "../models/product.model.js";
-import { uploadFile } from "../services/imageStorage.service.js";
+import { uploadFiles } from "../services/imageStorage.service.js";
+import {
+  createProductService,
+  getAllproductsService,
+  getProductByIdService,
+  getSellerProductService,
+  getSellerProductsService,
+} from "../services/product.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { formatProduct, formatProducts } from "../utils/product.mapper.js";
 
-export const createProduct = asyncHandler(async (req, res) => {
+export const createProductController = asyncHandler(async (req, res) => {
   const { title, description, priceAmount, priceCurrency } = req.body;
-  const seller = req.user;
+  const sellerId = req.user._id;
 
-  const images = await Promise.all(
-    req.files.map(async (file) => {
-      return await uploadFile({
-        buffer: file.buffer,
-        fileName: file.originalname,
-      });
-    }),
-  );
+  const images = await uploadFiles(req.files);
 
-  const product = await productModel.create({
+  const product = await createProductService({
     title,
     description,
     price: {
@@ -25,46 +24,30 @@ export const createProduct = asyncHandler(async (req, res) => {
       currency: priceCurrency || "INR",
     },
     images,
-    seller: seller._id,
+    seller: sellerId,
   });
 
   res.status(201).json(
     new ApiResponse(
       201,
       {
-        product: {
-          productId: product._id,
-          seller: product.seller,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          images: product.images,
-          variants: product.variants,
-        },
+        product: formatProduct(product),
       },
       "Product created successfully",
     ),
   );
 });
 
-export const getSellerProducts = asyncHandler(async (req, res) => {
-  const seller = req.user;
+export const getSellerProductsController = asyncHandler(async (req, res) => {
+  const sellerId = req.user._id;
 
-  const products = await productModel.find({ seller: seller._id });
+  const products = await getSellerProductsService(sellerId);
 
   res.status(200).json(
     new ApiResponse(
       200,
       {
-        products: products.map((product) => ({
-          productId: product._id,
-          seller: product.seller,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          images: product.images,
-          variants: product.variants,
-        })),
+        products: formatProducts(products),
       },
       "Products fetched successfully",
     ),
@@ -72,83 +55,44 @@ export const getSellerProducts = asyncHandler(async (req, res) => {
 });
 
 export const getAllProductsController = asyncHandler(async (req, res) => {
-  const products = await productModel.find();
+  const products = await getAllproductsService();
 
   res.status(200).json(
     new ApiResponse(
       200,
       {
-        products: products.map((product) => ({
-          productId: product._id,
-          seller: product.seller,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          images: product.images,
-          variants: product.variants,
-        })),
+        products: formatProducts(products),
       },
       "Products fetched successfully",
     ),
   );
 });
 
-export const getProductDetailsById = asyncHandler(async (req, res) => {
-  const { productId } = req.params;
+export const getProductDetailsByIdController = asyncHandler(
+  async (req, res) => {
+    const { productId } = req.params;
 
-  const product = await productModel.findById(productId);
+    const product = await getProductByIdService(productId);
 
-  if (!product) {
-    throw new ApiError(404, "Product not found");
-  }
-
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        product: {
-          productId: product._id,
-          seller: product.seller,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          images: product.images,
-          variants: product.variants,
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          product: formatProduct(product),
         },
-      },
-      "Product details fetched successfully",
-    ),
-  );
-});
+        "Product details fetched successfully",
+      ),
+    );
+  },
+);
 
 export const addProductVariantController = asyncHandler(async (req, res) => {
   const sellerId = req.user._id;
   const { productId } = req.params;
 
-  const product = await productModel.findOne({
-    _id: productId,
-    seller: sellerId,
-  });
+  const product = await getSellerProductService(productId,sellerId);
 
-  if (!product) {
-    throw new ApiError(404, "Product not found");
-  }
-
-  const files = req.files;
-  const images = [];
-  if (files || files.length !== 0) {
-    (
-      await Promise.all(
-        files.map(async (file) => {
-          const image = await uploadFile({
-            buffer: file.buffer,
-            fileName: file.originalname,
-          });
-          return image;
-        }),
-      )
-    ).map((image) => images.push(image));
-  }
+  const images = await uploadFiles(req.files);
 
   const price = req.body.priceAmount;
   const stock = req.body.stock;
@@ -170,15 +114,7 @@ export const addProductVariantController = asyncHandler(async (req, res) => {
     new ApiResponse(
       200,
       {
-        product: {
-          productId: product._id,
-          seller: product.seller,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          images: product.images,
-          variants: product.variants,
-        },
+        product: formatProduct(product),
       },
       "ProductVariant added successfully",
     ),

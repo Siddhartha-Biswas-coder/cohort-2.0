@@ -1,21 +1,21 @@
 import userModel from "../models/user.model.js";
 
 export async function findUserById(userId) {
-  return await userModel.findById(userId).select("-password");
+  return userModel.findById(userId).select("-password");
 }
 
 export async function findUserByEmail(email) {
-  return await userModel.findOne({ email });
+  return userModel.findOne({ email });
 }
 
 export async function findUserByEmailOrContact(email, contact) {
-  return await userModel.findOne({
+  return userModel.findOne({
     $or: [{ contact }, { email }],
   });
 }
 
 export async function createUser(userData) {
-  return await userModel.create({
+  return userModel.create({
     email: userData.email,
     contact: userData.contact,
     password: userData.password,
@@ -25,7 +25,7 @@ export async function createUser(userData) {
 }
 
 export async function createUserByGoogleAuth(userData) {
-  return await userModel.create({
+  return userModel.create({
     email: userData.email,
     googleid: userData.id,
     fullname: userData.displayName,
