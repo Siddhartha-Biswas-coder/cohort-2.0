@@ -1,22 +1,19 @@
-import { stockOfVariantDAO } from "../dao/product.dao.js";
 import ApiError from "../errors/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
-import cartModel from "../models/cart.model.js";
-import productModel from "../models/product.model.js";
 import { createRazorPayOrder } from "../services/payment.service.js";
 import { getCartDetailsDAO } from "../dao/cart.dao.js";
 import paymentModel from "../models/payment.model.js";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils.js";
 import config from "../config/config.js";
+import { findCartByUserRepository } from "../repositories/cart.repository.js";
 import {
-  findCartByUserRepository,
-  findOrCreateCartRepository,
-  incrementCartItemQuantityRepository,
-  saveCart,
-} from "../repositories/cart.repository.js";
-import { addToCartService } from "../services/cart.service.js";
+  addToCartService,
+  incrementCartItemService,
+  decrementCartItemService,
+} from "../services/cart.service.js";
 
+// POST /api/cart/:productId/:variantId
 export const addToCartController = asyncHandler(async (req, res) => {
   const { productId, variantId } = req.params;
   const quantity = req.body?.quantity || 1;
@@ -42,8 +39,10 @@ export const addToCartController = asyncHandler(async (req, res) => {
   );
 });
 
+// GET /api/cart
 export const getCartController = asyncHandler(async (req, res) => {
   const cartExists = await findCartByUserRepository(req.user._id);
+
   if (!cartExists) {
     throw new ApiError(404, "Cart not found");
   }
@@ -66,53 +65,16 @@ export const getCartController = asyncHandler(async (req, res) => {
   );
 });
 
+// PATCH /api/cart/:productId/:variantId/increment
 export const incrementCartItemQuantityController = asyncHandler(
   async (req, res) => {
     const { productId, variantId } = req.params;
 
-    const product = await productModel.findOne({
-      _id: productId,
-      "variants._id": variantId,
-    });
-
-    if (!product) {
-      throw new ApiError(404, "Product or variant not found");
-    }
-
-    const cart = await findCartByUserRepository(req.user._id);
-
-    if (!cart) {
-      throw new ApiError(404, "Cart not found");
-    }
-
-    const stock = await stockOfVariantDAO(productId, variantId);
-
-    const existingItemQuantity =
-      cart.items.find(
-        (item) =>
-          item.product.toString() === productId &&
-          item.variant?.toString() === variantId,
-      )?.quantity || 0;
-
-    if (existingItemQuantity === 0) {
-      throw new ApiError(404, "Cart item not found");
-    }
-
-    if (stock < existingItemQuantity + 1) {
-      throw new ApiError(
-        400,
-        `Only ${stock} items left in stock, and you already have ${existingItemQuantity} in your cart`,
-      );
-    }
-
-    const updatedCart = await incrementCartItemQuantityRepository({
+    const updatedCart = await incrementCartItemService({
       userId: req.user._id,
       productId,
       variantId,
-      quantity: 1,
     });
-
-    await saveCart(cart);
 
     return res.status(200).json(
       new ApiResponse(
@@ -129,50 +91,16 @@ export const incrementCartItemQuantityController = asyncHandler(
   },
 );
 
+// PATCH /api/cart/:productId/:variantId/decrement
 export const decrementCartItemQuantityController = asyncHandler(
   async (req, res) => {
     const { productId, variantId } = req.params;
 
-    const product = await productModel.findOne({
-      _id: productId,
-      "variants._id": variantId,
-    });
-
-    if (!product) {
-      throw new ApiError(404, "Product or variant not found");
-    }
-
-    const cart = await findCartByUserRepository(req.user._id);
-
-    if (!cart) {
-      throw new ApiError(404, "Cart not found");
-    }
-
-    const stock = await stockOfVariantDAO(productId, variantId);
-
-    const existingItemQuantity =
-      cart.items.find(
-        (item) =>
-          item.product.toString() === productId &&
-          item.variant?.toString() === variantId,
-      )?.quantity || 0;
-
-    if (existingItemQuantity === 0) {
-      throw new ApiError(404, "Cart item not found");
-    }
-
-    if (existingItemQuantity === 1) {
-      throw new ApiError(404, "Cart item already set to minimum quantity");
-    }
-
-    const updatedCart = await incrementCartItemQuantityRepository({
+    const updatedCart = await decrementCartItemService({
       userId: req.user._id,
       productId,
       variantId,
-      quantity: -1,
     });
-
-    await saveCart(cart);
 
     return res.status(200).json(
       new ApiResponse(
@@ -189,9 +117,9 @@ export const decrementCartItemQuantityController = asyncHandler(
   },
 );
 
+// POST /api/cart/payment/order
 export const razorPayOrderController = asyncHandler(async (req, res) => {
   const cart = await getCartDetailsDAO(req.user._id);
-  console.log(cart);
 
   if (!cart || !cart.items || cart.items.length === 0) {
     throw new ApiError(400, "Cart is empty");
@@ -208,9 +136,7 @@ export const razorPayOrderController = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to create order");
   }
 
-  console.log(order);
-
-  const payment = await paymentModel.create({
+  await paymentModel.create({
     user: req.user._id,
     razorpay: {
       orderId: order.id,
@@ -228,22 +154,18 @@ export const razorPayOrderController = asyncHandler(async (req, res) => {
       description: item.product.description,
       price: {
         amount: item.product.variants.price.amount || item.product.price.amount,
-        currency: item.product.variants.price.currency || item.price.currency,
+        currency:
+          item.product.variants.price.currency || item.product.price.currency,
       },
     })),
   });
 
   return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        order,
-      },
-      "Order created successfully",
-    ),
+    new ApiResponse(200, { order }, "Order created successfully"),
   );
 });
 
+// POST /api/cart/payment/verify
 export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
   const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
 
@@ -258,7 +180,7 @@ export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
   });
 
   if (!payment) {
-    throw new ApiError(404, "payment not found");
+    throw new ApiError(404, "Payment not found");
   }
 
   const isVerified = validatePaymentVerification(
@@ -276,23 +198,18 @@ export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Payment verification failed");
   }
 
+  // FIX: replaced comma operator with readable sequential statements
+  payment.razorpay.paymentId = razorpayPaymentId;
+  payment.razorpay.signature = razorpaySignature;
   payment.status = "completed";
-
-  ((payment.razorpay.paymentId = razorpayPaymentId),
-    (payment.razorpay.signature = razorpaySignature),
-    await payment.save());
+  await payment.save();
 
   return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        payment,
-      },
-      "Payment verified successfully",
-    ),
+    new ApiResponse(200, { payment }, "Payment verified successfully"),
   );
 });
 
+// GET /api/cart/payment/order/:orderId
 export const getPaymentOrderDetailsController = asyncHandler(
   async (req, res) => {
     const { orderId } = req.params;
@@ -307,13 +224,7 @@ export const getPaymentOrderDetailsController = asyncHandler(
     }
 
     return res.status(200).json(
-      new ApiResponse(
-        200,
-        {
-          payment,
-        },
-        "Order details fetched successfully",
-      ),
+      new ApiResponse(200, { payment }, "Order details fetched successfully"),
     );
   },
 );

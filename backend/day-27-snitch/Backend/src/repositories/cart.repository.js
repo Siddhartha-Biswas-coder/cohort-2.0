@@ -9,10 +9,12 @@ export async function createCartRepository(userId) {
 }
 
 export async function findOrCreateCartRepository(userId) {
-  let cart = findCartByUserRepository(userId);
+  // FIX: both calls need await — without it, cart is always a Promise (truthy),
+  // so the if(!cart) check never fires and the cart is never created for new users.
+  let cart = await findCartByUserRepository(userId);
 
   if (!cart) {
-    cart = createCartRepository(userId);
+    cart = await createCartRepository(userId);
   }
 
   return cart;

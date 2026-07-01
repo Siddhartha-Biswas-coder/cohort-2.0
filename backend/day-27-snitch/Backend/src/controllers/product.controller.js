@@ -2,7 +2,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import { uploadFiles } from "../services/imageStorage.service.js";
 import {
   createProductService,
-  getAllproductsService,
+  getAllProductsService,
   getProductByIdService,
   getSellerProductService,
   getSellerProductsService,
@@ -55,7 +55,7 @@ export const getSellerProductsController = asyncHandler(async (req, res) => {
 });
 
 export const getAllProductsController = asyncHandler(async (req, res) => {
-  const products = await getAllproductsService();
+  const products = await getAllProductsService();
 
   res.status(200).json(
     new ApiResponse(

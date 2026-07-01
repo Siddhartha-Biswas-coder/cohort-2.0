@@ -4,33 +4,10 @@ import ApiError from "../errors/ApiError.js";
 import asyncHandler from "./asyncHandler.js";
 import { findUserById } from "../repositories/user.repository.js";
 
-export const authenticateUser = asyncHandler(async(req,res,next) => {
-    const token = req.cookies?.token;
-
-    if (!token) {
-      throw new ApiError(401, "Unauthorized access");
-    }
-
-    let decoded;
-
-    try {
-      decoded = jwt.verify(token, config.JWT_SECRET);
-    } catch {
-      throw new ApiError(401, "Invalid or expired token");
-    }
-
-    const user = await findUserById(decoded.id);
-
-    if (!user) {
-      throw new ApiError(401, "User not found");
-    }
-
-    req.user = user;
-
-    next();
-})
-
-export const authenticateSeller = asyncHandler(async (req, res, next) => {
+// ─── Private helper ──────────────────────────────────────────────────────────
+// Responsible for: reading the cookie, verifying the JWT, and loading the user.
+// Not exported — only the two middleware functions below are part of the public API.
+async function verifyTokenAndGetUser(req) {
   const token = req.cookies?.token;
 
   if (!token) {
@@ -51,29 +28,25 @@ export const authenticateSeller = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "User not found");
   }
 
-  if (user.role !== "seller") {
-    throw new ApiError(
-      401,
-      "You do not have permission to access this resource",
-    );
-  }
+  return user;
+}
 
-  req.user = user;
-
+// ─── Authenticate any logged-in user ────────────────────────────────────────
+export const authenticateUser = asyncHandler(async (req, res, next) => {
+  req.user = await verifyTokenAndGetUser(req);
   next();
 });
 
-// export const authenticateRole = (...roles) => {
-//   (req, res, next) => {
-//     if (!req.user) {
-//       throw new ApiError(401, "Unauthorized access");
-//     }
+// ─── Authenticate seller only ────────────────────────────────────────────────
+export const authenticateSeller = asyncHandler(async (req, res, next) => {
+  const user = await verifyTokenAndGetUser(req);
 
-//     if (!roles.includes(req.user.roles)) {
-//       throw new ApiError(
-//         "You do not have the pemission to acess this resource",
-//       );
-//     }
-//     next();
-//   };
-// };
+  if (user.role !== "seller") {
+    // FIX: 403 Forbidden is correct here — 401 means "not authenticated",
+    // 403 means "authenticated but not authorized"
+    throw new ApiError(403, "You do not have permission to access this resource");
+  }
+
+  req.user = user;
+  next();
+});
