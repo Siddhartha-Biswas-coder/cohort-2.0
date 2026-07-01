@@ -71,11 +71,12 @@ day-27-snitch/
 ├── Backend/                   # Node.js Express server workspace
 │   ├── src/
 │   │   ├── config/            # DB, passport, and third-party API configs
-│   │   ├── controllers/       # Business logic handlers for auth/products
-│   │   ├── models/            # Mongoose schemas (User, Product)
+│   │   ├── controllers/       # HTTP controllers (handling requests/responses)
+│   │   ├── models/            # Mongoose schemas (User, Product, Payment)
+│   │   ├── repositories/      # Database Access Layer (isolating DB queries)
+│   │   ├── services/          # Business Logic Layer (handling workflows/integrations)
 │   │   ├── routes/            # Express route groups (auth.routes.js, product.routes.js)
 │   │   ├── middlewares/       # Authentication, file uploads, errors
-│   │   ├── services/          # Business workflows & integrations (ImageKit)
 │   │   └── validators/        # Express Request input validation rules
 │   ├── server.js              # Entrypoint file
 │   └── .env                   # Environment configurations (local-only)
@@ -97,6 +98,19 @@ day-27-snitch/
 ```
 
 ---
+
+## 🏛️ Architectural Patterns
+
+### Service/Repository Pattern (Backend)
+To decouple database implementation details from business workflows, the codebase implements the **Service/Repository Pattern**:
+- **Controllers** (`controllers/`): Primarily parse request inputs, delegate processing to Services, and format output API responses.
+- **Services** (`services/`): Handle the business validation, workflow coordination, calculations, and integrations (e.g., Razorpay API orchestration).
+- **Repositories** (`repositories/`): Contain isolated Mongoose database query and mutation logic, shielding higher layers from direct model interactions.
+
+### Dynamic Role-Based Layouts (Frontend)
+The frontend utilizes reactive state-based conditions to toggle views immediately after changes to the authenticated user's state:
+- **Navbar Integration**: Dynamically toggles navigation links (e.g., showing `"Become a Seller"` for Guests and Buyers, and `"Dashboard"` for Sellers) utilizing the Redux Toolkit auth slice.
+
 
 ## 🛠️ Getting Started
 
