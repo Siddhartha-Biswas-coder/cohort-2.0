@@ -192,3 +192,38 @@ Once started:
 2. Registers or logs in using standard inputs or your Google account.
 3. Access the **Seller Dashboard** to post a product, upload luxury item images, and set pricing details.
 4. Return to the homepage to verify searching, filters, and staggered scroll-reveal animations.
+
+---
+
+## 🌐 Production Deployment
+
+### 1. Render (Backend Web Service)
+When deploying the Node.js/Express service on Render:
+- **Root Directory**: `Backend`
+- **Build Command**: `npm install`
+- **Start Command**: `npm start`
+- **Environment Variables**:
+  - `NODE_ENV`: `production`
+  - `MONGODB_URI`: *[Your MongoDB connection string]*
+  - `JWT_SECRET`: *[Your random JWT secret]*
+  - `CLIENT_URL`: `https://lumiere-chi-mocha.vercel.app` (Your frontend Vercel URL, without trailing slash)
+  - `CORS_ORIGIN`: `https://lumiere-chi-mocha.vercel.app`
+  - `IMAGEKIT_PRIVATE_KEY`, `RAZOR_PAY_API_KEY_ID`, `RAZOR_PAY_KEY_SECRET`
+
+### 2. Vercel (Frontend Client)
+When deploying the React/Vite app on Vercel:
+- **Root Directory**: `Frontend`
+- **Framework Preset**: `Vite`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Environment Variables**:
+  - `VITE_BACKEND_URL`: `https://your-backend.onrender.com` (Your Render backend URL, without trailing slash)
+
+### 3. Google OAuth Settings
+To support Google Sign-In in production, ensure your Client ID credentials are configured in the Google Cloud Console:
+- **Authorized JavaScript origins**:
+  - `https://lumiere-chi-mocha.vercel.app`
+  - `https://lumiere-backend-nmeg.onrender.com`
+- **Authorized redirect URIs**:
+  - `https://lumiere-backend-nmeg.onrender.com/api/auth/google/callback` (Secure `https` protocol is required in production)
+
