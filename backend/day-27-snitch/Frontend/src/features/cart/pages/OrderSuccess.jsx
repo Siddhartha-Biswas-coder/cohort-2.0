@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router";
+import { useCart } from "../hooks/useCart.js";
 import SuccessHero from "../components/order-success/SuccessHero.jsx";
 import DeliveryTimeline from "../components/order-success/DeliveryTimeline.jsx";
 import OrderSummary from "../components/order-success/OrderSummary.jsx";
@@ -12,9 +13,14 @@ const OrderSuccess = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("order") || "LMR-908234";
+  const { handleGetPaymentOrderDetails } = useCart();
 
   // Attempt to read the verified payment details from navigation state
   const paymentDetails = location.state?.payment;
+
+  const [paymentData, setPaymentData] = useState(paymentDetails);
+  const [loading, setLoading] = useState(!paymentDetails && !!orderId);
+  const [error, setError] = useState(null);
 
   // Fallback items if none are found in route state (e.g. on manual refresh)
   const fallbackItems = [
@@ -33,11 +39,45 @@ const OrderSuccess = () => {
     }
   ];
 
-  const displayItems = paymentDetails?.orderItems?.map((item) => ({
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (!paymentDetails && orderId && orderId !== "LMR-908234") {
+      setLoading(true);
+      handleGetPaymentOrderDetails(orderId)
+        .then((res) => {
+          if (res?.success && res?.data?.payment) {
+            setPaymentData(res.data.payment);
+          } else {
+            setError("Could not find order details");
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching order details:", err);
+          setError(err?.message || "Error loading order details");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [orderId, paymentDetails]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-charcoal-950 text-charcoal-300 flex flex-col items-center justify-center">
+        <span className="font-display text-[10px] font-semibold uppercase tracking-[0.35em] text-gold-400 animate-pulse mb-4">
+          Loading Order Details
+        </span>
+        <div className="w-16 h-px bg-gold-400/40 animate-pulse" />
+      </div>
+    );
+  }
+
+  const displayItems = paymentData?.orderItems?.map((item) => ({
     product: {
       title: item.title,
       description: item.description,
-      images: [item.images?.[0]],
+      images: item.images?.[0]?.url ? [item.images[0].url] : (item.images?.[0] ? [item.images[0]] : []),
       variants: {
         price: { amount: item.price.amount, currency: item.price.currency },
         attributes: { ...item.attributes }
@@ -47,12 +87,8 @@ const OrderSuccess = () => {
     quantity: item.quantity
   })) || fallbackItems;
 
-  const totalAmount = paymentDetails?.price?.amount || 5997;
-  const displayCurrency = paymentDetails?.price?.currency || "INR";
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const totalAmount = paymentData?.price?.amount || 5997;
+  const displayCurrency = paymentData?.price?.currency || "INR";
 
   return (
     <main className="min-h-screen bg-charcoal-950 text-charcoal-300 flex flex-col justify-start py-20 px-6 sm:px-12 md:px-20 lg:px-32 max-w-7xl mx-auto">
@@ -67,7 +103,7 @@ const OrderSuccess = () => {
         orderId={orderId}
         totalAmount={totalAmount}
         currency={displayCurrency}
-        paymentStatus={paymentDetails?.status === "completed" ? "Paid" : "Pending"}
+        paymentStatus={paymentData?.status}
       />
 
       {/* 4. Display Selected/Purchased items */}

@@ -46,8 +46,8 @@ const SuccessHero = () => {
       </span>
 
       {/* Heading */}
-      <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wide mb-6 leading-tight max-w-2xl">
-        Thank You for Choosing Lumière
+      <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wide mb-6 leading-tight max-w-2xl normal-case">
+        Thank you for choosing Lumière
       </h1>
 
       {/* Supporting Text */}

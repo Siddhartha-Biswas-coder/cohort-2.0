@@ -15,8 +15,8 @@ const HomeEmptyState = () => {
       </div>
 
       {/* Heading */}
-      <h3 className="font-display text-lg tracking-[0.2em] uppercase text-charcoal-300 font-light mb-3">
-        No Products Available
+      <h3 className="font-serif text-2xl text-charcoal-300 font-light mb-3 italic">
+        No products available
       </h3>
 
       {/* Divider */}

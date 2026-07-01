@@ -12,6 +12,7 @@ import {
   getCart,
   incrementCartItemQuantityService,
   verifyCartOrderService,
+  getPaymentOrderDetailsService,
 } from "../service/cart.api.js";
 import { useDispatch } from "react-redux";
 
@@ -89,6 +90,16 @@ export const useCart = () => {
     }
   }
 
+  async function handleGetPaymentOrderDetails(orderId) {
+    try {
+      const data = await getPaymentOrderDetailsService(orderId);
+      return data;
+    } catch (err) {
+      console.error("Failed to get payment order details:", err);
+      throw err;
+    }
+  }
+
   return {
     handleAddItem,
     handleGetCart,
@@ -96,5 +107,6 @@ export const useCart = () => {
     handleDecrementCartItemQuantity,
     handleCreateCartOrder,
     handleVerifyCartOrder,
+    handleGetPaymentOrderDetails,
   };
 };

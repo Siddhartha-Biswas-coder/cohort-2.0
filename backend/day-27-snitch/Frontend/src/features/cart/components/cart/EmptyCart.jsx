@@ -29,7 +29,7 @@ const EmptyCart = () => {
       </span>
 
       {/* Heading */}
-      <h2 className="font-display text-3xl md:text-4xl font-light text-charcoal-200 uppercase tracking-widest mb-5">
+      <h2 className="font-serif text-3xl md:text-4xl font-light text-charcoal-200 tracking-wide mb-5 italic">
         Your collection is waiting.
       </h2>
 

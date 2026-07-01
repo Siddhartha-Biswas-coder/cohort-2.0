@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
@@ -90,7 +90,8 @@
   --color-bg-selected: var(--color-bg-selected-val);
 
   --font-sans: 'Inter', sans-serif;
-  --font-display: 'Geist', sans-serif;
+  --font-display: 'Inter', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
 
   --shadow-gold-glow: var(--shadow-gold-glow-val);
   --shadow-gold-glow-strong: var(--shadow-gold-glow-strong-val);

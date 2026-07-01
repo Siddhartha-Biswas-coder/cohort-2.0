@@ -350,3 +350,27 @@ export const verifyRazorPayOrderController = asyncHandler(async (req, res) => {
     ),
   );
 });
+
+export const getPaymentOrderDetailsController = asyncHandler(async (req, res) => {
+  const { orderId } = req.params;
+
+  const payment = await paymentModel.findOne({
+    "razorpay.orderId": orderId,
+    user: req.user._id,
+  });
+
+  if (!payment) {
+    throw new ApiError(404, "Order/Payment not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        payment,
+      },
+      "Order details fetched successfully",
+    ),
+  );
+});
+

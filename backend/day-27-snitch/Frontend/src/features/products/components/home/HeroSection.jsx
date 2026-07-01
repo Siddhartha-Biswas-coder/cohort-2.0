@@ -45,12 +45,12 @@ const HeroSection = () => {
 
         {/* Heading */}
         <h1 
-          className="font-display text-xl md:text-3xl lg:text-4xl font-light text-charcoal-200 tracking-wider uppercase leading-tight mb-6 animate-reveal"
+          className="font-serif text-3xl md:text-5xl lg:text-6xl font-light text-charcoal-200 tracking-wide leading-tight mb-8 animate-reveal normal-case"
           style={{ animationDelay: "160ms" }}
         >
           Curated Fashion
           <br />
-          <span className="text-gold-400 font-normal">For Modern Living</span>
+          <span className="text-gold-400 font-light italic">for Modern Living</span>
         </h1>
 
         {/* Supporting text */}

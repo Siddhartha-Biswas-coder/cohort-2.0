@@ -4,11 +4,37 @@ const OrderSummary = ({ orderId, date, estimatedDelivery, paymentStatus, totalAm
   const formatPrice = (val) =>
     `${currency} ${Number(val).toLocaleString("en-IN", { minimumFractionDigits: 2 })}`;
 
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case "completed":
+      case "paid":
+        return "text-emerald-500 bg-emerald-500/10 border border-emerald-500/20";
+      case "failed":
+        return "text-rose-500 bg-rose-500/10 border border-rose-500/20";
+      case "pending":
+      default:
+        return "text-amber-500 bg-amber-500/10 border border-amber-500/20";
+    }
+  };
+
+  const getStatusLabel = (status) => {
+    switch (status?.toLowerCase()) {
+      case "completed":
+      case "paid":
+        return "Completed";
+      case "failed":
+        return "Failed";
+      case "pending":
+      default:
+        return "Pending";
+    }
+  };
+
   const items = [
     { label: "Order Number", value: orderId || "LMR-908234" },
     { label: "Order Date", value: date || new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) },
     { label: "Estimated Delivery", value: estimatedDelivery || "3 - 5 Business Days" },
-    { label: "Payment Status", value: paymentStatus || "Paid" },
+    { label: "Payment Status", value: paymentStatus, isStatus: true },
     { label: "Total Amount", value: formatPrice(totalAmount || 0), isGold: true },
   ];
 
@@ -37,9 +63,17 @@ const OrderSummary = ({ orderId, date, estimatedDelivery, paymentStatus, totalAm
                 <span className="font-sans text-[9px] uppercase tracking-widest text-charcoal-500 mb-1">
                   {item.label}
                 </span>
-                <span className={`font-sans text-sm font-light ${item.isGold ? "text-gold-400 font-medium" : "text-charcoal-200"}`}>
-                  {item.value}
-                </span>
+                {item.isStatus ? (
+                  <div className="flex">
+                    <span className={`font-sans text-[9px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-sm ${getStatusColor(item.value)}`}>
+                      {getStatusLabel(item.value)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className={`font-sans text-sm font-light ${item.isGold ? "text-gold-400 font-medium" : "text-charcoal-200"}`}>
+                    {item.value}
+                  </span>
+                )}
               </div>
             ))}
           </div>

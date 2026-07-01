@@ -109,12 +109,12 @@ const Home = () => {
             style={{ animationDelay: "60ms" }}
           />
           <h2 
-            className={`font-display text-2xl md:text-3xl font-light text-charcoal-200 tracking-wider uppercase mb-3 ${
+            className={`font-serif text-3xl md:text-4xl font-light text-charcoal-200 tracking-wide mb-3 ${
               isCollectionRevealed ? "animate-reveal" : "opacity-0"
             }`}
             style={{ animationDelay: "120ms" }}
           >
-            Explore The Collection
+            Explore the Collection
           </h2>
           <p 
             className={`font-sans text-xs text-charcoal-500 tracking-wide max-w-md mx-auto ${

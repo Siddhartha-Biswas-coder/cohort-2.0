@@ -12,6 +12,7 @@ import {
   decrementCartItemQuantityController,
   razorPayOrderController,
   verifyRazorPayOrderController,
+  getPaymentOrderDetailsController,
 } from "../controllers/cart.controller.js";
 
 const router = Router();
@@ -83,4 +84,16 @@ router.post(
   authenticateUser,
   verifyRazorPayOrderController,
 );
+
+/**
+ * @route GET /api/cart/payment/order/:orderId
+ * @desc Get payment order details by orderId
+ * @access Private
+ */
+router.get(
+  "/payment/order/:orderId",
+  authenticateUser,
+  getPaymentOrderDetailsController,
+);
+
 export default router;

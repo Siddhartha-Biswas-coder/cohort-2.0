@@ -78,3 +78,13 @@ export const verifyCartOrderService = async ({
     throw error.response.data.message;
   }
 };
+
+export const getPaymentOrderDetailsService = async (orderId) => {
+  try {
+    const response = await cartApiInstance.get(`/payment/order/${orderId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Failed to fetch order details";
+  }
+};
+
