@@ -1,4 +1,5 @@
-
+import config from "../config/config.js";
+import cookieOptions from "../config/cookie.config.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import {
   registerUserService,
@@ -27,22 +28,27 @@ function sendResponse(statusCode, user, res, message) {
 
 export const registerUserController = asyncHandler(async (req, res) => {
   const { email, contact, fullname, password, isSeller } = req.body;
-  const user = await registerUserService(
-    {
-      email,
-      contact,
-      fullname,
-      password,
-      isSeller,
-    },
-    res,
-  );
+
+  const { user, token } = await registerUserService({
+    email,
+    contact,
+    fullname,
+    password,
+    isSeller,
+  });
+
+  res.cookie("token", token, cookieOptions);
+
   sendResponse(201, user, res, "User Registered successfully");
 });
 
 export const loginUserController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await loginUserService({ email, password }, res);
+
+  const { user, token } = await loginUserService({ email, password });
+
+  res.cookie("token", token, cookieOptions);
+
   sendResponse(202, user, res, "User Logged-in successfully");
 });
 
@@ -51,9 +57,11 @@ export const googleCallback = asyncHandler(async (req, res) => {
   const email = emails[0].value;
   const profilePic = photos[0].value;
 
-  const user = await googleAuthService({ email, id, displayName }, res);
+  const { user, token } = await googleAuthService({ email, id, displayName });
 
-  res.redirect("http://localhost:5173/");
+  res.cookie("token", token, cookieOptions);
+
+  res.redirect(config.CLIENT_URL);
 });
 
 export const getMeController = asyncHandler(async (req, res) => {

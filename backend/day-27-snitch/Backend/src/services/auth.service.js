@@ -1,27 +1,11 @@
 import ApiError from "../errors/ApiError.js";
 import {
-  findUserById,
   findUserByEmail,
   findUserByEmailOrContact,
   createUser,
   createUserByGoogleAuth,
 } from "../repositories/user.repository.js";
-import jwt from "jsonwebtoken";
-import config from "../config/config.js";
-
-async function sendTokenResponse(user, res) {
-  const token = jwt.sign(
-    {
-      id: user._id,
-    },
-    config.JWT_SECRET,
-    {
-      expiresIn: "7d",
-    },
-  );
-
-  res.cookie("token", token);
-}
+import { generateAccessToken } from "./token.service.js";
 
 async function validateUserDoesNotExist(email, contact) {
   const existingUser = await findUserByEmailOrContact(email, contact);
@@ -47,31 +31,31 @@ async function validatePassword(user, password) {
   }
 }
 
-export async function registerUserService(userData, res) {
+export async function registerUserService(userData) {
   await validateUserDoesNotExist(userData.email, userData.contact);
 
   const user = await createUser(userData);
 
-  await sendTokenResponse(user, res);
-  return user;
+  const token = generateAccessToken(user._id);
+  return { user, token };
 }
 
-export async function loginUserService(userData, res) {
+export async function loginUserService(userData) {
   const user = await validateUser(userData.email);
 
   await validatePassword(user, userData.password);
 
-  await sendTokenResponse(user, res);
-  return user;
+  const token = generateAccessToken(user._id);
+  return { user, token };
 }
 
-export async function googleAuthService(userData, res) {
+export async function googleAuthService(userData) {
   let user = await findUserByEmail(userData.email);
 
   if (!user) {
     user = await createUserByGoogleAuth(userData);
   }
 
-  await sendTokenResponse(user, res);
-  return user;
+  const token = generateAccessToken(user._id);
+  return { user, token };
 }
