@@ -11,6 +11,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import config from "./config/config.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -32,6 +33,7 @@ passport.use(
       clientID: config.GOOGLE_CLIENT_ID,
       clientSecret: config.GOOGLE_CLIENT_SECRET,
       callbackURL: "/api/auth/google/callback",
+      proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
       try {
