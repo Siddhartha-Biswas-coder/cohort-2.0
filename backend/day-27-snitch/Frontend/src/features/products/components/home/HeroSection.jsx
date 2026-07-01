@@ -73,13 +73,6 @@ const HeroSection = () => {
           >
             Explore Collection
           </button>
-          <button
-            type="button"
-            onClick={() => navigate("/register")}
-            className="px-10 py-4 border border-charcoal-600 text-charcoal-300 font-display text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:border-gold-400 hover:text-gold-400 active:scale-[0.98] cursor-pointer rounded-sm"
-          >
-            Become a Seller
-          </button>
         </div>
       </div>
     </section>

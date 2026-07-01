@@ -75,10 +75,10 @@ const Nav = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate(user?.role === "seller" ? "/seller/dashboard" : "/register")}
             className="font-display text-[10px] uppercase tracking-[0.2em] text-charcoal-500 hover:text-gold-400 transition-colors duration-300 cursor-pointer bg-transparent border-none"
           >
-            Become a Seller
+            {user?.role === "seller" ? "Dashboard" : "Become a Seller"}
           </button>
         </div>
 
