@@ -7,7 +7,7 @@ const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 const cookieOptions = {
   httpOnly: true,
   secure: config.NODE_ENV === "production",
-  sameSite: config.NODE_ENV === "production" ? "strict" : "lax",
+  sameSite: config.NODE_ENV === "production" ? "none" : "lax",
   maxAge: SEVEN_DAYS_MS,
 };
 
