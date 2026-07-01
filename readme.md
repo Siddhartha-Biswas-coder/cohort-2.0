@@ -61,7 +61,7 @@ cohort-2.0
 │   ├── day-24-TypeScript (TypeScript compiler setup and workflow configuration)
 │   ├── day-25-LangGraph-battle-ai-arena (Multi-LLM StateGraph orchestration with Gemini judge)
 │   ├── day-26-google-auth (Google OAuth 2.0 Integration via Passport.js)
-│   └── day-27-snitch (Full-Stack Premium Authentication System with Redux and Tailwind CSS v4)
+│   └── day-27-snitch (Lumière — Curated Luxury Fashion Marketplace with Razorpay & Service-Repository Pattern)
 ├── frontend
 │   ├── advance-css
 │   ├── advance-javascript(OOPs)
@@ -101,8 +101,8 @@ cohort-2.0
 - Express.js
 - REST APIs
 - Middleware
-- MVC Architecture
-- MongoDB & Mongoose
+- MVC & Service/Repository Architectural Patterns
+- MongoDB & Mongoose (Aggregations & Pipelines)
 - JWT Authentication
 - Cookie-Based Authentication
 - Protected Routes
@@ -115,6 +115,7 @@ cohort-2.0
 - Agentic Workflows & Multi-Agent Graphs (LangGraph)
 - Google OAuth 2.0 Integration (Passport.js)
 - Schema Validation (Zod & Express Validator)
+- Razorpay Payment Gateway Integration
 
 ---
 
@@ -193,26 +194,18 @@ Learning how to build scalable backend systems and production-inspired APIs usin
 - Express.js
 - REST APIs
 - Middleware
-- MVC Architecture
-- MongoDB & Mongoose
-- Authentication Systems
-- JWT Authentication
-- Cookie-Based Authentication
-- Password Hashing
+- MVC & Service/Repository Architectural Patterns
+- MongoDB & Mongoose (Aggregations, ObjectId References, Validation)
+- Authentication Systems (Local JWT & Google OAuth 2.0 via Passport.js)
+- Cookie-Based Session Tracking
+- Password Hashing (BCrypt)
 - Protected Routes
-- File Upload Systems
-- Cloud Media Handling
-- Multer
-- ImageKit
-- Secure Backend Development
-- Backend Deployment
-- Full Stack Deployment
-- Frontend & Backend Integration
-- Production CORS Handling
-- Cross-Origin Cookie Authentication
-- Redis Session Management
-- Token Blacklisting
-- Secure Logout Architecture
+- File Upload Systems (Multer & ImageKit Integration)
+- Secure Backend Development & Error Handling (`ApiResponse`, `ApiError`, `asyncHandler`)
+- Backend Deployment & Production Settings
+- Production CORS & Cross-Origin Cookies
+- Redis Integration (Token Blacklisting & Secure Logout)
+- Razorpay Payment API & Checkout Orchestration
 
 ---
 
@@ -440,6 +433,7 @@ I continuously update this repository while learning new technologies, concepts,
 - Use MongoDB query operators like `$or` ✅
 - Create relationships using ObjectId references ✅
 - Build scalable database relationships ✅
+- Design dynamic aggregation pipelines (e.g., cart summaries) ✅
 
 ---
 
@@ -474,6 +468,8 @@ I continuously update this repository while learning new technologies, concepts,
 - Learn Google OAuth 2.0 implementation with Passport.js ✅
 - Integrate authentication strategies in Express APIs ✅
 - Build structured validation schemas using Zod ✅
+- Implement Razorpay payment gateway integration ✅
+- Decouple database interactions using Service/Repository pattern ✅
 
 ---
 
@@ -871,28 +867,34 @@ A backend project focused on integrating third-party authentication using Passpo
 
 ---
 
-## 🕶️ Snitch — Premium Full-Stack Authentication System
+## 🕶️ day-27-snitch: Lumière — Curated Luxury Fashion Marketplace
 
-A luxury fashion-inspired authentication portal modeled after the Snitch aesthetic, built with a robust Express backend and a highly polished React frontend.
+Lumière is a premium, high-end marketplace web application designed for independent fashion creators, luxury curators, and premium sellers. It offers a visually stunning, editorial-inspired shopping experience powered by a robust backend and a highly responsive React client.
 
 ### Features
 
-- **Role-Based Authentication**: Seamless onboarding with specialized roles for Buyers and Sellers.
-- **Tailwind CSS v4 styling**: Custom gradients, radial vignettes, and luxury grayscale-to-color hover states (`FashionCampaignPanel`).
-- **Redux Toolkit State Management**: Centralized slice for user authentication states, loading cues, and request-level error handling.
-- **Payload Verification**: Integrates both client-side and backend-side validations (using `express-validator` and `zod`).
-- **Axios API Layer**: Encapsulates login/register API service requests with cookie credentials.
+- **Decoupled Architecture (Service/Repository Pattern)**: Direct separation between business workflow logic and database interactions. Controllers delegate task handling to Services (e.g. Razorpay orchestrators) and Repositories isolate database queries.
+- **Premium Shopping Cart**: Features dynamic summary modules powered directly by backend Mongoose aggregation pipelines (`$match`, `$unwind`, `$lookup`, `$project`, `$group`). Quantity increments are handled via silent background syncing and state-synchronized actions.
+- **Razorpay Payment Integration**: Secure order initialization, verification checks using SHA256 HMAC callbacks, and transactional status recording.
+- **Seller Workspace**: Interactive dashboard to manage active products, upload multi-file previews, and toggle preset options dynamically into manual custom input views.
+- **Role-Based & Google Auth**: User onboarding with Buyer and Seller selections backed by Google OAuth (via Passport.js) and secure local credentials.
+- **Editorial Motion System**: Elegant Framer Motion staggers, slow cubic-bezier page fades, and subtle image scaling (1.02x hover states).
 
 ### Tech Used
 
-- **Frontend**: React 19, Vite, Redux Toolkit, Tailwind CSS v4, Axios, React Router v7
-- **Backend**: Node.js, Express.js (v5.2), MongoDB & Mongoose, Zod & Express Validator, JWT & Cookies
+- **Frontend**: React 19, Vite, Redux Toolkit, Tailwind CSS v4, Framer Motion, Axios, React Router v7
+- **Backend**: Node.js, Express.js (v5.2), MongoDB & Mongoose, Passport.js (Google OAuth & Local), Zod & Express Validator, JWT & Cookies
+- **APIs & Gateways**: Razorpay Payment SDK, ImageKit Node SDK
 
 ### What I Learned
 
-- Designing and styling premium editorial UI layouts using Tailwind CSS v4 utility classes.
-- Standardizing backend JSON API responses (`ApiResponse`, `ApiError`, `asyncHandler`).
-- Synchronizing form input states with client-side validator structures and handling server-side arrays of field errors in Redux.
+- Designing and implementing a decoupled Service/Repository architectural pattern for database access containment.
+- Writing efficient multi-stage Mongoose aggregation queries to build dynamic, reactive carts.
+- Orchestrating secure third-party checkout flows and callback response validation checks.
+
+### 📂 Repository Link
+
+- Day 27: [day-27-snitch](file:///c:/Users/siddh/Desktop/cohort%202/backend/day-27-snitch)
 
 ---
 
@@ -963,6 +965,7 @@ A luxury fashion-inspired authentication portal modeled after the Snitch aesthet
 
 ![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Razorpay](https://img.shields.io/badge/Razorpay-0B72E7?style=for-the-badge&logo=razorpay&logoColor=white)
 ---
 
 # 👨‍💻 Author
